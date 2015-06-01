@@ -65,8 +65,10 @@ function print_form()
 	$withAddSlasshesh = addslashes($str);
 	$label = "<label>Name: </label>" ;
 	$form =  $label.$textField.$withAddSlasshesh;
-	echo $form;
+	$form = htmlentities($form);
 	$wpdb->insert($wpdb->prefix."formBuilder", array('form_body' => $form));
+	$form = html_entity_decode($form);
+	echo $form;
 }
 
 add_shortcode('form-builder', 'print_form');
