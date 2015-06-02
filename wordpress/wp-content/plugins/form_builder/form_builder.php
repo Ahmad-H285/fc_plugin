@@ -59,24 +59,70 @@ function form_builder_UI(){
 
 function print_form()
 {
-	global $wpdb;
-	$textField = "<input type= \"text\" value=\"Fill in this field\" />";
-	$str = '<input type="text" name="first-name" />';
-	$str1 = '<input type="hidden" name="action" value="form_action250" />';
-	$str2 = '<input type="hidden" name="data" value="foobarid"/>';
-	$withAddSlasshesh = addslashes($str);
-	$label = "<label>Name: </label>" ;
-	//$sub_but = '<a href="http://localhost:8888/fc_plugin/wordpress/wp-admin/admin-post.php?action=form_action250&data=first-name">Submit</a>';
-	$sub_but = '<input type="submit" value="Submit ya 5ara">';
-	$form = "<form method='POST' action='http://localhost:8888/fc_plugin/wordpress/wp-admin/admin-post.php'>".$label.$textField.$withAddSlasshesh.$sub_but."</form>";
-	$form = htmlentities($form);
-	$wpdb->insert($wpdb->prefix."formBuilder", array('form_body' => $form));
-	$form = html_entity_decode($form);
-	echo $form;
+	 global $wpdb;
 
-	// $form =  $label.$textField.$withAddSlasshesh.'<div id="eshta"><h1>ESHTA</h1></div>';
+	
+
+	 //$nonce = wp_create_nonce('form-builder-sub');
+
+	 $textField = '<input type="text" name="first-name" />';
+	 $withAddSlasshesh = addslashes($str);
+	 $label = "<label>Name: </label>" ;
+	 $sub_but = '<button type="submit" name="submit">Submit</button>';
+	 $form_start = "<form method='POST' action=''>".$label.$textField.$withAddSlasshesh.$sub_but.wp_nonce_field('form-builder-field');
+	 $form_end = "</form>";
+	 $form = htmlentities($form);
+	 $wpdb->insert($wpdb->prefix."formBuilder", array('form_body' => $form));
+	 $form = html_entity_decode($form);
+	 
+
+	 echo $form_start;
+	 $nonce = wp_create_nonce('form-builder-sub');
+	 echo $form_end;
+
+	 if (wp_verify_nonce($nonce,'form-builder-sub')) {
+		 	if (isset($_POST['first-name'])) {
+		 		echo $_POST['first-name'];
+
+		 	$wpdb->insert($wpdb -> prefix."formBuilder", array('form_body' => $_POST['first-name']));
+
+		 	}
+			
+		 }
+
+	 	
+
+	 
+// $form =  $label.$textField.$withAddSlasshesh.'<div id="eshta"><h1>ESHTA</h1></div>';
 	// echo $form;
 	// $wpdb->update($wpdb->prefix."formBuilder", array('form_body' => $form),array('id' => 2));
+	?>
+	<!--<form action="" method="POST">
+		<table>
+			<tr>
+				<td><Label>First Name</Label></td>
+				<td><input type="text" name="first-name"></td>
+			</tr>
+			<tr>
+				<td><button type="submit" name="submit">Submit</button></td>
+			</tr>
+		</table>
+
+		<?php $nonce //= wp_create_nonce('form-builder-sub'); ?>
+	</form>
+-->
+	<?php
+
+	//	if (wp_verify_nonce($nonce,'form-builder-sub')) {
+		// 	if ($_POST['first-name']) {
+		// 		echo $_POST['first-name'];
+
+		// 	$wpdb->insert($wpdb -> prefix."formBuilder", array('form_body' => $_POST['first-name']));
+
+		// 	}
+			
+		// }
+
 }
 
 add_action('admin_post_form_action250','form_echo');
