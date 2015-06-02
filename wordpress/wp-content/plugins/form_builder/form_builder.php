@@ -64,7 +64,7 @@ function print_form()
 	
 
 	 //$nonce = wp_create_nonce('form-builder-sub');
-
+/*
 	 $textField = '<input type="text" name="first-name" />';
 	 $withAddSlasshesh = addslashes($str);
 	 $label = "<label>Name: </label>" ;
@@ -90,38 +90,40 @@ function print_form()
 			
 		 }
 
-	 	
+	 */	
 
-	 
+	$text_field = '<input type="text" name="first-name">'; 
+	$label_field = '<Label>First Name</Label>';
 // $form =  $label.$textField.$withAddSlasshesh.'<div id="eshta"><h1>ESHTA</h1></div>';
 	// echo $form;
 	// $wpdb->update($wpdb->prefix."formBuilder", array('form_body' => $form),array('id' => 2));
+	
 	?>
-	<!--<form action="" method="POST">
+	<form action="" method="POST">
 		<table>
 			<tr>
-				<td><Label>First Name</Label></td>
-				<td><input type="text" name="first-name"></td>
+				<td><?php echo $label_field;?></td>
+				<td><?php echo $text_field;?></td>
 			</tr>
 			<tr>
 				<td><button type="submit" name="submit">Submit</button></td>
 			</tr>
 		</table>
 
-		<?php $nonce //= wp_create_nonce('form-builder-sub'); ?>
+		<?php $nonce = wp_create_nonce('form-builder-sub'); ?>
 	</form>
--->
+
 	<?php
 
-	//	if (wp_verify_nonce($nonce,'form-builder-sub')) {
-		// 	if ($_POST['first-name']) {
-		// 		echo $_POST['first-name'];
+		if (wp_verify_nonce($nonce,'form-builder-sub')) {
+		 	if ($_POST['first-name']) {
+		 		echo $_POST['first-name'];
 
-		// 	$wpdb->insert($wpdb -> prefix."formBuilder", array('form_body' => $_POST['first-name']));
+		 	$wpdb->insert($wpdb -> prefix."formBuilder", array('form_body' => $_POST['first-name']));
 
-		// 	}
+		 	}
 			
-		// }
+		 }
 
 }
 
