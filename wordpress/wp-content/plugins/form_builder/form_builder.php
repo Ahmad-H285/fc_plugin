@@ -91,7 +91,11 @@ function print_form()
 		 }
 
 	 */	
-
+		 $array_250 = array('a7ee','5od','a7mos','to7otmos');
+		 $ser_array = serialize($array_250);
+		 //echo $ser_array;
+		 print_r(unserialize($ser_array)[0]);
+	$wpdb->insert($wpdb -> prefix."formBuilder", array('form_body' => serialize($array_250) ));	 
 	$text_field = '<input type="text" name="first-name">'; 
 	$label_field = '<Label>First Name</Label>';
 // $form =  $label.$textField.$withAddSlasshesh.'<div id="eshta"><h1>ESHTA</h1></div>';
