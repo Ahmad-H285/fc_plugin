@@ -55,12 +55,15 @@ function form_builder_UI(){
 	</form>
 	
 	<?php
+	
+	
 }	
 
-function print_form()
+function print_form($atts)
 {
 	 global $wpdb;
 
+	$atts = shortcode_atts(array('id' => null), $atts,'form-builder');
 	
 
 	 //$nonce = wp_create_nonce('form-builder-sub');
@@ -91,13 +94,17 @@ function print_form()
 		 }
 
 	 */	
-		 $array_250 = array('a7ee','5od','a7mos','to7otmos');
+		 $array_250 = array(htmlentities('<input type="text" name="first-name">'),htmlentities('<Label>First Name</Label>'),'a7mos','to7otmos');
 		 $ser_array = serialize($array_250);
 		 //echo $ser_array;
-		 print_r(unserialize($ser_array)[0]);
-	$wpdb->insert($wpdb -> prefix."formBuilder", array('form_body' => serialize($array_250) ));	 
-	$text_field = '<input type="text" name="first-name">'; 
+		 $unserializedarray = (unserialize($ser_array));
+		 //echo $unserializedarray[0];
+	$wpdb->insert($wpdb -> prefix."formBuilder", array('form_body' => $ser_array ));
+	$query =  "SELECT `form_body` FROM `wp_formbuilder` WHERE `id`=".$atts['id'];//$wpdb->prepare("SELECT 'form_body' FROM 'wp_formBuilder' WHERE 'id'= 16");	 
+	$text_field2 = $wpdb->get_col($query); //
+	$text_field ='<input type="text" name="first-name">'; 
 	$label_field = '<Label>First Name</Label>';
+	$text_field = (unserialize($text_field2[0]));
 // $form =  $label.$textField.$withAddSlasshesh.'<div id="eshta"><h1>ESHTA</h1></div>';
 	// echo $form;
 	// $wpdb->update($wpdb->prefix."formBuilder", array('form_body' => $form),array('id' => 2));
@@ -106,8 +113,15 @@ function print_form()
 	<form action="" method="POST">
 		<table>
 			<tr>
-				<td><?php echo $label_field;?></td>
-				<td><?php echo $text_field;?></td>
+				<!--<td><?php echo $label_field;?></td>
+				<td><?php echo $text_field;?></td> -->
+				<?php
+					for ($i = 0; $i <sizeof($text_field)-2; $i++)
+					{
+					
+						echo "<td>".html_entity_decode($text_field[$i])."</td>";
+					}
+				?>
 			</tr>
 			<tr>
 				<td><button type="submit" name="submit">Submit</button></td>
