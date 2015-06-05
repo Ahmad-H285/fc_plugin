@@ -16,7 +16,13 @@ function fcp_plugin_activation()
 
 	 if($wpdb->get_var('SHOW TABLES LIKE '.$fcp_form_table) != $fcp_form_table)
 	 {
-	 	$fcp_sql_form = 'CREATE TABLE '.$fcp_form_table.'(form_id INTEGER(10) UNSIGNED AUTO_INCREMENT, form_body VARCHAR(255) NOT NULL, form_type VARCHAR(30) NOT NULL, form_settings VARCHAR(255), PRIMARY KEY (form_id))';
+	 	$fcp_sql_form = 
+	 	
+	 		'CREATE TABLE '.$fcp_form_table.'(form_id INTEGER(10) UNSIGNED AUTO_INCREMENT, 
+	 		form_body VARCHAR(255) NOT NULL, 
+	 		form_type VARCHAR(30) NOT NULL, 
+	 		form_settings VARCHAR(255), 
+	 		PRIMARY KEY (form_id))';
 
 	 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	 	dbDelta($fcp_sql_form);
@@ -24,7 +30,14 @@ function fcp_plugin_activation()
 
 	if($wpdb->get_var('SHOW TABLES LIKE '.$fcp_submission_table) != $fcp_submission_table)
 	{
-		$fcp_sql_submission = 'CREATE TABLE '.$fcp_submission_table.'(submission_id INTEGER(10) UNSIGNED AUTO_INCREMENT, submission VARCHAR(255) NOT NULL, sub_date DATE NOT NULL, form_id INTEGER(10) UNSIGNED, FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id), PRIMARY KEY (submission_id))';
+		$fcp_sql_submission = 
+		
+			'CREATE TABLE '.$fcp_submission_table.'(submission_id INTEGER(10) UNSIGNED AUTO_INCREMENT,
+		 	submission VARCHAR(255) NOT NULL, 
+		 	sub_date DATE NOT NULL, 
+		 	form_id INTEGER(10) UNSIGNED,
+		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id),
+		 	PRIMARY KEY (submission_id))';
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($fcp_sql_submission);
