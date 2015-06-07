@@ -13,7 +13,9 @@ function fcp_plugin_activation()
 	Global $wpdb;
 	$fcp_form_table = $wpdb->prefix."fcp_formbuilder";
 	$fcp_submission_table = $wpdb->prefix."fcp_submissions";
-
+	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+	$charset_collate = $wpdb->get_charset_collate();
+	
 	 if($wpdb->get_var('SHOW TABLES LIKE '.$fcp_form_table) != $fcp_form_table)
 	 {
 	 	$fcp_sql_form = 
@@ -22,9 +24,8 @@ function fcp_plugin_activation()
 	 		form_body VARCHAR(255) NOT NULL, 
 	 		form_type VARCHAR(30) NOT NULL, 
 	 		form_settings VARCHAR(255), 
-	 		PRIMARY KEY (form_id))';
+	 		PRIMARY KEY (form_id)) '.$charset_collate;
 
-	 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	 	dbDelta($fcp_sql_form);
 	 }
 
@@ -37,9 +38,8 @@ function fcp_plugin_activation()
 		 	sub_date DATE NOT NULL, 
 		 	form_id INTEGER(10) UNSIGNED,
 		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id),
-		 	PRIMARY KEY (submission_id))';
+		 	PRIMARY KEY (submission_id)) '.$charset_collate;
 
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($fcp_sql_submission);
 
 	}
