@@ -37,7 +37,7 @@ function fcp_plugin_activation()
 		 	submission VARCHAR(255) NOT NULL, 
 		 	sub_date DATE NOT NULL, 
 		 	form_id INTEGER(10) UNSIGNED,
-		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id),
+		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id) ON DELETE CASCADE ON UPDATE NO ACTION,
 		 	PRIMARY KEY (submission_id)) '.$charset_collate;
 
 		dbDelta($fcp_sql_submission);
