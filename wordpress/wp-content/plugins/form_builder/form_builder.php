@@ -85,7 +85,7 @@ function fcp_general_page()
         </a>
       </h4>
     </div>
-    <div id="collapseOne" class="panel-collapse " role="tabpanel" aria-labelledby="headingOne">
+    <div id="collapseOne" class="panel-collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
       	<div class="text-center">
         	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-contact-form');?>'">Contact Form</button>
