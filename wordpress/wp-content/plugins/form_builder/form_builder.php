@@ -8,8 +8,11 @@ Version: 1.0
 Author URI: http://www.youtube.com
 */
 
+require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
+
+
 function fcp_plugin_activation()
-{
+{	
 	Global $wpdb;
 	$fcp_form_table = $wpdb->prefix."fcp_formbuilder";
 	$fcp_submission_table = $wpdb->prefix."fcp_submissions";
@@ -50,6 +53,8 @@ register_activation_hook(__FILE__,'fcp_plugin_activation');
 
 function fcp_admin_menu()
 {
+	require_once(plugin_dir_path(__FILE__).'forms_UI.php');
+
 	add_menu_page('Form Builder','Form Builder','manage_options','fcp-general','fcp_general_page');
 	add_submenu_page('fcp-general','Add New Form','Add New Form','manage_options','fcp-general','fcp_general_page');
 	add_submenu_page('fcp-general','Submissions','Submissions','manage_options','fcp-submissions','fcp_submissions_page');
@@ -69,10 +74,9 @@ add_action('admin_menu','fcp_admin_menu');
 
 function fcp_general_page()
 {
+	fcp_stylesheets();
 	?>
-	<head>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	</head>
+	
 	<h1>Add New Form</h1>
 
 	<!-- Accordion -->
@@ -119,60 +123,8 @@ function fcp_general_page()
     </div>
   </div>
 </div>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<?php
+
+		fcp_scripts();
 }
 
-function fcp_submissions_page()
-{
-
-}
-
-function fcp_contact_page()
-{
-	?>
-
-	<h1>Contact Form</h1>
-
-	<?php
-}
-
-function fcp_survey_page()
-{
-
-}
-
-function fcp_application_page()
-{
-
-}
-
-function fcp_registration_page()
-{
-
-}
-
-function fcp_booking_page()
-{
-
-}
-
-function fcp_contsub_page()
-{
-
-}
-
-function fcp_newsletter_page()
-{
-
-}
-
-function fcp_event_page()
-{
-
-}
-
-function fcp_custom_page()
-{
-
-}
