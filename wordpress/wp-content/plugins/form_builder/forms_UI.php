@@ -1,6 +1,6 @@
 <?php
 
-require_once(plugin_dir_path(__FILE__).'forms_UI.php');
+require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
 
 function fcp_submissions_page()
@@ -9,12 +9,14 @@ function fcp_submissions_page()
 }
 
 function fcp_contact_page()
-{
+{	
+	fcp_stylesheets();
 	?>
 
 	<h1>Contact Form</h1>
-
+	
 	<?php
+	
 }
 
 function fcp_survey_page()
@@ -89,6 +91,7 @@ function fcp_application_page()
 
 				?>	 
 	<?php
+	fcp_fields_panel();
 }
 
 function fcp_registration_page()

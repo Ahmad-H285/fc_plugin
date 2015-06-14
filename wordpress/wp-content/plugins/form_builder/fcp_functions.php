@@ -13,3 +13,25 @@ function fcp_scripts()
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<?php	
 }
+
+function fcp_fields_panel()
+{
+	?>
+	<div class="col-md-3 text-center" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; ">
+		<h4><strong>Insert Field</strong></h4>
+	</div>
+	<div class="col-md-3" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2;">
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Numeric</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Date Picker</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Time Picker</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Select Menu</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Checkbox</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Radio Button</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Email</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Password</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
+
+	</div>
+	<?php
+}
