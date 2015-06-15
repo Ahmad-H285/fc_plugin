@@ -8,16 +8,6 @@ Version: 1.0
 Author URI: http://www.youtube.com
 */
 
-function fcp_js_caller()
-{
-	wp_register_script('fcp_j',plugins_url('/js/fcp_js.js',__FILE__), array('jquery'));
-
-	wp_enqueue_script( 'fcp_j',plugins_url('/js/fcp_js.js',__FILE__), array('jquery'));
-}
-
-add_action( 'wp_enqueue_scripts', 'fcp_js_caller');
-
-
 
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 

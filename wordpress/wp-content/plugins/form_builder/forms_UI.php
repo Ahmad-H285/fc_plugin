@@ -2,15 +2,6 @@
 
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
-// function fcp_js_caller()
-// {
-// 	wp_register_script('fcp_j',plugins_url('/js/fcp_js.js',__FILE__), array('jquery'));
-
-// 	wp_enqueue_script( 'fcp_j',plugins_url('/js/fcp_js.js',__FILE__), array('jquery'));
-// }
-
-// add_action( 'wp_enqueue_scripts', 'fcp_js_caller');
-
 function fcp_submissions_page()
 {
 
@@ -35,7 +26,8 @@ function fcp_survey_page()
 function fcp_application_page()
 {
 	fcp_stylesheets();
-
+	
+	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js', array('jquery'));
 
 	$fcp_default_app_form= '
 			<h1 class="col-sm-12">Application Form</h1>
