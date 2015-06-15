@@ -22,8 +22,10 @@ var fcp_text_field = '<div class="form-group"><label for="app_first_name" class=
 var fcp_numeric_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-8"><input type="number" class="form-control" id="app_first_name" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //DATE PICKER
+var fcp_date_field = '<div class="form-group"><label for="app_date" class="col-sm-3 control-label">Date</label><div class="col-sm-8"><input type="date" class="form-control" id="app_date" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //TIME PICKER
+var fcp_time_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Time</label><div class="col-sm-8"><input type="number" class="form-control col-sm-3" id="app_first_name" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="app_first_name" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:10px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //SELECT MENU
 var fcp_select_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text 1</label><div class="col-sm-8"><select class="form-control"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
@@ -55,11 +57,12 @@ jQuery("button.btn-primary").click(function(){
 	}
 
 	else if(jQuery(this).text()== 'Date Picker'){
-		//jQuery("div.form-group:last").before(fcp_numeric_field);
+		jQuery("div.form-group:last").before(fcp_date_field);
+		jQuery("#app_date").datepicker();
 	}
 
 	else if(jQuery(this).text()== 'Time Picker'){
-		//jQuery("div.form-group:last").before(fcp_numeric_field);
+		jQuery("div.form-group:last").before(fcp_time_field);
 	}
 
 	else if(jQuery(this).text()== 'Select Menu'){
