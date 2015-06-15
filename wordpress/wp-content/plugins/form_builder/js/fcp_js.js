@@ -1,10 +1,11 @@
 jQuery(document).ready(function(){
+	jQuery("div#wpcontent").css("background-color","white");
 	fcp_deleteField(); // to invoke the click event handler function below
 });
 
 function fcp_deleteField(){
 	jQuery("button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
-		jQuery(this).parent(".form-group").remove();
+		jQuery(this).parent().remove();
 
 	});
 
@@ -28,10 +29,10 @@ var fcp_numeric_field = '<div class="form-group"><label for="app_first_name" cla
 var fcp_select_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text 1</label><div class="col-sm-8"><select class="form-control"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //CHECKBOX
-var fcp_checkbox_field = '<div class = "checkbox"><label><input type="checkbox">Checkbox</label></div>';
+var fcp_checkbox_field = '<div class="form-group"><div class = "checkbox"><label><input type="checkbox">Checkbox</label><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div></div>';
 
 //RADIO BUTTON
-var fcp_radiobutton_field = '<div class = "radio"><label><input type="radio" value="value1">Radio</label></div>';
+var fcp_radiobutton_field = '<div class="form-group"><div class = "radio"><label><input type="radio" value="value1">Radio</label><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div></div>';
 
 //EMAIL
 var fcp_email_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Email</label><div class="col-sm-8"><input type="email" class="form-control" id="app_first_name" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
