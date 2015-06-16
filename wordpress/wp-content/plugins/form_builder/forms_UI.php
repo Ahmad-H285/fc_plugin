@@ -99,6 +99,8 @@ function fcp_application_page()
 			echo $app_form;			
 
 			fcp_fields_panel();
+			
+			fcp_fields_options();
 
 	
 }
