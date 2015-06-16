@@ -49,10 +49,11 @@ function fcp_application_page()
 					<br>
 					  <div class="form-group">  
 					     <label for="app_first_name" class="col-sm-3 control-label">First Name</label>
-					     <div class="col-sm-8">
+					     <div class="col-sm-7">
 					      <input type="text" class="form-control" id="app_first_name" placeholder="First Name">
 						 </div>
 						 <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+						 <a href="" class="col-sm-1">Edit</a>
 					  </div>
 
 					  <div class="form-group">
