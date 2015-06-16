@@ -17,10 +17,10 @@ function fcp_scripts()
 function fcp_fields_panel()
 {
 	?>
-	<div class="col-md-3 text-center" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; ">
+	<div class="col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: -550px">
 		<h4><strong>Insert Field</strong></h4>
 	</div>
-	<div class="col-md-3" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2;">
+	<div class="col-md-3 col-md-push-4" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: -500px">
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Numeric</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Date Picker</button>

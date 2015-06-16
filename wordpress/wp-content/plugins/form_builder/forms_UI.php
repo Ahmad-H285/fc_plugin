@@ -31,11 +31,13 @@ function fcp_application_page()
 	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 
 	$fcp_default_app_form= '
+			<div class="container-fluid">
+			<div class="row">
 			<h1 class="col-sm-12">Application Form</h1>
 			
 			
 			<div class="col-md-5">
-				<form action="" method="POST" class="form-horizontal">
+				<form action="" method="POST" class="form-horizontal" style="padding: 30px; border: 1px solid #888; box-shadow: 10px 10px 5px #888;">
 					
 					<div class="form-group">
 						<label for="app_form_name" class="col-sm-10"><h3>Form Name</h3></label>
@@ -91,14 +93,14 @@ function fcp_application_page()
 					  </div>
 					  ';
 				$fcp_app_form_close='</form>
-			</div>';
+			</div></div><div class="row" style="padding: 20px"><button type="button" class="btn btn-danger">Save Form</button></div></div>';
 			$app_form = $fcp_default_app_form . $fcp_app_form_close;
 
 			echo $app_form;			
 
-				?>	 
-	<?php
-	fcp_fields_panel();
+			fcp_fields_panel();
+
+	
 }
 
 function fcp_registration_page()

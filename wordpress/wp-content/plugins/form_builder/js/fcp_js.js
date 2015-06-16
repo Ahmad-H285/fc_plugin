@@ -43,7 +43,7 @@ var fcp_email_field = '<div class="form-group"><label for="app_first_name" class
 var fcp_password_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Password</label><div class="col-sm-8"><input type="password" class="form-control" id="app_first_name" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //TEXT AREA
-var fcp_textArea_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text</label><div class="col-sm-8"><textarea rows="4" cols="50" class="form-control"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>'
+var fcp_textArea_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text</label><div class="col-sm-8"><textarea rows="4" cols="50" class="form-control" style="resize: none"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>'
 
 
 jQuery("button.btn-primary").click(function(){
