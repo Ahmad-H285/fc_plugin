@@ -35,3 +35,14 @@ function fcp_fields_panel()
 	</div>
 	<?php
 }
+
+function fcp_fields_options()
+{
+	?>
+	<div class="col-md-3 text-center col-md-push-4" id="edit_field_title" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: -250px">
+	</div>
+	<div class="col-md-3 col-md-push-4" id="edit field_content" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: -200px; ">
+		
+	</div>
+	<?php
+}
