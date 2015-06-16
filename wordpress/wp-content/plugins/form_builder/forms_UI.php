@@ -36,7 +36,7 @@ function fcp_application_page()
 			<h1 class="col-sm-12">Application Form</h1>
 			
 			
-			<div class="col-md-5">
+			<div class="col-sm-7">
 				<form action="" method="POST" class="form-horizontal" style="padding: 30px; border: 1px solid #888; box-shadow: 10px 10px 5px #888;">
 					
 					<div class="form-group">
