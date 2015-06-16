@@ -28,6 +28,7 @@ function fcp_application_page()
 	fcp_stylesheets();
 	
 	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js', array('jquery','jquery-ui-core','jquery-ui-datepicker'));
+	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 
 	$fcp_default_app_form= '
 			<h1 class="col-sm-12">Application Form</h1>
