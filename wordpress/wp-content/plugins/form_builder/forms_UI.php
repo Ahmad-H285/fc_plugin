@@ -48,43 +48,48 @@ function fcp_application_page()
 					<br>
 					<br>
 					  <div class="form-group">  
-					     <label for="app_first_name" class="col-sm-3 control-label">First Name</label>
+					     <label for="app_first_name" class="col-sm-3 control-label ">First Name</label>
 					     <div class="col-sm-7">
 					      <input type="text" class="form-control" id="app_first_name" placeholder="First Name">
 						 </div>
 						 <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
-						 <a href="" class="col-sm-1">Edit</a>
+						 <a href="javascript:void" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text())" class="col-sm-1">Edit</a>
 					  </div>
 
 					  <div class="form-group">
 					    <label for="app_last_name" class="col-sm-3 control-label">Last Name</label>
-					    <div class="col-sm-8">
+					    <div class="col-sm-7">
 					      <input type="text" class="form-control" id="app_last_name" placeholder="Last Name">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+					    <a href="javascript:void" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text())" class="col-sm-1">Edit</a>
 					  </div>
 
 					  <div class="form-group">
-					    <label for="app_email" class="col-sm-3 control-label">Email</label>
-					    <div class="col-sm-8">
+					    <label for="app_email" class="col-sm-3 control-label text-left">Email</label>
+					    <div class="col-sm-7">
 					      <input type="email" class="form-control" id="app_email" placeholder="Email">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+					    <a href="javascript:void" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text())" class="col-sm-1">Edit</a>
 					  </div>
 					  
 					  <div class="form-group">
 					    <label for="app_opt" class="col-sm-5 control-label">Application Options</label>
-					    <div class="col-sm-6">
+					    <div class="col-sm-5">
 					      <select class="form-control" id="app_opt"></select>
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+					    <a href="javascript:void" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text())" class="col-sm-1">Edit</a>
 					  </div>
 
 					  <div class="form-group">
-					    <div class="col-sm-10">
-					      <button type="submit" name="app_attachement" class="btn btn-default">Attachment</button>
+					      <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
+					    <div class="col-sm-7">
+					      <input type="file" id="app_attachment">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+					    <a href="javascript:void" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text())" class="col-sm-1">Edit</a>
 					  </div>
 
 					   <div class="form-group">
@@ -100,9 +105,7 @@ function fcp_application_page()
 			echo $app_form;			
 
 			fcp_fields_panel();
-			
 			fcp_fields_options();
-
 	
 }
 

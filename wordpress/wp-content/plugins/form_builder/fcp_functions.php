@@ -28,10 +28,11 @@ function fcp_fields_panel()
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Select Menu</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Checkbox</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Radio Button</button>
+		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">File</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Email</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Password</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
-
+		
 	</div>
 	<?php
 }
@@ -39,10 +40,10 @@ function fcp_fields_panel()
 function fcp_fields_options()
 {
 	?>
-	<div class="col-md-3 text-center col-md-push-4" id="edit_field_title" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: -250px">
+	<div class="col-md-3 text-center col-md-push-4 hidden" id="edit_field_title" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: -250px">
 	</div>
-	<div class="col-md-3 col-md-push-4" id="edit field_content" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: -200px; ">
-		
+	<div class="col-md-3 col-md-push-4 hidden" id="edit_field_content" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: -200px; ">
+		<div><button type="button" class="btn btn-primary" style="margin: 15px" onclick="">Save</button><button type="button" class="btn btn-danger" id="discardButton" style="margin: 15px" onclick="">Discard</button></div>
 	</div>
 	<?php
 }
