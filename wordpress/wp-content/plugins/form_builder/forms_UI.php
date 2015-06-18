@@ -83,6 +83,16 @@ function fcp_application_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a>
 					  </div>
 
+					  <label class="radio_label">Gender</label>
+					  <div class="form-group">
+					  	<div class = "radio col-sm-3 input-container" style="padding-top:0">
+							<label><input name="gender" type="radio" class="col-sm-4">Male</label>
+							<label><input name="gender" type="radio" class="col-sm-4">Female</label>
+						</div>
+						<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a>
+						<button type="button" class="close radio_close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+					  </div>
+
 					  <div class="form-group">
 					      <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
 					    <div class="col-sm-7 input-container">

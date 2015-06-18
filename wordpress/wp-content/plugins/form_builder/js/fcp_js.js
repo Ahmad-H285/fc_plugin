@@ -151,7 +151,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	addedField = jQuery("div.form-group:last").prev();
 	editFieldOptions(jQuery(this).text(),inputType,addedField);
 	fcp_check_deleteField();
-	fcp_radio_deleteField()
+	fcp_radio_deleteField();
 	fcp_deleteField();// to update the 'x' that has been added to respond to the click event
 
 });
