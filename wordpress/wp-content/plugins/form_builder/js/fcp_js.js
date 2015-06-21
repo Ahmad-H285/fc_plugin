@@ -145,10 +145,26 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 // the following handles the discard button
 
-jQuery("button#discardButton").click(function(){
+// jQuery("button#discardButton").click(function(){
+// 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
+// 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
+// });
+/*
+	// Build the discard button handler function and include the above two lines of code
+	the function should accept the data passed by the edit field handler function bellow
+*/
+function discardChanges(event){
+
+	jQuery(event.data.element).children("label").text(event.data.field_values.label); // returns the label as it was
+
+/*
+	return the other options as they once were
+*/
+
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
-	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
-});
+	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");	
+}
+
 
 /************** END of DISCARD Button **************/
 
@@ -191,8 +207,8 @@ function editFieldOptions(title,type,field){
 	jQuery("div#edit_field_content").removeClass("hidden").addClass("show");
 	jQuery("div#edit_field_title").removeClass("hidden").addClass("show").html('<h4> Edit '+title+' Field</h4>');
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
-
-	before_edit_label = title;
+	var field_values = {label: title};
+	//before_edit_label = title;
 
 	// next add the options to the div according to their type
 	if (type == "text"){
@@ -226,8 +242,17 @@ function editFieldOptions(title,type,field){
 	else if (type == "time"){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 	}
+
 // triggering the updateFieldLabel function using keyup event
 	jQuery("input#field-name-option").keyup({ label: field.children("label")},updateFieldLabel);
+
+	//the following line triggers the click event on the "discardButton"
+	//it will invoke the function (discardCHanges) and passes it data in the form of three objects: 
+	// 1 The options which will be created in an object
+	// 2 The Field parent (div.form-group) to allow traversing
+	// 3 The Field Type to do special case logic
+
+	jQuery("button#discardButton").click({field_values, element: field, fieldType: type},discardChanges);
 
 }
 
