@@ -1,6 +1,9 @@
 jQuery(document).ready(function(){
 	jQuery("div#wpcontent").css("background-color","white");
+	fcp_radio_deleteField();
+	fcp_check_deleteField();
 	fcp_deleteField(); // to invoke the click event handler function below
+
 });
 
 function fcp_deleteField(){
