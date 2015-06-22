@@ -48,7 +48,7 @@ var fcp_numeric_field = '<div class="form-group"><label for="app_first_name" cla
 var fcp_date_field = '<div class="form-group"><label for="app_date" class="col-sm-3 control-label">Date</label><div class="col-sm-7 input-container"><input type="date" class="form-control" id="app_date" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
 
 //TIME PICKER
-var fcp_time_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Time</label><div class="col-sm-7 input-container"><input type="number" class="form-control col-sm-3" id="app_first_name" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="app_first_name" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text())" class="col-sm-1">Edit</a></div>';
+var fcp_time_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Time</label><div class="col-sm-7 input-container"><input type="number" class="form-control col-sm-3" id="app_first_name" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="app_first_name" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;time&quot;,jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
 
 //SELECT MENU
 var fcp_select_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text 1</label><div class="col-sm-6 input-container"><select class="form-control"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
@@ -94,7 +94,16 @@ var radio_add_button = '<button type="button" name="radio" class="radio_add">Add
 
 /******************End of Editable Fields of Inputs ******************/
 
+/*
+ *	The following variables will hold the field options (label, min...etc)
+ *	To be saved and used again if the discard button is clicked
+ */
 
+ var before_edit_label;
+
+ /************ End of field options values variables ************/
+
+// The following function allows the additon of new fields using their created above variables when their respective button is clicked
 
 jQuery("div#fields-panel button.btn-primary").click(function(){
 
@@ -120,12 +129,12 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	else if(jQuery(this).text()== 'Time Picker'){
 		jQuery("div.form-group:last").before(fcp_time_field);
-		// inputtype to be written
+		inputType = "time";
 	}
 
 	else if(jQuery(this).text()== 'Select Menu'){
 		jQuery("div.form-group:last").before(fcp_select_field);
-		//inputtype to be written
+		inputType = "select";
 	}
 
 	else if(jQuery(this).text()== 'Checkbox'){
@@ -167,10 +176,40 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 // the following handles the discard button
 
-jQuery("button#discardButton").click(function(){
+// jQuery("button#discardButton").click(function(){
+// 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
+// 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
+// });
+/*
+	// Build the discard button handler function and include the above two lines of code
+	the function should accept the data passed by the edit field handler function bellow
+*/
+function discardChanges(event){
+
+	jQuery(event.data.element).children("label").text(event.data.field_values.label); // returns the label as it was
+
+/*
+	return the other options as they once were
+*/
+
+	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
+	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");	
+}
+
+
+/************** END of DISCARD Button **************/
+
+
+// The following handles the save button
+
+jQuery("button#saveButton").click(function(){
+
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
+	alert("Saved !!>");
 });
+
+/************** END of Save Button handler**************/
 
 
 // The following function updates the label of the field
@@ -199,6 +238,8 @@ function editFieldOptions(title,type,field){
 	jQuery("div#edit_field_content").removeClass("hidden").addClass("show");
 	jQuery("div#edit_field_title").removeClass("hidden").addClass("show").html('<h4> Edit '+title+' Field</h4>');
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
+	var field_values = {label: title};
+	//before_edit_label = title;
 
 	// next add the options to the div according to their type
 	if (type == "text"){
@@ -237,8 +278,20 @@ function editFieldOptions(title,type,field){
 		});
 
 	}
+	else if (type == "time"){
+		jQuery(name_field_options).prependTo("div#fieldOptions");
+	}
+
 // triggering the updateFieldLabel function using keyup event
 	jQuery("input#field-name-option").keyup({ label: field.children("label")},updateFieldLabel);
+
+	//the following line triggers the click event on the "discardButton"
+	//it will invoke the function (discardCHanges) and passes it data in the form of three objects: 
+	// 1 The options which will be created in an object
+	// 2 The Field parent (div.form-group) to allow traversing
+	// 3 The Field Type to do special case logic
+
+	jQuery("button#discardButton").click({field_values, element: field, fieldType: type},discardChanges);
 
 }
 
