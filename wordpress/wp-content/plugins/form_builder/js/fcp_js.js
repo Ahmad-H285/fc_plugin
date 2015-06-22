@@ -57,7 +57,7 @@ var fcp_select_field = '<div class="form-group"><label for="app_first_name" clas
 var fcp_checkbox_field = '<label class="check_label">Chackbox options</label><div class="form-group"><div class = "checkbox col-sm-3 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" ">Checkbox</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="">Edit</a><button type="button" class="close check_close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //RADIO BUTTON
-var fcp_radiobutton_field = '<label class="radio_label">Radio Button options</label><div class="form-group"><div class = "radio col-sm-2 input-container" style="padding-top:0"><label><input type="radio" class="col-sm-3 radio_option" name="radio">Radio</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a><button type="button" class="close radio_close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div></div>';
+var fcp_radiobutton_field = '<label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="gender" type="radio" class="col-sm-4">Radio</label></div></div>';
 
 //EMAIL
 var fcp_email_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Email</label><div class="col-sm-7 input-container"><input type="email" class="form-control" id="app_first_name" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
@@ -87,7 +87,7 @@ var text_field_options = '<label>Field Name: </label><input id="field-name-optio
 var number_field_options = '<label>Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name">';
 
 //RADIO OPTION
-var radio_add_options = '<label><input name="radio" type="radio" class="col-sm-4">Radio</label>';
+var radio_add_options = '<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div>';
 
 var radio_add_button = '<button type="button" name="radio" class="radio_add">Add option</button>';
 
@@ -274,7 +274,7 @@ function editFieldOptions(title,type,field){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 		jQuery(radio_add_button).appendTo("div#fieldOptions");
 		jQuery(".radio_add").click(function() {
-			jQuery("div.radio label:last").after(radio_add_options);
+			jQuery("div.radio:last").after(radio_add_options);
 		});
 
 	}

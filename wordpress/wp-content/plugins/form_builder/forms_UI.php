@@ -83,14 +83,18 @@ function fcp_application_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent())" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <label class="radio_label">Gender</label>
+					  <label class="radio_label col-sm-10">Gender</label>
+					  <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a>
+					  <button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>
 					  <div class="form-group">
-					  	<div class = "radio col-sm-3 input-container" style="padding-top:0">
+						
+					  	<div class = "radio col-sm-10 input-container" style="padding-top:0">
 							<label><input name="gender" type="radio" class="col-sm-4">Male</label>
+						</div>
+						<div class = "radio col-sm-10 input-container" style="padding-top:0">
 							<label><input name="gender" type="radio" class="col-sm-4">Female</label>
 						</div>
-						<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a>
-						<button type="button" class="close radio_close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+
 					  </div>
 
 					  <div class="form-group">
