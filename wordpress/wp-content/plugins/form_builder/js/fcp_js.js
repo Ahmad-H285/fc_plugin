@@ -62,7 +62,7 @@ var fcp_select_field = '<div class="form-group"><label for="app_first_name" clas
 var fcp_checkbox_field = '<label class="check_label">Chackbox options</label><div class="form-group"><div class = "checkbox col-sm-3 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" ">Checkbox</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="">Edit</a><button type="button" class="close check_close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //RADIO BUTTON
-var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
+var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text(),&quot;radio&quot;,jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
 
 //EMAIL
 var fcp_email_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Email</label><div class="col-sm-7 input-container"><input type="email" class="form-control" id="app_first_name" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
@@ -171,7 +171,18 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		inputType = "file";
 	}
 
-	addedField = jQuery("div.form-group:last").prev();
+	if ( jQuery(this).text() == 'Radio Button' ){ // special case for radio button
+		addedField = jQuery("div.radio_field:last");
+	}
+
+	else if( jQuery(this).text() == 'Checkbox' ){ // special case for checkbox 
+		//addedField = jQuery("div.checkbox_field:last"); this will be added later on
+	}
+
+	else { // for every other type
+		addedField = jQuery("div.form-group:last").prev();
+	}
+
 	editFieldOptions(jQuery(this).text(),inputType,addedField);
 	fcp_check_deleteField();
 	fcp_radio_deleteField();
@@ -189,8 +200,8 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	// Build the discard button handler function and include the above two lines of code
 	the function should accept the data passed by the edit field handler function bellow
 */
-function discardChanges(event){
 
+function discardChanges(event){
 	jQuery(event.data.element).children("label").text(event.data.field_values.label); // returns the label as it was
 
 /*
@@ -199,6 +210,7 @@ function discardChanges(event){
 
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");	
+	jQuery("button#discardButton").off("click");
 }
 
 
@@ -212,6 +224,7 @@ jQuery("button#saveButton").click(function(){
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
 	alert("Saved !!>");
+	jQuery("button#discardButton").off("click");
 });
 
 /************** END of Save Button handler**************/
@@ -244,6 +257,7 @@ function editFieldOptions(title,type,field){
 	jQuery("div#edit_field_title").removeClass("hidden").addClass("show").html('<h4> Edit '+title+' Field</h4>');
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
 	var field_values = {label: title};
+	//console.log(field_values);
 	//before_edit_label = title;
 
 	// next add the options to the div according to their type
