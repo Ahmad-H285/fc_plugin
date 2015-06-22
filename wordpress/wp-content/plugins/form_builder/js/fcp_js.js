@@ -1,6 +1,9 @@
 jQuery(document).ready(function(){
 	jQuery("div#wpcontent").css("background-color","white");
+	fcp_radio_deleteField();
+	fcp_check_deleteField();
 	fcp_deleteField(); // to invoke the click event handler function below
+
 });
 
 function fcp_deleteField(){
@@ -9,6 +12,25 @@ function fcp_deleteField(){
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
 	});
+}
+
+function fcp_check_deleteField(){
+	jQuery("button.check_close").click(function(){ // deletes a field when it's 'x' icon is clicked
+		jQuery(this).parent().prev("label.check_label").remove();
+		jQuery(this).parent().remove();
+		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
+		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
+	});	
+
+}
+
+function fcp_radio_deleteField(){
+	jQuery("button.radio_close").click(function(){ // deletes a field when it's 'x' icon is clicked
+		jQuery(this).parent().prev("label.radio_label").remove();
+		jQuery(this).parent().remove();
+		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
+		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
+	});	
 
 }
 
@@ -32,10 +54,10 @@ var fcp_time_field = '<div class="form-group"><label for="app_first_name" class=
 var fcp_select_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text 1</label><div class="col-sm-6 input-container"><select class="form-control"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
 
 //CHECKBOX
-var fcp_checkbox_field = '<div class="form-group"><div class = "checkbox col-sm-3 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" ">Checkbox</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="">Edit</a><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+var fcp_checkbox_field = '<label class="check_label">Chackbox options</label><div class="form-group"><div class = "checkbox col-sm-3 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" ">Checkbox</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="">Edit</a><button type="button" class="close check_close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //RADIO BUTTON
-var fcp_radiobutton_field = '<div class="form-group"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input type="radio" class="col-sm-4">Radio</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div></div>';
+var fcp_radiobutton_field = '<label class="radio_label">Radio Button options</label><div class="form-group"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input type="radio" class="col-sm-4">Radio</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a><button type="button" class="close radio_close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div></div>';
 
 //EMAIL
 var fcp_email_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Email</label><div class="col-sm-7 input-container"><input type="email" class="form-control" id="app_first_name" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
@@ -140,7 +162,10 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	addedField = jQuery("div.form-group:last").prev();
 	editFieldOptions(jQuery(this).text(),inputType,addedField);
-	fcp_deleteField(); // to update the 'x' that has been added to respond to the click event
+	fcp_check_deleteField();
+	fcp_radio_deleteField();
+	fcp_deleteField();// to update the 'x' that has been added to respond to the click event
+
 });
 
 // the following handles the discard button
