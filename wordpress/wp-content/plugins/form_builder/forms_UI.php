@@ -82,7 +82,8 @@ function fcp_application_page()
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent())" class="col-sm-1">Edit</a>
 					  </div>
-
+					  
+					  <div class="radio_field">
 					  <label class="radio_label col-sm-10">Gender</label>
 					  <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a>
 					  <button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>
@@ -95,6 +96,7 @@ function fcp_application_page()
 							<label><input name="gender" type="radio" class="col-sm-4">Female</label>
 						</div>
 
+					  </div>
 					  </div>
 
 					  <div class="form-group">

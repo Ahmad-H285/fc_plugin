@@ -12,6 +12,11 @@ function fcp_deleteField(){
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
 	});
+	jQuery("button.radio_close").click(function(){ // deletes a field when it's 'x' icon is clicked
+		jQuery(this).parent().remove();
+		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
+		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
+	});
 }
 
 function fcp_check_deleteField(){
@@ -57,7 +62,7 @@ var fcp_select_field = '<div class="form-group"><label for="app_first_name" clas
 var fcp_checkbox_field = '<label class="check_label">Chackbox options</label><div class="form-group"><div class = "checkbox col-sm-3 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" ">Checkbox</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="">Edit</a><button type="button" class="close check_close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 //RADIO BUTTON
-var fcp_radiobutton_field = '<label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="gender" type="radio" class="col-sm-4">Radio</label></div></div>';
+var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
 
 //EMAIL
 var fcp_email_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Email</label><div class="col-sm-7 input-container"><input type="email" class="form-control" id="app_first_name" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
