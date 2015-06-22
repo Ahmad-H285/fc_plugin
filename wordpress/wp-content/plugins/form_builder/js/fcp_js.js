@@ -59,7 +59,7 @@ var fcp_time_field = '<div class="form-group"><label for="app_first_name" class=
 var fcp_select_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text 1</label><div class="col-sm-6 input-container"><select class="form-control"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
 
 //CHECKBOX
-var fcp_checkbox_field = '<label class="check_label">Chackbox options</label><div class="form-group"><div class = "checkbox col-sm-3 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" ">Checkbox</label></div><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="">Edit</a><button type="button" class="close check_close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+var fcp_checkbox_field = '<div class="check_field"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
 
 //RADIO BUTTON
 var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
@@ -95,6 +95,10 @@ var number_field_options = '<label>Field Name: </label><input id="field-name-opt
 var radio_add_options = '<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div>';
 
 var radio_add_button = '<button type="button" name="radio" class="radio_add">Add option</button>';
+
+var check_add_options = '<div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="check">Checkbox</label></div>';
+
+var check_add_button = '<button type="button" name="check" class="check_add">Add option</button>';
 
 
 /******************End of Editable Fields of Inputs ******************/
@@ -144,7 +148,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	else if(jQuery(this).text()== 'Checkbox'){
 		jQuery("div.form-group:last").before(fcp_checkbox_field);
-		//inputtype to be written
+		inputType = "checkbox";
 	}
 
 	else if(jQuery(this).text()== 'Radio Button'){
@@ -280,6 +284,15 @@ function editFieldOptions(title,type,field){
 		jQuery(radio_add_button).appendTo("div#fieldOptions");
 		jQuery(".radio_add").click(function() {
 			jQuery("div.radio:last").after(radio_add_options);
+		});
+
+	}
+
+	else if (type == "checkbox"){
+		jQuery(name_field_options).prependTo("div#fieldOptions");
+		jQuery(check_add_button).appendTo("div#fieldOptions");
+		jQuery(".check_add").click(function() {
+			jQuery("div.checkbox:last").after(check_add_options);
 		});
 
 	}
