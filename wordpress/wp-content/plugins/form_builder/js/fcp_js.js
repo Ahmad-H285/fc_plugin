@@ -85,7 +85,7 @@ var fcp_fileSelect_field = '<div class="form-group"><label for="app_attachment" 
 */
 
 //FIELD NAME ( FOR ALL FIELDS)
-var name_field_options = '<label>Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name">';
+var name_field_options = '<div class="form-group"><label class="col-sm-5 control-label" for="field-name-option">Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name" class="col-sm-6"></div>';
 
 //TEXT FIELD
 var text_field_options = '<label>Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name">';
