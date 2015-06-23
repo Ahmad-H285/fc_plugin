@@ -87,6 +87,9 @@ var fcp_fileSelect_field = '<div class="form-group"><label for="app_attachment" 
 //FIELD NAME ( FOR ALL FIELDS)
 var name_field_options = '<label>Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name">';
 
+//REQUIRED FIELD
+var required_field_options = '<span id="required-option"><input type="checkbox" name="req" value="required">Required Field</span>';
+
 //TEXT FIELD
 var text_field_options = '<label>Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name">';
 
@@ -322,6 +325,10 @@ function editFieldOptions(title,type,field){
 	else if (type == "text-area"){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 	}
+
+// appending the required option at the end of the options
+jQuery(required_field_options).appendTo("div#fieldOptions");
+
 // triggering the updateFieldLabel function using keyup event
 	jQuery("input#field-name-option").keyup({ label: field.children("label")},updateFieldLabel);
 
