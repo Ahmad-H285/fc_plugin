@@ -1,3 +1,8 @@
-#required-option{
-	margin-left: 15px;
+span#required-option{
+	font-weight: bold;
+}
+
+span.required-field-mark{
+	font-weight: bold;
+	color: red;
 }
