@@ -39,6 +39,14 @@ function fcp_radio_deleteField(){
 
 }
 
+function fcp_numeric_range_activator(){
+	if( ! (jQuery("input#range_active").prop("disabled")))
+	{
+		var max_length_field = jQuery("input#num-max").val();
+		jQuery("#app_num_field").attr("max", max_length_field);
+	}
+}
+
 
 // counter to be used for datepicker multiple instances
 var date_picker_instance = 0;
@@ -49,7 +57,7 @@ var date_picker_instance = 0;
 var fcp_text_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Text</label><div class="col-sm-7 input-container"><input type="text" class="form-control" id="app_first_name" placeholder="Text"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
 
 //NUMERIC FIELD
-var fcp_numeric_field = '<div class="form-group"><label for="app_first_name" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-7 input-container"><input type="number" class="form-control" id="app_first_name" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
+var fcp_numeric_field = '<div class="form-group"><label for="app_num_field" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-7 input-container"><input type="number" class="form-control" id="app_num_field" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
 
 //DATE PICKER
 var fcp_date_field = '<div class="form-group"><label for="app_date_'+date_picker_instance+'" class="col-sm-3 control-label">Date</label><div class="col-sm-7 input-container"><input type="date" class="form-control" id="app_date_'+date_picker_instance+'" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent())" class="col-sm-1">Edit</a></div>';
@@ -101,11 +109,15 @@ var radio_add_options = '<div class = "radio col-sm-10 input-container" style="p
 
 var radio_add_button = '<button type="button" name="radio" class="radio_add">Add option</button>';
 
+//CHECKBOX OPTIONS
 var check_add_options = '<div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="check">Checkbox</label></div>';
 
 var check_add_button = '<button type="button" name="check" class="check_add">Add option</button>';
 
+//NUMERIC OPTIONS
+var range_activ_field_options = '<div class="form-group"><div class = "checkbox col-sm-10 num-range" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="range" id="range_active">Character Length</label></div></div>'
 
+var max_range_field_options = '<div class="form-group"><label class="col-sm-3" control-label>Max</label><input type="number" id="num-max" class="col-sm-3" disabled></div>'
 /******************End of Editable Fields of Inputs ******************/
 
 /*
@@ -223,6 +235,7 @@ function discardChanges(event){
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");	
 	jQuery("button#discardButton").off("click");
+	jQuery("input#range_active").off("click");
 }
 
 
@@ -237,6 +250,8 @@ jQuery("button#saveButton").click(function(){
 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
 	alert("Saved !!>");
 	jQuery("button#discardButton").off("click");
+	jQuery("input#range_active").off("click");
+	fcp_numeric_range_activator();
 });
 
 /************** END of Save Button handler**************/
@@ -279,6 +294,22 @@ function editFieldOptions(title,type,field){
 
 	else if (type == "number"){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
+		jQuery(range_activ_field_options).appendTo("div#fieldOptions");
+		jQuery(max_range_field_options).appendTo("div#fieldOptions");
+
+		jQuery("input#range_active").click(function(){
+			if(jQuery("input#range_active").prop("checked"))
+			{
+				jQuery("input#num-max").removeAttr("disabled");
+			}
+
+			else
+			{
+				jQuery("input#num-max").attr("disabled","true");
+			}
+
+		});
+		
 	}
 
 	else if (type == "date"){
@@ -328,6 +359,7 @@ function editFieldOptions(title,type,field){
 
 // appending the required option at the end of the options
 jQuery(required_field_options).appendTo("div#fieldOptions");
+fcp_numeric_range_activator();
 
 // triggering the updateFieldLabel function using keyup event
 	jQuery("input#field-name-option").keyup({ label: field.children("label")},updateFieldLabel);
