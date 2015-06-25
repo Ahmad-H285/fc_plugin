@@ -1,7 +1,13 @@
-#required-option{
-	margin-left: 15px;
+span#required-option{
+	font-weight: bold;
 }
 
 #fieldOptions{
 	padding: 10px;
 }
+
+span.required-field-mark{
+	font-weight: bold;
+	color: red;
+}
+

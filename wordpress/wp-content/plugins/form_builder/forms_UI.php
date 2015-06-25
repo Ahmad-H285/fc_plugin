@@ -38,7 +38,7 @@ function fcp_application_page()
 			
 			
 			<div class="col-sm-7">
-				<form action="" method="POST" class="form-horizontal" style="padding: 30px; border: 1px solid #888; box-shadow: 10px 10px 5px #888;">
+				<form action="" method="POST" class="form-horizontal" id="fcp_application_preview" style="padding: 30px; border: 1px solid #888; box-shadow: 10px 10px 5px #888;">
 					
 					<div class="form-group">
 						<label for="app_form_name" class="col-sm-10"><h3>Form Name</h3></label>
@@ -50,7 +50,7 @@ function fcp_application_page()
 					<br>
 					  <div class="form-group">  
 					     <label for="app_first_name" class="col-sm-3 control-label ">First Name</label>
-					     <div class="col-sm-7 input-container">
+					     <div class="col-sm-6 input-container">
 					      <input type="text" class="form-control" id="app_first_name" placeholder="First Name">
 						 </div>
 						 <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -59,7 +59,7 @@ function fcp_application_page()
 
 					  <div class="form-group">
 					    <label for="app_last_name" class="col-sm-3 control-label">Last Name</label>
-					    <div class="col-sm-7 input-container">
+					    <div class="col-sm-6 input-container">
 					      <input type="text" class="form-control" id="app_last_name" placeholder="Last Name">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -68,7 +68,7 @@ function fcp_application_page()
 
 					  <div class="form-group">
 					    <label for="app_email" class="col-sm-3 control-label text-left">Email</label>
-					    <div class="col-sm-7 input-container">
+					    <div class="col-sm-6 input-container">
 					      <input type="email" class="form-control" id="app_email" placeholder="Email">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -76,7 +76,7 @@ function fcp_application_page()
 					  </div>
 					  
 					  <div class="form-group">
-					    <label for="app_opt" class="col-sm-5 control-label">Application Options</label>
+					    <label for="app_opt" class="col-sm-4 control-label">Application Options</label>
 					    <div class="col-sm-5">
 					      <select class="form-control" id="app_opt"></select>
 					    </div>
@@ -85,7 +85,7 @@ function fcp_application_page()
 					  </div>
 					  
 					  <div class="radio_field">
-					  <label class="radio_label col-sm-10">Gender</label>
+					  <label class="radio_label col-sm-9">Gender</label>
 					  <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text(),&quot;radio&quot;,jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a>
 					  <button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>
 					  <div class="form-group">
@@ -102,7 +102,7 @@ function fcp_application_page()
 
 					  <div class="form-group">
 					      <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
-					    <div class="col-sm-7 input-container">
+					    <div class="col-sm-6 input-container">
 					      <input type="file" id="app_attachment">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
