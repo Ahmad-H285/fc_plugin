@@ -316,7 +316,7 @@ function editFieldOptions(title,type,field){
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
 	//console.log(field_values);
 	//before_edit_label = title;
-
+	var field_name_trim = jQuery.trim(jQuery("div#edit_field_title").text().split('Edit')[1].split('Field')[0]);
 	// next add the options to the div according to their type
 	if (type == "text"){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
@@ -327,6 +327,7 @@ function editFieldOptions(title,type,field){
 		//jQuery(range_activ_field_options).appendTo("div#fieldOptions");
 		jQuery(max_range_field_options).appendTo("div#fieldOptions");
 
+		jQuery("input#field-name-option").val(field_name_trim);
 		// jQuery("input#range_active").click(function(field){
 		// 	if(jQuery("input#range_active").prop("checked"))
 		// 	{
