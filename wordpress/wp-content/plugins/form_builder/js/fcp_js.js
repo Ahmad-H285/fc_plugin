@@ -47,12 +47,12 @@ function fcp_radio_deleteField(){
 
 }
 
-function fcp_numeric_range_activator(event){
+ // function fcp_numeric_range_activator(event){
 	
-		var max_length_field = jQuery("input#num-max").val();
-		event.data.attr("max", max_length_field);
+ // 		var max_length_field = jQuery("input#num-max").val();
+ // 		event.data.attr("max", max_length_field);
 	
-}
+ // }
 
 // the following function handles making a field required or not
 function requiredFieldHandler(event){
@@ -271,9 +271,26 @@ jQuery("button#saveButton").click(function(){
 	alert("Saved !!>");
 	jQuery("button#discardButton").off("click");
 	jQuery("input#range_active").off("click");
-	fcp_numeric_range_activator();
+	//fcp_numeric_range_activator();
 	jQuery("input#required-option").off("click");
 });
+
+//jQuery("button#saveButton").on("click",lambaz);
+
+// function lambaz(event)
+// {
+// 	var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+			
+// 			while(jQuery("input[id='"+field_id+"']").length>0)
+// 			{
+// 				field_id_num++;
+// 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+// 			}
+// 			// var id_field_number = 0;
+// 			//var field_id_catcher = jQuery(field).children("input").attr("id");
+// 			//var field_id_catcher = jQuery(field).children(".input-container").children("input").attr("id");
+// 			jQuery("input#app_num_field").attr("id",field_id);
+// }
 
 /************** END of Save Button handler**************/
 
@@ -309,11 +326,14 @@ function updateFieldLabel(event){ // field label is in the event.data.label obje
  *	
  *  	editFieldOptions('First Name','text',jQuery("div.form-group:first"));
  */
+ var testing;
 function editFieldOptions(title,type,field){ 
+	
 	jQuery("div#edit_field_content").removeClass("hidden").addClass("show");
 	jQuery("div#edit_field_title").removeClass("hidden").addClass("show").html('<h4> Edit '+title+' Field</h4>');
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
+	var field_id_num = 1;
 	//console.log(field_values);
 	//before_edit_label = title;
 	var field_name_trim = jQuery.trim(jQuery("div#edit_field_title").text().split('Edit')[1].split('Field')[0]);
@@ -328,6 +348,28 @@ function editFieldOptions(title,type,field){
 		jQuery(max_range_field_options).appendTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
+		
+		jQuery("button#saveButton,button#discardButton").click(function(){
+			//if(  !(jQuery("input[id=app_num_field]")) && (jQuery("input[type=number]")))
+			// if( jQuery("input[id='Numeric_app_1']").length>0 )
+			// {
+			// 	field_id_num++;
+			// }
+			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+			
+			while(jQuery("input[id='"+field_id+"']").length>0)
+			{
+				field_id_num++;
+				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+			}
+			// var id_field_number = 0;
+			//var field_id_catcher = jQuery(field).children("input").attr("id");
+			//var field_id_catcher = jQuery(field).children(".input-container").children("input").attr("id");
+			jQuery("input#app_num_field").attr("id",field_id);
+
+			
+
+		});
 		// jQuery("input#range_active").click(function(field){
 		// 	if(jQuery("input#range_active").prop("checked"))
 		// 	{
@@ -343,10 +385,11 @@ function editFieldOptions(title,type,field){
 		// });
 
 		// jQuery("input#num-max").blur(function(field){
-			jQuery("button#saveButton").click(function(field){
-				fcp_numeric_range_activator(jQuery("div.form-group").children(".input-container").children("input#app_num_field"));
+			// jQuery("button#saveButton").click(function(field){
+
+			// 	fcp_numeric_range_activator(jQuery("div.form-group").children(".input-container").children("input#app_num_field"));
 			
-			});
+			// });
 			
 		
 	}
