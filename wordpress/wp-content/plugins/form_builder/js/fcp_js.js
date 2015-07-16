@@ -369,7 +369,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id);
+			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -393,7 +393,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id);
+			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -437,7 +437,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id);
+			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -459,7 +459,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id);
+			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -481,7 +481,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id);
+			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -503,7 +503,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id);
+			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -525,7 +525,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("select#"+inputID).attr("id",field_id);
+			jQuery("select#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -564,7 +564,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id);
+			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
@@ -586,7 +586,7 @@ function editFieldOptions(title,type,field,inputID){
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
 			
-			jQuery("textarea#"+inputID).attr("id",field_id);
+			jQuery("textarea#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
 			
 
