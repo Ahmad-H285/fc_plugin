@@ -421,7 +421,7 @@ function editFieldOptions(title,type,field,inputID){
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
 	var field_id_num = 1;
-	var slug_val = jQuery("input#slug_option").val();
+
 	//console.log(field_values);
 	//before_edit_label = title;
 	var field_name_trim = jQuery.trim(jQuery("div#edit_field_title").text().split('Edit')[1].split('Field')[0]);
@@ -442,7 +442,7 @@ function editFieldOptions(title,type,field,inputID){
 
 		jQuery("button#saveButton").one("click",function(){
 
-			 slug_val = slug_val.replace(/\s+/g, '_');
+			 var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
 
 				if(slug_val)
 				{
