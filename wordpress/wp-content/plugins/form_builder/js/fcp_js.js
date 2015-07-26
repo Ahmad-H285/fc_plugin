@@ -139,7 +139,7 @@ field_options.text = '';//'<div class="form-group"><label class="col-sm-5 contro
 
 //NUMBER FIELD
 var number_field_options = '<label>Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name">';
-field_options.number = '<div class="form-group"><label class="col-sm-3" control-label>Max</label><input type="number" id="num-max" class="col-sm-3"></div>';
+field_options.number = '<div class="form-group"><label class="col-sm-3 control-label">Max</label><input type="number" id="num-max" class="col-sm-3"></div>';
 
 //RADIO OPTION
 var radio_add_options = '<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div>';
@@ -437,7 +437,7 @@ function editFieldOptions(title,type,field,inputID){
 			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
 			//field_id = field_id.replace(/\s+/g, '');
 			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
-			
+
 			if(field_id.split('_app')[0] != jQuery("input#"+inputID).attr("id").split('_app')[0])
 			{
 				while(jQuery("input[id='"+field_id+"']").length>0)
@@ -449,14 +449,14 @@ function editFieldOptions(title,type,field,inputID){
 					// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
 				}
 				jQuery("input#"+inputID).attr("id",field_id);
-				//inputID = field_id.replace(/\s+/g, '_');
+				inputID = field_id;
 				// The following query was limited to last element just in case he added two elements at the same time
 				jQuery("input#"+field_id+":last").parent(".input-container").prev("label").attr("for",field_id);
 
 			}
 
 			if ( type == "date" ){ // to remove datepicker and re-add it to make it work again after changing the id
-				jQuery("#"+inputID).datepicker("destroy").removeClass(".hasDatepicker").datepicker();
+				jQuery("#"+field_id).datepicker("destroy").removeClass(".hasDatepicker").datepicker();
 
 			}
 			
@@ -467,7 +467,12 @@ function editFieldOptions(title,type,field,inputID){
 			
 			else if ( type == "number" ) 
 			{
-
+				var max_num_field = jQuery("input#num-max").val();
+				if(jQuery("input#num-max").val().length>0)
+				{
+					console.log("true")
+					jQuery("input#"+inputID).attr("max", max_num_field);
+				}
 			}
 
 		});
