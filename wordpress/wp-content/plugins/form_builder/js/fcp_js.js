@@ -504,7 +504,7 @@ function editFieldOptions(title,type,field,inputID){
 
 // The next line to be activated again once the fieldOptions are set
 		//jQuery(field_options[type]).appendTo("div#fieldOptions");
-
+		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
 		jQuery("input#field-name-option").val(field_name_trim);
@@ -568,6 +568,7 @@ function editFieldOptions(title,type,field,inputID){
 		//jQuery(name_field_options).prependTo("div#fieldOptions");
 		// The next line to be activated again once the fieldOptions are set
 		//jQuery(field_options[type]).appendTo("div#fieldOptions");
+		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
 		jQuery("input#field-name-option").val(field_name_trim);
