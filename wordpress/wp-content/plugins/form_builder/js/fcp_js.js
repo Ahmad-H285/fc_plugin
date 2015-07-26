@@ -407,6 +407,7 @@ function editFieldOptions(title,type,field,inputID){
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
 	var field_id_num = 1;
 	var slug_val = jQuery("input#slug_option").val();
+	var max_value = jQuery("input#"+inputID).attr("max");
 	//console.log(field_values);
 	//before_edit_label = title;
 	var field_name_trim = jQuery.trim(jQuery("div#edit_field_title").text().split('Edit')[1].split('Field')[0]);
@@ -424,6 +425,8 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
 		jQuery("input#field-name-option").val(field_name_trim);
+
+		jQuery("input#num-max").val(max_value);
 
 		jQuery("button#saveButton").one("click",function(){
 
