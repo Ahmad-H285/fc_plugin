@@ -111,6 +111,8 @@ var fcp_fileSelect_field = '<div class="form-group"><label for="app_attachment" 
 	The following variables hold the editable fields of each input type
 */
 
+//Slug Field
+var fcp_slug_field = '<div class="form-group"><label class="col-sm-6 control-label" for="slug_option">Custom Class: </label><input id="slug_option" type="text" maxlength="25" placeholder="Custom Class" class="col-sm-5"></div>';
 //FIELD NAME ( FOR ALL FIELDS)
 var name_field_options = '<div class="form-group"><label class="col-sm-5 control-label" for="field-name-option">Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name" class="col-sm-6"></div>';
 
@@ -136,7 +138,7 @@ var check_add_button = '<button type="button" name="check" class="check_add">Add
 //NUMERIC OPTIONS
 var range_activ_field_options = '<div class="form-group"><div class = "checkbox col-sm-10 num-range" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="range" id="range_active">Character Length</label></div></div>'
 
-var max_range_field_options = '<div class="form-group"><label class="col-sm-3" control-label>Max</label><input type="number" id="num-max" class="col-sm-3"></div>'
+var max_range_field_options = '<div class="form-group"><label class="col-sm-3 control-label">Max</label><input type="number" id="num-max" class="col-sm-3"></div>'
 /******************End of Editable Fields of Inputs ******************/
 
 /*
@@ -350,6 +352,7 @@ function editFieldOptions(title,type,field,inputID){
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
 	var field_id_num = 1;
+	var slug_val = jQuery("input#slug_option").val();
 	//console.log(field_values);
 	//before_edit_label = title;
 	var field_name_trim = jQuery.trim(jQuery("div#edit_field_title").text().split('Edit')[1].split('Field')[0]);
@@ -381,21 +384,36 @@ function editFieldOptions(title,type,field,inputID){
 		//jQuery(range_activ_field_options).appendTo("div#fieldOptions");
 		jQuery(max_range_field_options).appendTo("div#fieldOptions");
 
+		jQuery(fcp_slug_field).appendTo("div#fieldOptions");
+
 		jQuery("input#field-name-option").val(field_name_trim);
 		
 		jQuery("button#saveButton,button#discardButton").click(function(){
 			
+			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			
-			while(jQuery("input[id='"+field_id+"']").length>0)
+			if(field_id != jQuery("input#"+inputID).attr("id"))
 			{
-				field_id_num++;
-				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+				while(jQuery("input[id='"+field_id+"']").length>0)
+				{
+					field_id_num++;
+					field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+				}
+			
+				jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
+				inputID = field_id.replace(/\s+/g, '');
+
 			}
 			
-			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
+			var slug_val = jQuery("input#slug_option").val();
 
-			
+			if(slug_val)
+			{	
+				jQuery("input#"+inputID).addClass(slug_val);
+			}
+
 
 		});
 		// jQuery("input#range_active").click(function(field){
