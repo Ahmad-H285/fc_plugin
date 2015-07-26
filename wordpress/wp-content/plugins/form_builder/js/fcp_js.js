@@ -445,7 +445,7 @@ function editFieldOptions(title,type,field,inputID){
 
 			}
 			
-			if (type == "text")
+			else if (type == "text")
 			{
 			 // do specific stuff for text fields after setting their IDs
 			}
