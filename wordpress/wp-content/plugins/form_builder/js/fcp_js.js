@@ -33,7 +33,7 @@ function fcp_check_deleteField(){
 		jQuery(this).parent().remove();
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
-	});	
+	});
 
 }
 
@@ -43,15 +43,15 @@ function fcp_radio_deleteField(){
 		jQuery(this).parent().remove();
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
-	});	
+	});
 
 }
 
  // function fcp_numeric_range_activator(event){
-	
+
  // 		var max_length_field = jQuery("input#num-max").val();
  // 		event.data.attr("max", max_length_field);
-	
+
  // }
 
 // the following function handles making a field required or not
@@ -159,7 +159,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	var fieldID;
 
 	if(jQuery(this).text() == 'Text'){
-		
+
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_text_field);
 		inputType = "text";
 	}
@@ -221,7 +221,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		addedField = jQuery("div.radio_field:last");
 	}
 
-	else if( jQuery(this).text() == 'Checkbox' ){ // special case for checkbox 
+	else if( jQuery(this).text() == 'Checkbox' ){ // special case for checkbox
 		addedField = jQuery("div.check_field:last");
 	}
 
@@ -231,19 +231,19 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	if(jQuery(this).text()== 'Select Menu')
 	{
-		fieldID = jQuery(addedField).children(".input-container").children("select").attr("id");		
+		fieldID = jQuery(addedField).children(".input-container").children("select").attr("id");
 	}
 
 	else if(jQuery(this).text()== 'Text Area')
 	{
-		fieldID = jQuery(addedField).children(".input-container").children("textarea").attr("id");		
+		fieldID = jQuery(addedField).children(".input-container").children("textarea").attr("id");
 	}
 
 	else
 	{
 		fieldID = jQuery(addedField).children(".input-container").children("input").attr("id");
 	}
-	
+
 	editFieldOptions(jQuery(this).text(),inputType,addedField,fieldID);
 	fcp_check_deleteField();
 	fcp_radio_deleteField();
@@ -270,7 +270,7 @@ function discardChanges(event){
 */
 
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
-	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");	
+	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
 	jQuery("button#discardButton").off("click");
 	jQuery("input#range_active").off("click");
 	jQuery("input#required-option").off("click");
@@ -298,7 +298,7 @@ jQuery("button#saveButton").click(function(){
 // function lambaz(event)
 // {
 // 	var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 // 			while(jQuery("input[id='"+field_id+"']").length>0)
 // 			{
 // 				field_id_num++;
@@ -324,10 +324,10 @@ function updateFieldLabel(event){ // field label is in the event.data.label obje
 	}
 
 	else{
-		jQuery(event.data.label).text(jQuery(this).val());	
+		jQuery(event.data.label).text(jQuery(this).val());
 	}
 
-	
+
 }
 
 /******************* updateFieldLabel End *******************/
@@ -341,12 +341,12 @@ function updateFieldLabel(event){ // field label is in the event.data.label obje
  *	(2) the value of the "type" attribute of the input or simply text containing the type of the input for special case inputs (select tag)
  *	(3) the jQuery object of the entire parent "div" tag which has "form-group" as a class
  * 	For example:
- *	
+ *
  *  	editFieldOptions('First Name','text',jQuery("div.form-group:first"));
  */
  var testing;
-function editFieldOptions(title,type,field,inputID){ 
-	
+function editFieldOptions(title,type,field,inputID){
+
 	jQuery("div#edit_field_content").removeClass("hidden").addClass("show");
 	jQuery("div#edit_field_title").removeClass("hidden").addClass("show").html('<h4> Edit '+title+' Field</h4>');
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
@@ -361,20 +361,20 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("input[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
-			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
+			field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // removing the spaces from the id
+			jQuery("input#"+inputID).attr("id",field_Id_NoSpaces).parent(".input-container").prev("label").attr("for",field_Id_NoSpaces);
 
-			
+
 
 		});
 	}
@@ -387,12 +387,10 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
 			
-			
-
-			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+		var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			
 			if(field_id != jQuery("input#"+inputID).attr("id"))
 			{
@@ -427,37 +425,37 @@ function editFieldOptions(title,type,field,inputID){
 		// 	{
 		// 		jQuery("input#num-max").attr("disabled","true");
 		// 	}
-			
+
 		// });
 
 		// jQuery("input#num-max").blur(function(field){
 			// jQuery("button#saveButton").click(function(field){
 
 			// 	fcp_numeric_range_activator(jQuery("div.form-group").children(".input-container").children("input#app_num_field"));
-			
+
 			// });
-			
-		
+
+
 	}
 
 	else if (type == "date"){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("input[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
+
 			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
-			
+
 
 		});
 	}
@@ -466,20 +464,20 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("input[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
+
 			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
-			
+
 
 		});
 	}
@@ -488,20 +486,20 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("input[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
+
 			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
-			
+
 
 		});
 	}
@@ -510,20 +508,20 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("input[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
+
 			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
-			
+
 
 		});
 	}
@@ -532,20 +530,20 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("select[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
+
 			jQuery("select#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
-			
+
 
 		});
 	}
@@ -571,20 +569,20 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("input[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
+
 			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
-			
+
 
 		});
 	}
@@ -593,20 +591,20 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 		jQuery("input#field-name-option").val(field_name_trim);
-		
+
 		jQuery("button#saveButton,button#discardButton").click(function(){
-			
+
 			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			
+
 			while(jQuery("textarea[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
 				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
 			}
-			
+
 			jQuery("textarea#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
 
-			
+
 
 		});
 	}
@@ -631,7 +629,7 @@ jQuery("input#required-option").click({element: field.children("label")},require
 	jQuery("input#field-name-option").keyup({ label: field.children("label")},updateFieldLabel);
 
 	//the following line triggers the click event on the "discardButton"
-	//it will invoke the function (discardCHanges) and passes it data in the form of three objects: 
+	//it will invoke the function (discardCHanges) and passes it data in the form of three objects:
 	// 1 The options which will be created in an object
 	// 2 The Field parent (div.form-group) to allow traversing
 	// 3 The Field Type to do special case logic
@@ -639,4 +637,3 @@ jQuery("input#required-option").click({element: field.children("label")},require
 	jQuery("button#discardButton").click({field_values, element: field, fieldType: type},discardChanges);
 
 }
-
