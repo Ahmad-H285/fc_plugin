@@ -413,6 +413,8 @@ function editFieldOptions(title,type,field,inputID){
 	// next add the options to the div according to their type
 
 	jQuery(name_field_options).prependTo("div#fieldOptions");
+
+
 	if (type == "text" || type == "number" || type === "date" || type == "password" || type == "email" || type == "file" || type == "time")
 	{ 
 		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
@@ -425,12 +427,13 @@ function editFieldOptions(title,type,field,inputID){
 
 		jQuery("button#saveButton").one("click",function(){
 
-			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '')+"_app_"+field_id_num;
+			//field_id = field_id.replace(/\s+/g, '');
 			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
 			while(jQuery("input[id='"+field_id+"']").length>0)
 			{
 				field_id_num++;
-				field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
+				field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '')+"_app_"+field_id_num;
 				//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
 				//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
 				// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
