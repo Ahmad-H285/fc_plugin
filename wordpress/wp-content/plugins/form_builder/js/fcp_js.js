@@ -321,6 +321,7 @@ var input_field_object_parent = event.data.element; // This is the parent (div.f
 var options_object = event.data.options;
 var target; // this will hold the target to be changed back
 var target_data; // this will hold the data of the target
+var target_field_id = "#"+event.data.options.id;
 jQuery.each(options_object,function(key,value){
 
 	if ( key == "label" ) {
@@ -332,9 +333,11 @@ jQuery.each(options_object,function(key,value){
 		target = jQuery("label[for='"+ options_object.label[0] +"']"); // getting the id of the label
 		if (value == true) { // was marked required required: true
 			target.append(required_mark);
+			jQuery(target_field_id).addClass("fcp-required-input");
 		}
 		else { // was not required required : false
 			target.children("span").remove();
+			jQuery(target_field_id).removeClass("fcp-required-input");
 		}
 
 	}
@@ -411,6 +414,7 @@ function updateFieldLabel(event){ // field label is in the event.data.label obje
  var testing;
 function editFieldOptions(title,type,field,inputID){
 
+	options.id = inputID; // store the id of the input in the options variable to be passed to the discard button handler
 // The next two lines were added in case the user clicked twice on the addition of a field or edit
 // to unhook the previously attached click events
 	jQuery("button#saveButton").off("click");
