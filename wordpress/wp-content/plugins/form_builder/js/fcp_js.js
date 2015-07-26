@@ -124,6 +124,8 @@ var fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file
 	In the form of an object containing options for each field and field name as a key
 */
 
+//Slug Field
+var fcp_slug_field = '<div class="form-group"><label class="col-sm-6 control-label" for="slug_option">Custom Class: </label><input id="slug_option" type="text" maxlength="25" placeholder="Custom Class" class="col-sm-5"></div>';
 //FIELD NAME ( FOR ALL FIELDS)
 var name_field_options = '<div class="form-group"><label class="col-sm-5 control-label" for="field-name-option">Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name" class="col-sm-6"></div>';
 
@@ -154,7 +156,9 @@ field_options.checkbox = '<button type="button" name="check" class="check_add">A
 //NUMERIC OPTIONS
 var range_activ_field_options = '<div class="form-group"><div class = "checkbox col-sm-10 num-range" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="range" id="range_active">Character Length</label></div></div>';
 
+
 var max_range_field_options = '<div class="form-group"><label class="col-sm-3" control-label>Max</label><input type="number" id="num-max" class="col-sm-3"></div>';
+
 /******************End of Editable Fields of Inputs ******************/
 
 /*
@@ -402,17 +406,20 @@ function editFieldOptions(title,type,field,inputID){
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
 	var field_id_num = 1;
-	var field_Id_NoSpaces; // variable to hold the id after removing spaces
+	var slug_val = jQuery("input#slug_option").val();
 	//console.log(field_values);
 	//before_edit_label = title;
 	var field_name_trim = jQuery.trim(jQuery("div#edit_field_title").text().split('Edit')[1].split('Field')[0]);
 	// next add the options to the div according to their type
-	jQuery(name_field_options).prependTo("div#fieldOptions");
-	if (type == "text" || type == "number" || type === "date" || type == "password" || type == "email" || type == "file" || type == "time"){
 
+	jQuery(name_field_options).prependTo("div#fieldOptions");
+	if (type == "text" || type == "number" || type === "date" || type == "password" || type == "email" || type == "file" || type == "time")
+	{ 
 		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
 
 		jQuery(field_options[type]).appendTo("div#fieldOptions"); // get options from field_options object using type varialbe
+		
+		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
 		jQuery("input#field-name-option").val(field_name_trim);
 
@@ -429,13 +436,29 @@ function editFieldOptions(title,type,field,inputID){
 				// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
 			}
 			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
-    	inputID = field_id.replace(/\s+/g, '');
+			inputID = field_id.replace(/\s+/g, '');
 			// The following query was limited to last element just in case he added two elements at the same time
-			jQuery("input#"+inputID+":last").attr("id",inputID).parent(".input-container").prev("label").attr("for",inputID);
+			jQuery("input#"+inputID+":last").parent(".input-container").prev("label").attr("for",inputID);
 
 			if ( type == "date" ){ // to remove datepicker and re-add it to make it work again after changing the id
 				jQuery("#"+inputID).datepicker("destroy").removeClass(".hasDatepicker").datepicker();
 
+			}
+			
+			if (type == "text")
+			{
+			 // do specific stuff for text fields after setting their IDs
+			}
+			
+			else if ( type == "number" ) 
+			{
+				
+				var slug_val = jQuery("input#slug_option").val();
+
+				if(slug_val)
+				{	
+					jQuery("input#"+inputID).addClass(slug_val);
+				}
 			}
 
 		});
@@ -515,6 +538,8 @@ function editFieldOptions(title,type,field,inputID){
 
 		});
 	}
+
+	
 
 // appending the required option at the end of the options
 jQuery(required_field_options).appendTo("div#fieldOptions");
