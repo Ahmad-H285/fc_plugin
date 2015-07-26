@@ -23,6 +23,7 @@ jQuery(document).ready(function(){
 	fcp_radio_deleteField();
 	fcp_check_deleteField();
 	fcp_deleteField(); // to invoke the click event handler function below
+	//jQuery("button.fcp_submitButton").click(fcp_formSubmitHandler); testing to make sure it works
 
 });
 
@@ -69,13 +70,17 @@ function fcp_radio_deleteField(){
 // the following function handles making a field required or not
 function requiredFieldHandler(event){
 
-	if ( jQuery("input#required-option").prop("checked") ) { // when the required checkbox is checked
-		jQuery(event.data.element).append(required_mark);
+	var fieldLabel = jQuery(event.data.label); // will hold the label object
+	var field = jQuery("#"+event.data.input); // will hold the input itself
+	if ( jQuery("input#required-option").prop("checked") ) { //required checkbox is checked
+		fieldLabel.append(required_mark);
+		field.addClass("fcp-required-input");
 	}
 
-	else { // when it is not checked
-		if ( jQuery(event.data.element).children("span.required-field-mark").length > 0 ) {
-			jQuery(event.data.element).children("span.required-field-mark").remove();
+	else { // required checkbox is not checked
+		if ( fieldLabel.children("span.required-field-mark").length > 0 ) {
+			fieldLabel.children("span.required-field-mark").remove();
+			field.removeClass("fcp-required-input");
 		}
 	}
 }
@@ -85,37 +90,37 @@ function requiredFieldHandler(event){
 	The following code allows the field buttons to add the fields in the preview form
 */
 //TEXT FIELD
-var fcp_text_field = '<div class="form-group"><label for="Text-field'+text_field_instance+'" class="col-sm-3 control-label">Text</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Text-field'+text_field_instance+'" placeholder="Text"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_text_field = '<div class="form-group"><label for="Text-field'+text_field_instance+'" class="col-sm-3 control-label">Text</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Text-field'+text_field_instance+'" placeholder="Text"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //NUMERIC FIELD
-var fcp_numeric_field = '<div class="form-group"><label for="Number-field'+numeric_field_instance+'" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-6 input-container"><input type="number" class="form-control" id="Number-field'+numeric_field_instance+'" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_numeric_field = '<div class="form-group"><label for="Number-field'+numeric_field_instance+'" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-6 input-container"><input type="number" class="form-control" id="Number-field'+numeric_field_instance+'" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;number&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //DATE PICKER
-var fcp_date_field = '<div class="form-group"><label for="Date-field'+date_picker_instance+'" class="col-sm-3 control-label">Date</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Date-field'+date_picker_instance+'" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_date_field = '<div class="form-group"><label for="Date-field'+date_picker_instance+'" class="col-sm-3 control-label">Date</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Date-field'+date_picker_instance+'" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //TIME PICKER
-var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //SELECT MENU
-var fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //CHECKBOX
-var fcp_checkbox_field = '<div class="check_field"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text(),&quot;checkbox&quot;,jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
+var fcp_checkbox_field = '<div class="check_field"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent());" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
 
 //RADIO BUTTON
-var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text(),&quot;radio&quot;,jQuery(this).parent())" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
+var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent());" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
 
 //EMAIL
-var fcp_email_field = '<div class="form-group"><label for="Email-field'+email_field_instance+'" class="col-sm-3 control-label">Email</label><div class="col-sm-6 input-container"><input type="email" class="form-control" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_email_field = '<div class="form-group"><label for="Email-field'+email_field_instance+'" class="col-sm-3 control-label">Email</label><div class="col-sm-6 input-container"><input type="email" class="form-control" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //PASSWORD
-var fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //TEXT AREA
-var fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;text-area&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text-area&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //file upload
-var fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file_field_instance+'" class="col-sm-3 control-label">Attachment</label><div class="col-sm-6 input-container"><input type="file" id="File-field'+file_field_instance+'"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+var fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file_field_instance+'" class="col-sm-3 control-label">Attachment</label><div class="col-sm-6 input-container"><input type="file" id="File-field'+file_field_instance+'"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 /******************End of Fields buttons******************/
 
@@ -183,14 +188,14 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_text_field);
 		inputType = "text";
 		text_field_instance +=1; // increment counter and then re define the variable with new counter value
-		fcp_text_field = '<div class="form-group"><label for="Text-field'+text_field_instance+'" class="col-sm-3 control-label">Text</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Text-field'+text_field_instance+'" placeholder="Text"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_text_field = '<div class="form-group"><label for="Text-field'+text_field_instance+'" class="col-sm-3 control-label">Text</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Text-field'+text_field_instance+'" placeholder="Text"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Numeric'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_numeric_field);
 		inputType = "number";
 		numeric_field_instance +=1;
-		fcp_numeric_field = '<div class="form-group"><label for="Number-field'+numeric_field_instance+'" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-6 input-container"><input type="number" class="form-control" id="Number-field'+numeric_field_instance+'" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_numeric_field = '<div class="form-group"><label for="Number-field'+numeric_field_instance+'" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-6 input-container"><input type="number" class="form-control" id="Number-field'+numeric_field_instance+'" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;number&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Date Picker'){
@@ -198,7 +203,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("#Date-field"+date_picker_instance).datepicker();
 		inputType = "date";
 		date_picker_instance += 1;
-		fcp_date_field = '<div class="form-group"><label for="Date-field'+date_picker_instance+'" class="col-sm-3 control-label">Date</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Date-field'+date_picker_instance+'" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_date_field = '<div class="form-group"><label for="Date-field'+date_picker_instance+'" class="col-sm-3 control-label">Date</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Date-field'+date_picker_instance+'" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 	}
 
@@ -206,14 +211,16 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_time_field);
 		inputType = "time";
 		time_field_instance += 1;
-		fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Select Menu'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_select_field);
 		inputType = "select";
+
 		select_field_instance +=1;
-		fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+
 	}
 
 	else if(jQuery(this).text()== 'Checkbox'){
@@ -231,27 +238,29 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_email_field);
 		inputType = "email";
 		email_field_instance +=1;
-		fcp_email_field = '<div class="form-group"><label for="Email-field'+email_field_instance+'" class="col-sm-3 control-label">Email</label><div class="col-sm-6 input-container"><input type="email" class="form-control" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_email_field = '<div class="form-group"><label for="Email-field'+email_field_instance+'" class="col-sm-3 control-label">Email</label><div class="col-sm-6 input-container"><input type="email" class="form-control" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Password'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_password_field);
 		inputType = "password";
 		password_field_instance +=1;
-		fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Text Area'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_textArea_field);
 		inputType = "text-area";
 		textarea_field_instance +=1;
-		fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;text-area&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text-area&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 	else if(jQuery(this).text()== 'File'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_fileSelect_field);
 		inputType = "file";
+
 		file_field_instance +=1;
-		fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file_field_instance+'" class="col-sm-3 control-label">Attachment</label><div class="col-sm-6 input-container"><input type="file" id="File-field'+file_field_instance+'"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file_field_instance+'" class="col-sm-3 control-label">Attachment</label><div class="col-sm-6 input-container"><input type="file" id="File-field'+file_field_instance+'"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+
 	}
 
 	if ( jQuery(this).text() == 'Radio Button' ){ // special case for radio button
@@ -314,13 +323,19 @@ var target; // this will hold the target to be changed back
 var target_data; // this will hold the data of the target
 jQuery.each(options_object,function(key,value){
 
-	target = jQuery("label[for='" + value[0] + "']");
-	target_data = value[1];
-
 	if ( key == "label" ) {
+		target = jQuery("label[for='" + value[0] + "']");
+		target_data = value[1];
 		target.text(target_data);
 	}
 	else if ( key == "required" ) {
+		target = jQuery("label[for='"+ options_object.label[0] +"']"); // getting the id of the label
+		if (value == true) { // was marked required required: true
+			target.append(required_mark);
+		}
+		else { // was not required required : false
+			target.children("span").remove();
+		}
 
 	}
 
@@ -406,8 +421,8 @@ function editFieldOptions(title,type,field,inputID){
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
 	var field_id_num = 1;
-	var slug_val = jQuery("input#slug_option").val();
 	var max_value = jQuery("input#"+inputID).attr("max");
+
 	//console.log(field_values);
 	//before_edit_label = title;
 	var field_name_trim = jQuery.trim(jQuery("div#edit_field_title").text().split('Edit')[1].split('Field')[0]);
@@ -417,11 +432,11 @@ function editFieldOptions(title,type,field,inputID){
 
 
 	if (type == "text" || type == "number" || type === "date" || type == "password" || type == "email" || type == "file" || type == "time")
-	{ 
+	{
 		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
 
 		jQuery(field_options[type]).appendTo("div#fieldOptions"); // get options from field_options object using type varialbe
-		
+
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
 		jQuery("input#field-name-option").val(field_name_trim);
@@ -430,10 +445,10 @@ function editFieldOptions(title,type,field,inputID){
 
 		jQuery("button#saveButton").one("click",function(){
 
-			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+			 var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
 
 				if(slug_val)
-				{	
+				{
 					jQuery("input#"+inputID).addClass(slug_val);
 				}
 
@@ -462,22 +477,22 @@ function editFieldOptions(title,type,field,inputID){
 				jQuery("#"+field_id).datepicker("destroy").removeClass(".hasDatepicker").datepicker();
 
 			}
-			
+
 			else if (type == "text")
 			{
 			 // do specific stuff for text fields after setting their IDs
 			}
-			
-			else if ( type == "number" ) 
+
+			else if ( type == "number" )
 			{
+
 				var max_num_field = jQuery("input#num-max").val();
 				if(jQuery("input#num-max").val().length>0)
 				{
-					console.log("true")
 					jQuery("input#"+inputID).attr("max", max_num_field);
 				}
-			}
 
+			}
 		});
 	}
 	else if (type == "select"){
@@ -495,7 +510,7 @@ function editFieldOptions(title,type,field,inputID){
 			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
 
 				if(slug_val)
-				{	
+				{
 					jQuery("select#"+inputID).addClass(slug_val);
 				}
 
@@ -558,7 +573,7 @@ function editFieldOptions(title,type,field,inputID){
 			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
 
 				if(slug_val)
-				{	
+				{
 					jQuery("textarea#"+inputID).addClass(slug_val);
 				}
 
@@ -585,7 +600,7 @@ function editFieldOptions(title,type,field,inputID){
 		});
 	}
 
-	
+
 
 // appending the required option at the end of the options
 jQuery(required_field_options).appendTo("div#fieldOptions");
@@ -595,11 +610,14 @@ jQuery(required_field_options).appendTo("div#fieldOptions");
 // if the field has been previously marked required, check the required checkbox when displayed
 if( jQuery(field).children("label").children("span.required-field-mark").length > 0 ){
 	jQuery("input#required-option").attr("checked","true");
-	field_values.required = required_mark; // add the required mark to object that to be passed to the discard function
+	options.required = true; // notify the discard function that it was required
+}
+else {
+	options.required = false;
 }
 
 // attaching the click event on the required option input
-jQuery("input#required-option").click({element: field.children("label")},requiredFieldHandler);
+jQuery("input#required-option").click({label: field.children("label"), input: inputID},requiredFieldHandler);
 
 
 
@@ -614,5 +632,28 @@ jQuery("input#required-option").click({element: field.children("label")},require
 
 	jQuery("button#discardButton").one("click",{options, element: field},discardChanges);
 	//jQuery("button#discardButton").click({field_values, element: field, fieldType: type},discardChanges);
+
+}
+
+/*
+	fcp_formSubmit function handles the submission of the form
+	used it here only for testing it should only be used on the front end.
+	1- Check that all required fields are filled, if not do not submit
+	2-
+*/
+function fcp_formSubmitHandler(event) {
+	var fields =  jQuery(".fcp-required-input");
+	var empty_fields = 0;
+	// Check required fields
+	jQuery.each(fields,function(index, field){
+		if ( !jQuery(field).val() ) { // if field is empty
+			empty_fields += 1;
+			console.log("Empty Field Found")
+		}
+		if (empty_fields > 0){
+			event.preventDefault();
+			return empty_fields;
+		}
+	});
 
 }
