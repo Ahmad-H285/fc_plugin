@@ -20,3 +20,4 @@ wordpress/wp-content/themes/*
 wordpress/wp-content/index.php
 wordpress/wp-content/plugins/akismet
 .project
+.idea/
