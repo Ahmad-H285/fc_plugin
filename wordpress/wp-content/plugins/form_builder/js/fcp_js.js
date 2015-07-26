@@ -212,8 +212,8 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	else if(jQuery(this).text()== 'Select Menu'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_select_field);
 		inputType = "select";
-		select_field_instace +=1;
-		fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instace+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instace+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		select_field_instance +=1;
+		fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Checkbox'){
@@ -250,8 +250,8 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	else if(jQuery(this).text()== 'File'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_fileSelect_field);
 		inputType = "file";
-		file_field_instace +=1;
-		fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file_field_instace+'" class="col-sm-3 control-label">Attachment</label><div class="col-sm-6 input-container"><input type="file" id="File-field'+file_field_instace+'"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
+		file_field_instance +=1;
+		fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file_field_instance+'" class="col-sm-3 control-label">Attachment</label><div class="col-sm-6 input-container"><input type="file" id="File-field'+file_field_instance+'"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text(),jQuery(this).siblings(&quot;div.input-container&quot;).children(&quot;input&quot;).attr(&quot;type&quot;),jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;))" class="col-sm-1">Edit</a></div>';
 	}
 
 	if ( jQuery(this).text() == 'Radio Button' ){ // special case for radio button
@@ -427,21 +427,33 @@ function editFieldOptions(title,type,field,inputID){
 
 		jQuery("button#saveButton").one("click",function(){
 
-			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '')+"_app_"+field_id_num;
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+
+				if(slug_val)
+				{	
+					jQuery("input#"+inputID).addClass(slug_val);
+				}
+
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
 			//field_id = field_id.replace(/\s+/g, '');
 			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
-			while(jQuery("input[id='"+field_id+"']").length>0)
+			
+			if(field_id.split('_app')[0] != jQuery("input#"+inputID).attr("id").split('_app')[0])
 			{
-				field_id_num++;
-				field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '')+"_app_"+field_id_num;
-				//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
-				//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
-				// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
+				while(jQuery("input[id='"+field_id+"']").length>0)
+				{
+					field_id_num++;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
+					//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
+					// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
+				}
+				jQuery("input#"+inputID).attr("id",field_id);
+				//inputID = field_id.replace(/\s+/g, '_');
+				// The following query was limited to last element just in case he added two elements at the same time
+				jQuery("input#"+field_id+":last").parent(".input-container").prev("label").attr("for",field_id);
+
 			}
-			jQuery("input#"+inputID).attr("id",field_id.replace(/\s+/g, ''));
-			inputID = field_id.replace(/\s+/g, '');
-			// The following query was limited to last element just in case he added two elements at the same time
-			jQuery("input#"+inputID+":last").parent(".input-container").prev("label").attr("for",inputID);
 
 			if ( type == "date" ){ // to remove datepicker and re-add it to make it work again after changing the id
 				jQuery("#"+inputID).datepicker("destroy").removeClass(".hasDatepicker").datepicker();
@@ -455,13 +467,7 @@ function editFieldOptions(title,type,field,inputID){
 			
 			else if ( type == "number" ) 
 			{
-				
-				var slug_val = jQuery("input#slug_option").val();
 
-				if(slug_val)
-				{	
-					jQuery("input#"+inputID).addClass(slug_val);
-				}
 			}
 
 		});
@@ -471,24 +477,39 @@ function editFieldOptions(title,type,field,inputID){
 
 // The next line to be activated again once the fieldOptions are set
 		//jQuery(field_options[type]).appendTo("div#fieldOptions");
+
+		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
+
 		jQuery("input#field-name-option").val(field_name_trim);
 
 		jQuery("button#saveButton").one("click",function(){
 
-			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
 
-			while(jQuery("select[id='"+field_Id_NoSpaces+"']").length>0)
+				if(slug_val)
+				{	
+					jQuery("select#"+inputID).addClass(slug_val);
+				}
+
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
+
+
+			if(field_id.split('_app')[0] != jQuery("select#"+inputID).attr("id").split('_app')[0])
 			{
-				field_id_num++;
-				field_Id_NoSpaces = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-				field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
-				// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
+				while(jQuery("select[id='"+field_id+"']").length>0)
+				{
+					field_id_num++;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // removing the spaces from the id
+					// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
+				}
+
+				jQuery("select#"+inputID).attr("id",field_id);
+
+				jQuery("select#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
+
 			}
-
-			jQuery("select#"+inputID).attr("id",field_Id_NoSpaces).parent(".input-container").prev("label").attr("for",field_Id_NoSpaces);
-
-
 
 		});
 	}
@@ -520,24 +541,38 @@ function editFieldOptions(title,type,field,inputID){
 		//jQuery(name_field_options).prependTo("div#fieldOptions");
 		// The next line to be activated again once the fieldOptions are set
 		//jQuery(field_options[type]).appendTo("div#fieldOptions");
+		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
+
 		jQuery("input#field-name-option").val(field_name_trim);
 
 		jQuery("button#saveButton").one("click",function(){
 
-			var field_id = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-			field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
 
-			while(jQuery("textarea[id='"+field_Id_NoSpaces+"']").length>0)
+				if(slug_val)
+				{	
+					jQuery("textarea#"+inputID).addClass(slug_val);
+				}
+
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
+
+
+			if(field_id.split('_app')[0] != jQuery("textarea#"+inputID).attr("id").split('_app')[0])
 			{
-				field_id_num++;
-				field_Id_NoSpaces = jQuery("input#field-name-option").val()+"_app_"+field_id_num;
-				field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
-				// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
+				while(jQuery("textarea[id='"+field_id+"']").length>0)
+				{
+					field_id_num++;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // removing the spaces from the id
+					// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
+				}
+
+				jQuery("textarea#"+inputID).attr("id",field_id);
+
+				jQuery("textarea#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
+
 			}
-
-			jQuery("textarea#"+inputID).attr("id",field_Id_NoSpaces).parent(".input-container").prev("label").attr("for",field_Id_NoSpaces);
-
-
 
 		});
 	}
