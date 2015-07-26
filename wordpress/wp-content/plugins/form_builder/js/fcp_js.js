@@ -425,6 +425,7 @@ function editFieldOptions(title,type,field,inputID){
 	jQuery("div#fieldOptions").empty(); // to remove other fields options before displaying other fields options
 	var field_values = {label: title.replace('*','')}; // used the replace function to remove the required mark if it exists
 	var field_id_num = 1;
+	var max_value = jQuery("input#"+inputID).attr("max");
 
 	//console.log(field_values);
 	//before_edit_label = title;
@@ -443,6 +444,8 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
 		jQuery("input#field-name-option").val(field_name_trim);
+
+		jQuery("input#num-max").val(max_value);
 
 		jQuery("button#saveButton").one("click",function(){
 
