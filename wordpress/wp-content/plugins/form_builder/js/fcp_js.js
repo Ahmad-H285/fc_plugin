@@ -99,7 +99,7 @@ var fcp_numeric_field = '<div class="form-group"><label for="Number-field'+numer
 var fcp_date_field = '<div class="form-group"><label for="Date-field'+date_picker_instance+'" class="col-sm-3 control-label">Date</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Date-field'+date_picker_instance+'" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //TIME PICKER
-var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time Picker</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" max="12" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" max="59" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //SELECT MENU
 var fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
@@ -164,6 +164,8 @@ var range_activ_field_options = '<div class="form-group"><div class = "checkbox 
 
 var max_range_field_options = '<div class="form-group"><label class="col-sm-3" control-label>Max</label><input type="number" id="num-max" class="col-sm-3"></div>';
 
+// TIME PICKER
+field_options.time = '<div class="radio_field"><label class="radio_label col-sm-9">Time Format</label><div class="form-group" id="time_format_option"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="time-format" value="12-hour" type="radio" class="col-sm-4" checked>12 hour format</label></div><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="time-format" value="24-hour" type="radio" class="col-sm-4">24 hour format</label></div></div></div>';
 /******************End of Editable Fields of Inputs ******************/
 
 /*
@@ -211,7 +213,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_time_field);
 		inputType = "time";
 		time_field_instance += 1;
-		fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+		fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time Picker</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" max="12" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" max="59" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Select Menu'){
@@ -342,6 +344,22 @@ jQuery.each(options_object,function(key,value){
 
 	}
 
+	else if (key == "time") {
+		var timeOptions = options_object.time;
+		var selectAm_Pm_html = timeOptions.am_pm.clone(); // to get a deep copy of the select menu
+		if ( timeOptions.format == 12 ) {
+			timeOptions.hours.attr("max","12");
+			if ( timeOptions.minutes.next("select").length < 1 ){ // if it does not exist already
+				timeOptions.minutes.after(selectAm_Pm_html);
+			}
+		}
+		else if ( timeOptions.format == 23 ) {
+			timeOptions.hours.attr("max","23");
+			timeOptions.minutes.next("select").remove();
+		}
+
+	}
+
 
 });
 
@@ -355,6 +373,7 @@ jQuery.each(options_object,function(key,value){
 	jQuery("button#discardButton").off("click");
 	jQuery("input#range_active").off("click");
 	jQuery("input#required-option").off("click");
+	jQuery("div.form-group#time_format_option div.radio label input[name='time-format']").off("change",timeFormatHandler);
 }
 
 
@@ -374,6 +393,7 @@ function saveButtonHandler (){
 	jQuery("input#range_active").off("click");
 	//fcp_numeric_range_activator();
 	jQuery("input#required-option").off("click");
+	jQuery("div.form-group#time_format_option div.radio label input[name='time-format']").off("change",timeFormatHandler);
 }
 
 
@@ -605,6 +625,20 @@ function editFieldOptions(title,type,field,inputID){
 		});
 	}
 
+	if (type == "time") {
+		// set the values in the options object so that when the discardButton is clicked it returns everything the way it was
+		// for the time picker field
+
+		var minsField = jQuery("#"+inputID+"[placeholder='mins']");
+		var amPmSelect = minsField.next("select");
+		var hrsField = jQuery("#"+inputID+"[placeholder='hrs']");
+		options.time = { format: 12 , am_pm: amPmSelect, hours: hrsField, minutes: minsField}
+		if (amPmSelect.length < 1){ // to check if the AM/PM selector is not present then check the 24 hour radio
+			jQuery("div.form-group#time_format_option div.radio label input[value='24-hour']").attr("checked",true);
+			options.time.format = 23;
+		}
+		jQuery("div.form-group#time_format_option div.radio label input[name='time-format']").on("change",{hours: hrsField, minutes: minsField},timeFormatHandler);
+	}
 
 
 // appending the required option at the end of the options
@@ -661,4 +695,20 @@ function fcp_formSubmitHandler(event) {
 		}
 	});
 
+}
+
+function timeFormatHandler(event){
+
+		if ( jQuery(this).attr("checked") == "checked" ) { //
+			if ( jQuery(this).attr("value") == "12-hour"){
+				// add-AM/pm selector and limit the value of the hours input to 12
+				event.data.hours.attr("max","12");
+				event.data.minutes.after('<select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select>');
+			}
+			else if ( jQuery(this).attr("value") == "24-hour" ) {
+				// remove the AM/PM  and limit the value of the hours input to 24
+				event.data.hours.attr("max","23");
+				event.data.minutes.next("select").remove();
+			}
+		}
 }
