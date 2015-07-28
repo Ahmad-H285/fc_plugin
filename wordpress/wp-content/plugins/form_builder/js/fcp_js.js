@@ -117,7 +117,7 @@ var fcp_email_field = '<div class="form-group"><label for="Email-field'+email_fi
 var fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //TEXT AREA
-var fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text-area&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+var fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //file upload
 var fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file_field_instance+'" class="col-sm-3 control-label">Attachment</label><div class="col-sm-6 input-container"><input type="file" id="File-field'+file_field_instance+'"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
@@ -166,6 +166,9 @@ var max_range_field_options = '<div class="form-group"><label class="col-sm-3" c
 
 // TIME PICKER
 field_options.time = '<div class="radio_field"><label class="radio_label col-sm-9">Time Format</label><div class="form-group" id="time_format_option"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="time-format" value="12-hour" type="radio" class="col-sm-4" checked>12 hour format</label></div><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="time-format" value="24-hour" type="radio" class="col-sm-4">24 hour format</label></div></div></div>';
+
+//TEXT AREA
+field_options.textarea = '<div class="form-group"><label class="col-sm-5 control-label">Character Length</label><input type="number" min="0" id="text_area_max" class="col-sm-3"></div><div class="form-group"><label class="col-sm-5 control-label">Height</label><input type="number" min="0" id="text_area_height" class="col-sm-3"></div>';
 /******************End of Editable Fields of Inputs ******************/
 
 /*
@@ -252,9 +255,9 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	else if(jQuery(this).text()== 'Text Area'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_textArea_field);
-		inputType = "text-area";
+		inputType = "textarea";
 		textarea_field_instance +=1;
-		fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text-area&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+		fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 	else if(jQuery(this).text()== 'File'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_fileSelect_field);
@@ -584,17 +587,29 @@ function editFieldOptions(title,type,field,inputID){
 		});
 
 	}
-	else if (type == "text-area"){
+	else if (type == "textarea"){
 		//jQuery(name_field_options).prependTo("div#fieldOptions");
 		// The next line to be activated again once the fieldOptions are set
 		//jQuery(field_options[type]).appendTo("div#fieldOptions");
+
+		// TO store the height and max length for the text area
+		var text_areaRow;
+		var text_areaMaxLength;
+
+
 		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
+		jQuery(field_options[type]).appendTo("div#fieldOptions"); // add the options fields for text area
+		jQuery("input#text_area_height").val(jQuery("textarea#"+inputID).attr("rows"));
+		jQuery("input#text_area_max").val(jQuery("textarea#"+inputID).attr("maxlength"));
+
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
 		jQuery("input#field-name-option").val(field_name_trim);
 
 		jQuery("button#saveButton").one("click",function(){
 
+			text_areaRow = jQuery("input#text_area_height").val();
+			text_areaMaxLength = jQuery("input#text_area_max").val();
 			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
 
 				if(slug_val)
@@ -622,6 +637,9 @@ function editFieldOptions(title,type,field,inputID){
 
 			}
 
+			// updating the row and maxlength attributes
+			jQuery("textarea#"+field_id).attr("rows",text_areaRow);
+			jQuery("textarea#"+field_id).attr("maxlength",text_areaMaxLength);
 		});
 	}
 
