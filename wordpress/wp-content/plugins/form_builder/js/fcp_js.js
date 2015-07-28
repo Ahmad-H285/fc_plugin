@@ -28,7 +28,7 @@ jQuery(document).ready(function(){
 });
 
 function fcp_deleteField(){
-	jQuery("button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
+	jQuery("form button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
 		jQuery(this).parent().remove();
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
@@ -38,14 +38,21 @@ function fcp_deleteField(){
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
 	});
+	jQuery("button.field_options close").click(function(){ // deletes a field when it's 'x' icon is clicked
+		jQuery(this).parent().remove();
+	});
+
+	jQuery("div#edit_field_content button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
+		jQuery(this).parent().remove();
+	});
 }
 
 function fcp_check_deleteField(){
 	jQuery("button.check_close").click(function(){ // deletes a field when it's 'x' icon is clicked
-		jQuery(this).parent().prev("label.check_label").remove();
+		//jQuery(this).parent().prev("label.check_label").remove();
 		jQuery(this).parent().remove();
-		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
-		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
+		//jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
+		//jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
 	});
 
 }
@@ -105,7 +112,7 @@ var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field
 var fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //CHECKBOX
-var fcp_checkbox_field = '<div class="check_field"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent());" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
+var fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
 
 //RADIO BUTTON
 var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent());" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
@@ -130,12 +137,12 @@ var fcp_fileSelect_field = '<div class="form-group"><label for="File-field'+file
 */
 
 //Slug Field
-var fcp_slug_field = '<div class="form-group"><label class="col-sm-6 control-label" for="slug_option">Custom Class: </label><input id="slug_option" type="text" maxlength="25" placeholder="Custom Class" class="col-sm-5"></div>';
+var fcp_slug_field = '<div class="form-group" id="custom-slug"><label class="col-sm-6 control-label" for="slug_option">Custom Class: </label><input id="slug_option" type="text" maxlength="25" placeholder="Custom Class" class="col-sm-5"></div>';
 //FIELD NAME ( FOR ALL FIELDS)
 var name_field_options = '<div class="form-group"><label class="col-sm-5 control-label" for="field-name-option">Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name" class="col-sm-6"></div>';
 
 //REQUIRED FIELD
-var required_field_options = '<div class="form-group"><div class= "checkbox col-sm-10"><label><input type="checkbox" class="col-sm-4" name="required-option" id="required-option"><span id="required-option">Required Field</span></label></div></div>';
+var required_field_options = '<div class="form-group" id="required_option_opt"><div class= "checkbox col-sm-10"><label><input type="checkbox" class="col-sm-4" name="required-option" id="required-option"><span id="required-option">Required Field</span></label></div></div>';
 
 var field_options = {}; // The object which will hold all of the options for different inputs
 //TEXT FIELD
@@ -153,7 +160,11 @@ var radio_add_button = '<button type="button" name="radio" class="radio_add">Add
 field_options.radio = '<button type="button" name="radio" class="radio_add">Add option</button>';
 
 //CHECKBOX OPTIONS
-var check_add_options = '<div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="check">Checkbox</label></div>';
+var check_add_options = '<div class = "checkbox col-sm-10 input-container" id="checkbox_add"><input type="text" class="col-sm-8 field-option-add" name="check"><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+
+//var check_add_field = '<div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="check">Checkbox</label><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+
+//var check_add_field = '<div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="check">Checkbox</label><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 var check_add_button = '<button type="button" name="check" class="check_add">Add option</button>';
 field_options.checkbox = '<button type="button" name="check" class="check_add">Add option</button>';
@@ -227,6 +238,8 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_checkbox_field);
 		inputType = "checkbox";
 
+		checkbox_field_instance += 1;
+		fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
 	}
 
 	else if(jQuery(this).text()== 'Radio Button'){
@@ -269,13 +282,15 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	else if( jQuery(this).text() == 'Checkbox' ){ // special case for checkbox
 		addedField = jQuery("div.check_field:last");
+
+		fieldID = addedField.attr("id");
 	}
 
-	else { // for every other type
-		addedField = jQuery("form#fcp_application_preview div.form-group:last").prev();
-	}
+	// else { // for every other type
+		
+	// }
 
-	if(jQuery(this).text()== 'Select Menu')
+	else if(jQuery(this).text()== 'Select Menu')
 	{
 		fieldID = jQuery(addedField).children(".input-container").children("select").attr("id");
 	}
@@ -287,6 +302,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	else
 	{
+		addedField = jQuery("form#fcp_application_preview div.form-group:last").prev();
 		fieldID = jQuery(addedField).children(".input-container").children("input").attr("id");
 	}
 
@@ -413,7 +429,7 @@ function updateFieldLabel(event){ // field label is in the event.data.label obje
  */
  var testing;
 function editFieldOptions(title,type,field,inputID){
-
+	//console.log(inputID);
 	options.id = inputID; // store the id of the input in the options variable to be passed to the discard button handler
 // The next two lines were added in case the user clicked twice on the addition of a field or edit
 // to unhook the previously attached click events
@@ -437,6 +453,7 @@ function editFieldOptions(title,type,field,inputID){
 
 	if (type == "text" || type == "number" || type === "date" || type == "password" || type == "email" || type == "file" || type == "time")
 	{
+		
 		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
 
 		jQuery(field_options[type]).appendTo("div#fieldOptions"); // get options from field_options object using type varialbe
@@ -558,9 +575,76 @@ function editFieldOptions(title,type,field,inputID){
 
 	// The next line to be activated again once the fieldOptions are set
 	//jQuery(field_options[type]).appendTo("div#fieldOptions");
+		
+		 
 		jQuery(check_add_button).appendTo("div#fieldOptions");
+
+		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
+
+		jQuery("input#field-name-option").val(field_name_trim);
+
 		jQuery(".check_add").click(function() {
-			jQuery("div.checkbox:last").after(check_add_options);
+			jQuery("div#custom-slug").before(check_add_options);
+			fcp_deleteField();		
+		});
+
+		var check_n = 0;
+		var check_form_prev = jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n);
+		var check_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n)).text();
+		while(check_form_prev)
+		{
+			//console.log(check_label_prev);
+			jQuery('<div class = "checkbox col-sm-10 input-container" id="checkbox_add"><input type="text" class="col-sm-8 field-option-add" name="check"><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
+			
+			jQuery(jQuery("div#fieldOptions div.input-container input.field-option-add").get(check_n)).val(check_label_prev);
+
+			check_n++;
+			check_form_prev = jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n);
+			check_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n)).text();
+		}
+		fcp_deleteField();
+
+		jQuery("button#saveButton").one("click", function(){
+
+			jQuery("div#"+inputID+" div.form-group div.checkbox").remove();
+
+		
+			var check_i = 0;
+			var check_add_loop = jQuery("div#fieldOptions div.input-container input.field-option-add").get(check_i);
+			while(check_add_loop)
+			{
+				jQuery('<div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="check">'+jQuery(jQuery("input.field-option-add").get(check_i)).val()+'</label></div>').appendTo("div#"+inputID+" div.form-group");
+				
+				check_i++;
+				check_add_loop = jQuery("div#fieldOptions div.input-container input.field-option-add").get(check_i);
+			}
+			
+
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+
+				if(slug_val)
+				{
+					jQuery("div#"+inputID).addClass(slug_val);
+				}
+
+
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+
+
+			if(field_id.split('_app')[0] != jQuery("div#"+inputID).attr("id").split('_app')[0])
+			{
+				while(jQuery("div[id='"+field_id+"']").length>0)
+				{
+					field_id_num++;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+				}
+
+				jQuery("div#"+inputID).attr("id",field_id);
+
+				jQuery("div#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
+
+			}
+	
 		});
 
 	}
@@ -583,7 +667,6 @@ function editFieldOptions(title,type,field,inputID){
 				}
 
 			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
-			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
 
 
 			if(field_id.split('_app')[0] != jQuery("textarea#"+inputID).attr("id").split('_app')[0])
@@ -592,8 +675,6 @@ function editFieldOptions(title,type,field,inputID){
 				{
 					field_id_num++;
 					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
-					//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // removing the spaces from the id
-					// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
 				}
 
 				jQuery("textarea#"+inputID).attr("id",field_id);

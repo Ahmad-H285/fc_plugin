@@ -1,0 +1,6 @@
+if(jQuery("input[type='number']")){console.log("true")}
+
+jQuery("div#check_box_0 div.form-group div.checkbox").get(1);
+
+
+jQuery("div#fieldOptions div.input-container input.field-option-add").get(0); // field options

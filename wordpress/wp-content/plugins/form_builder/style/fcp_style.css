@@ -11,3 +11,6 @@ span.required-field-mark{
 	color: red;
 }
 
+div#checkbox_add{
+	padding: 10px;
+}
