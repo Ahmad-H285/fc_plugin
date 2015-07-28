@@ -11,3 +11,11 @@ span.required-field-mark{
 	color: red;
 }
 
+p#list_options_title {
+	font-size: inherit;
+	font-weight: bold;
+}
+
+input.select-opt-input {
+	margin-bottom: 10px;
+}

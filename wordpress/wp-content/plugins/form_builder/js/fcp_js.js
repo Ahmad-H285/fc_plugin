@@ -12,6 +12,8 @@ var password_field_instance = 0;
 var textarea_field_instance = 0;
 var file_field_instance = 0;
 
+//List item counter
+var list_item_count = 1;
 // object to contain the options that are changed live and can be returned to what they were
 var options = {};
 // required field mark
@@ -28,7 +30,7 @@ jQuery(document).ready(function(){
 });
 
 function fcp_deleteField(){
-	jQuery("button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
+	jQuery(" form button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
 		jQuery(this).parent().remove();
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
@@ -37,6 +39,10 @@ function fcp_deleteField(){
 		jQuery(this).parent().remove();
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
+	});
+
+	jQuery(" div#edit_field_content button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
+		jQuery(this).parent().remove();
 	});
 }
 
@@ -169,6 +175,9 @@ field_options.time = '<div class="radio_field"><label class="radio_label col-sm-
 
 //TEXT AREA
 field_options.textarea = '<div class="form-group"><label class="col-sm-5 control-label">Character Length</label><input type="number" min="0" id="text_area_max" class="col-sm-3"></div><div class="form-group"><label class="col-sm-5 control-label">Height</label><input type="number" min="0" id="text_area_height" class="col-sm-3"></div>';
+
+// SELECT MENU
+field_options.select = '<button type="button" id="select_menu_option_addButton" name="select-option" class="">Add Item</button><div id="select_list_options" class="col-sm-12"><p id="list_options_title">List Items: </p></div>';
 /******************End of Editable Fields of Inputs ******************/
 
 /*
@@ -377,6 +386,7 @@ jQuery.each(options_object,function(key,value){
 	jQuery("input#range_active").off("click");
 	jQuery("input#required-option").off("click");
 	jQuery("div.form-group#time_format_option div.radio label input[name='time-format']").off("change",timeFormatHandler);
+	jQuery("button#select_menu_option_addButton").off("click",select_menu_option_handler);
 }
 
 
@@ -397,6 +407,7 @@ function saveButtonHandler (){
 	//fcp_numeric_range_activator();
 	jQuery("input#required-option").off("click");
 	jQuery("div.form-group#time_format_option div.radio label input[name='time-format']").off("change",timeFormatHandler);
+	jQuery("button#select_menu_option_addButton").off("click",select_menu_option_handler);
 }
 
 
@@ -526,9 +537,23 @@ function editFieldOptions(title,type,field,inputID){
 //		jQuery(name_field_options).prependTo("div#fieldOptions");
 
 // The next line to be activated again once the fieldOptions are set
-		//jQuery(field_options[type]).appendTo("div#fieldOptions");
+		jQuery(field_options[type]).appendTo("div#fieldOptions"); // display the options of the select menu
 		options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
+		list_item_count = 1; // return it to zero to start over again
+
+		// Find all of the added options and list them all
+		jQuery("select#" + inputID + " option").each(function(index,value){
+			var opt_input = '<div class="list-item-parent parent-number'+list_item_count+'"><label for="list_item'+list_item_count+'" class="col-sm-4">Item '+list_item_count+'</label><input maxlength="50" placeholder="List Item" id="list_item'+list_item_count+'" class="col-sm-6 select-opt-input" type="text"><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+			jQuery("div#select_list_options").append(opt_input);
+			jQuery("input.select-opt-input:last").val(jQuery(this).text());
+			jQuery(" div.parent-number"+list_item_count+" button.close").off("click").click(removeListItem);
+			list_item_count++;
+		});
+
+		// attach click event to the "Add Item" button
+
+		jQuery("button#select_menu_option_addButton").click(select_menu_option_handler);
 
 		jQuery("input#field-name-option").val(field_name_trim);
 
@@ -560,6 +585,35 @@ function editFieldOptions(title,type,field,inputID){
 				jQuery("select#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
 
 			}
+
+			// Save the list items to the list
+
+			// first, remove all existing options
+			jQuery("select#"+field_id).children("option").remove();
+
+			jQuery("input.select-opt-input").each(function(index,value){
+				var item_value = jQuery("input.select-opt-input")[index];
+				//var existing_list_item = jQuery(jQuery("select#" + field_id + " option")[index]);
+				var list_opt;
+			//	var existing_list_item_text;
+
+				item_value = jQuery(item_value).val();
+				list_opt = '<option value="'+item_value+'">'+item_value+'</option>';
+				// existing_list_item_text = jQuery(existing_list_item).text();
+				// if ( item_value != existing_list_item_text && item_value != "") {
+				//
+				// 	if ( existing_list_item.length == 1 ){ // if the item exists already then modify it
+				// 		existing_list_item.text(item_value).attr("value",item_value);
+				// 	}
+				// 	else { // if it does not exist then create a new item
+				// 		jQuery("select#" + field_id).append(list_opt);
+				// 	}
+				// }
+				// else {
+				// 	console.log("Item alreay exists at index "+index);
+				// }
+				jQuery("select#" + field_id).append(list_opt);
+			});
 
 		});
 	}
@@ -715,6 +769,11 @@ function fcp_formSubmitHandler(event) {
 
 }
 
+/*
+	The following function handles altering the options of the time picker
+	according to the selected time format option
+*/
+
 function timeFormatHandler(event){
 
 		if ( jQuery(this).attr("checked") == "checked" ) { //
@@ -729,4 +788,38 @@ function timeFormatHandler(event){
 				event.data.minutes.next("select").remove();
 			}
 		}
+}
+
+/*
+	The following function handles creating options of the select menu
+*/
+
+function select_menu_option_handler(event){
+	// check to see the number of items displayed matches the value of the list_item_count , if not modify its value before using it
+	if ( jQuery("div.list-item-parent").length + 1 != list_item_count ){
+		list_item_count = jQuery("div.list-item-parent").length + 1;
+	}
+	var option_input = '<div class="list-item-parent parent-number'+list_item_count+'"><label for="list_item'+list_item_count+'" class="col-sm-4">Item '+list_item_count+'</label><input maxlength="50" placeholder="List Item" id="list_item'+list_item_count+'" class="col-sm-6 select-opt-input" type="text"><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+	jQuery("div#select_list_options").append(option_input);
+	jQuery(" div.parent-number"+list_item_count+" button.close").click(removeListItem);
+	list_item_count++;
+
+}
+
+function removeListItem(event){ // deletes a field when it's 'x' icon is clicked
+	// update the label and classes of the following items to match their count after removal
+	jQuery(this).parent("div.list-item-parent").nextAll("div.list-item-parent").each(function(index,value){
+		var itemLabel = jQuery(this).children("label");
+		var itemInput = jQuery(this).children("input");
+		var itemNumber = itemLabel.text().replace("Item ","");
+		jQuery(this).removeClass("parent-number"+itemNumber);
+		itemNumber -= 1;
+		jQuery(this).addClass("parent-number"+itemNumber);
+
+		itemLabel.text("Item "+itemNumber).attr("for","list_item"+itemNumber);
+		itemInput.attr("id","list_item"+itemNumber);
+
+	});
+	jQuery(this).parent().remove();
+
 }
