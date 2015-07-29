@@ -116,7 +116,7 @@ var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field
 var fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //CHECKBOX
-var fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
+var fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10" for="check_box_'+checkbox_field_instance+'">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
 
 //RADIO BUTTON
 var fcp_radiobutton_field = '<div class="radio_field" id="radio_but_'+radio_field_instance+'"><label class="radio_label col-sm-10" for="radio_but_'+radio_field_instance+'">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
@@ -251,7 +251,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		inputType = "checkbox";
 
 		checkbox_field_instance += 1;
-		fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
+		fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10" for="check_box_'+checkbox_field_instance+'">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
 	}
 
 	else if(jQuery(this).text()== 'Radio Button'){
@@ -422,7 +422,7 @@ function saveButtonHandler (){
 
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
-	alert("Saved !!>");
+	alert("Saved !!");
 	jQuery("button#discardButton").off("click");
 	jQuery("input#range_active").off("click");
 	//fcp_numeric_range_activator();
@@ -489,6 +489,8 @@ function editFieldOptions(title,type,field,inputID){
 
 	jQuery(name_field_options).prependTo("div#fieldOptions");
 
+
+	options.label = [inputID,title]; // Specifying the label target and data to be passed to discardButton handler
 
 	if (type == "text" || type == "number" || type === "date" || type == "password" || type == "email" || type == "file" || type == "time")
 	{
@@ -793,8 +795,8 @@ function editFieldOptions(title,type,field,inputID){
 				}
 
 				jQuery("div#"+inputID).attr("id",field_id);
-
-				jQuery("div#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
+				inputID = field_id;
+				jQuery("div#"+field_id).children("label:first").attr("for",field_id);
 
 			}
 
