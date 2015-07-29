@@ -119,7 +119,7 @@ var fcp_select_field = '<div class="form-group"><label for="Select-field'+select
 var fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4” name=“check"">Checkbox</label></div></div></div>';
 
 //RADIO BUTTON
-var fcp_radiobutton_field = '<div class="radio_field"><label class="radio_label col-sm-10">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent());" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
+var fcp_radiobutton_field = '<div class="radio_field" id="radio_but_'+radio_field_instance+'"><label class="radio_label col-sm-10" for="radio_but_'+radio_field_instance+'">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
 
 //EMAIL
 var fcp_email_field = '<div class="form-group"><label for="Email-field'+email_field_instance+'" class="col-sm-3 control-label">Email</label><div class="col-sm-6 input-container"><input type="email" class="form-control" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
@@ -158,7 +158,7 @@ var number_field_options = '<label>Field Name: </label><input id="field-name-opt
 field_options.number = '<div class="form-group"><label class="col-sm-3 control-label">Max</label><input type="number" id="num-max" class="col-sm-3"></div>';
 
 //RADIO OPTION
-var radio_add_options = '<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div>';
+var radio_add_options = '<div class = "radiobutton col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
 var radio_add_button = '<button type="button" name="radio" class="radio_add">Add option</button>';
 field_options.radio = '<button type="button" name="radio" class="radio_add">Add option</button>';
@@ -257,6 +257,9 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	else if(jQuery(this).text()== 'Radio Button'){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_radiobutton_field);
 		inputType = "radio";
+
+		radio_field_instance += 1;
+		fcp_radiobutton_field = '<div class="radio_field" id="radio_but_'+radio_field_instance+'"><label class="radio_label col-sm-10" for="radio_but_'+radio_field_instance+'">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="col-sm-4">Radio</label></div></div></div>';
 	}
 
 	else if(jQuery(this).text()== 'Email'){
@@ -290,6 +293,8 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	if ( jQuery(this).text() == 'Radio Button' ){ // special case for radio button
 		addedField = jQuery("div.radio_field:last");
+
+		fieldID = addedField.attr("id");
 	}
 
 	else if( jQuery(this).text() == 'Checkbox' ){ // special case for checkbox
@@ -624,14 +629,97 @@ function editFieldOptions(title,type,field,inputID){
 	}
 
 	else if (type == "radio"){
-	//	jQuery(name_field_options).prependTo("div#fieldOptions");
 
-	// The next line to be activated again once the fieldOptions are set
-	//jQuery(field_options[type]).appendTo("div#fieldOptions");
-		jQuery(radio_add_button).appendTo("div#fieldOptions");
+		// jQuery(radio_add_button).appendTo("div#fieldOptions");
+		// jQuery(".radio_add").click(function() {
+		// 	jQuery("div.radio:last").after(radio_add_options);
+		// });
+	jQuery(radio_add_button).appendTo("div#fieldOptions");
+
+		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
+
+		jQuery("input#field-name-option").val(field_name_trim);
+
 		jQuery(".radio_add").click(function() {
-			jQuery("div.radio:last").after(radio_add_options);
+			jQuery("div#custom-slug").before(radio_add_options);
+			fcp_deleteField();
 		});
+
+		var radio_n = 0;
+		var radio_form_prev = jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n);
+		var radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n)).text();
+		while(radio_form_prev)
+		{
+			if(jQuery(jQuery("div#"+inputID+" div.form-group div.radio label input").get(radio_n)).attr("checked") == "checked")
+			{
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2" checked>Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");				
+			}
+			//console.log(radio_label_prev);
+			else
+			{
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");				
+			}
+
+			jQuery(jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_n)).val(radio_label_prev);
+
+			radio_n++;
+			radio_form_prev = jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n);
+			radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n)).text();
+		}
+		fcp_deleteField();
+
+		jQuery("button#saveButton").one("click", function(){
+
+			jQuery("div#"+inputID+" div.form-group div.radio").remove();
+
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+
+
+
+			var radio_i = 0;
+			var radio_add_loop = jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_i);
+			while(radio_add_loop)
+			{	
+				if(jQuery(jQuery("div#fieldOptions div.input-container div.radio label input").get(radio_i)).attr("checked") == "checked")
+				{
+					jQuery('<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input type="radio" class="col-sm-4" name="'+inputID+'_radio" checked>'+jQuery(jQuery("input.field-option-add").get(radio_i)).val()+'</label></div>').appendTo("div#"+inputID+" div.form-group");
+				}
+
+				else
+				{
+					jQuery('<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input type="radio" class="col-sm-4" name="'+inputID+'_radio">'+jQuery(jQuery("input.field-option-add").get(radio_i)).val()+'</label></div>').appendTo("div#"+inputID+" div.form-group");
+
+				}
+
+				radio_i++;
+				radio_add_loop = jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_i);
+			}
+
+
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+
+				if(slug_val)
+				{
+					jQuery("div#"+inputID).addClass(slug_val);
+				}
+
+
+			if(field_id.split('_app')[0] != jQuery("div#"+inputID).attr("id").split('_app')[0])
+			{
+				while(jQuery("div[id='"+field_id+"']").length>0)
+				{
+					field_id_num++;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+				}
+
+				jQuery("div#"+inputID).attr("id",field_id);
+
+				jQuery("div#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
+
+			}
+
+		});
+
 
 	}
 
