@@ -19,3 +19,7 @@ p#list_options_title {
 input.select-opt-input {
 	margin-bottom: 10px;
 }
+
+div#checkbox_add{
+	padding: 10px;
+}
