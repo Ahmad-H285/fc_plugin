@@ -654,12 +654,12 @@ function editFieldOptions(title,type,field,inputID){
 		{
 			if(jQuery(jQuery("div#"+inputID+" div.form-group div.radio label input").get(radio_n)).attr("checked") == "checked")
 			{
-				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2" checked>Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");				
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2" checked>Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
 			}
 			//console.log(radio_label_prev);
 			else
 			{
-				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");				
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
 			}
 
 			jQuery(jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_n)).val(radio_label_prev);
@@ -681,7 +681,7 @@ function editFieldOptions(title,type,field,inputID){
 			var radio_i = 0;
 			var radio_add_loop = jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_i);
 			while(radio_add_loop)
-			{	
+			{
 				if(jQuery(jQuery("div#fieldOptions div.input-container div.radio label input").get(radio_i)).attr("checked") == "checked")
 				{
 					jQuery('<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input type="radio" class="col-sm-4" name="'+inputID+'_radio" checked>'+jQuery(jQuery("input.field-option-add").get(radio_i)).val()+'</label></div>').appendTo("div#"+inputID+" div.form-group");
@@ -715,8 +715,8 @@ function editFieldOptions(title,type,field,inputID){
 				}
 
 				jQuery("div#"+inputID).attr("id",field_id);
-
-				jQuery("div#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
+				inputID = field_id;
+				jQuery("div#"+field_id).children("label:first").attr("for",field_id);
 
 			}
 
