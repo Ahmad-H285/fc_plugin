@@ -39,7 +39,7 @@ function fcp_application_page()
 
 			<div class="col-sm-7">
 				<form action="" method="POST" class="form-horizontal" id="fcp_application_preview" style="padding: 30px; border: 1px solid #888; box-shadow: 10px 10px 5px #888;">
-
+					
 					<div class="form-group">
 						<label for="app_form_name" class="col-sm-10"><h3>Form Name</h3></label>
 						<div class="col-sm-10">

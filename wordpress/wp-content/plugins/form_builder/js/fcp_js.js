@@ -31,6 +31,14 @@ jQuery(document).ready(function(){
 
 function fcp_deleteField(){
 
+	
+	jQuery("button.pass_close").click(function(){
+		if((jQuery(this).parent().next().text()) == "Password Confirmation")
+		{
+			jQuery(this).parent().next().remove();
+			jQuery(this).parent().remove();
+		}
+	});
 	jQuery("form button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
 		jQuery(this).parent().remove();
 		jQuery("div#edit_field_content").removeClass("show").addClass("hidden");
@@ -49,6 +57,8 @@ function fcp_deleteField(){
 	jQuery("div#edit_field_content button.close").click(function(){ // deletes a field when it's 'x' icon is clicked
 		jQuery(this).parent().remove();
 	});
+
+	
 }
 
 function fcp_check_deleteField(){
@@ -125,7 +135,7 @@ var fcp_radiobutton_field = '<div class="radio_field" id="radio_but_'+radio_fiel
 var fcp_email_field = '<div class="form-group"><label for="Email-field'+email_field_instance+'" class="col-sm-3 control-label">Email</label><div class="col-sm-6 input-container"><input type="email" class="form-control" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //PASSWORD
-var fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+var fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="pass_close close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //TEXT AREA
 var fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
@@ -172,6 +182,10 @@ var check_add_options = '<div class = "checkbox col-sm-10 input-container" id="c
 
 var check_add_button = '<button type="button" name="check" class="check_add">Add option</button>';
 field_options.checkbox = '<button type="button" name="check" class="check_add">Add option</button>';
+
+//PASSWORD OPTIONS
+field_options.password = '<div id="form-pass" class="form-group"><div class="check_field" id="pass_vis_opt"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="pass_vis">Password Visibility</label></div></div><div class="check_field" id="pass_conf_opt"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="pass_conf">Password Confirmation</label></div></div></div>';
+var pass_vis_but = '<div class="col-sm-offset-3 col-sm-5" id="fcp_show_pass"><button type="button" class="btn btn-primary btn-sm" style="margin: 5px">Show Password</button</div>';
 
 //NUMERIC OPTIONS
 var range_activ_field_options = '<div class="form-group"><div class = "checkbox col-sm-10 num-range" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="range" id="range_active">Character Length</label></div></div>';
@@ -273,7 +287,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_password_field);
 		inputType = "password";
 		password_field_instance +=1;
-		fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+		fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close pass_close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Text Area'){
@@ -540,7 +554,7 @@ function editFieldOptions(title,type,field,inputID){
 
 			}
 
-			else if (type == "text")
+			else if ( type == "text" )
 			{
 			 // do specific stuff for text fields after setting their IDs
 			}
@@ -554,6 +568,20 @@ function editFieldOptions(title,type,field,inputID){
 					jQuery("input#"+inputID).attr("max", max_num_field);
 				}
 
+			}
+
+			else if ( type == "password" )
+			{
+				if((jQuery("div#fieldOptions div#pass_vis_opt div.checkbox label input").attr("checked")) == "checked")
+				{
+					jQuery("input#"+inputID).parents("div.form-group").append(pass_vis_but);
+				}
+				//fcp_formSubmitHandler();
+				if((jQuery("div#fieldOptions div#pass_conf_opt div.checkbox label input").attr("checked")) == "checked")
+				{
+					jQuery("input#"+inputID).parents("div.form-group").after('<div class="form-group"><label for="Password-field" class="col-sm-3 control-label">Password Confirmation</label><div class="col-sm-6 input-container"><input type="password" class="form-control pass_conf_input" id="Password-field" placeholder="Password"></div>');
+				}
+					fcp_formSubmitHandler();
 			}
 		});
 	}
@@ -905,28 +933,7 @@ jQuery("input#required-option").click({label: field.children("label"), input: in
 
 }
 
-/*
-	fcp_formSubmit function handles the submission of the form
-	used it here only for testing it should only be used on the front end.
-	1- Check that all required fields are filled, if not do not submit
-	2-
-*/
-function fcp_formSubmitHandler(event) {
-	var fields =  jQuery(".fcp-required-input");
-	var empty_fields = 0;
-	// Check required fields
-	jQuery.each(fields,function(index, field){
-		if ( !jQuery(field).val() ) { // if field is empty
-			empty_fields += 1;
-			console.log("Empty Field Found")
-		}
-		if (empty_fields > 0){
-			event.preventDefault();
-			return empty_fields;
-		}
-	});
 
-}
 
 /*
 	The following function handles altering the options of the time picker
@@ -982,3 +989,40 @@ function removeListItem(event){ // deletes a field when it's 'x' icon is clicked
 	jQuery(this).parent().remove();
 
 }
+
+// This will be the functions executed for the form elements in the front end
+
+/*
+	fcp_formSubmit function handles the submission of the form
+	used it here only for testing it should only be used on the front end.
+	1- Check that all required fields are filled, if not do not submit
+	2-
+*/
+function fcp_formSubmitHandler(event) {
+	var fields =  jQuery(".fcp-required-input");
+	var empty_fields = 0;
+	// Check required fields
+	jQuery.each(fields,function(index, field){
+		if ( !jQuery(field).val() ) { // if field is empty
+			empty_fields += 1;
+			console.log("Empty Field Found")
+		}
+		if (empty_fields > 0){
+			event.preventDefault();
+			return empty_fields;
+		}
+	});
+
+	jQuery("div#fcp_show_pass button.btn").one("click",function(){
+		jQuery("div#fcp_show_pass button.btn").parent().prev().prev().prev("div.input-container:first").children(" input").attr("type","text");
+	});
+
+	jQuery("input.pass_conf_input").blur(function(){
+		if((jQuery(this).val()) != jQuery(this).parent().parent().prev().children("div.input-container").children("input").val())
+		{
+			alert("Password does not match password confirmation ");
+		}
+	});
+
+}
+
