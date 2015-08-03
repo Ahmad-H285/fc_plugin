@@ -572,19 +572,61 @@ function editFieldOptions(title,type,field,inputID){
 
 			else if ( type == "password" )
 			{
+				
+
 				if((jQuery("div#fieldOptions div#pass_vis_opt div.checkbox label input").attr("checked")) == "checked")
 				{
-					jQuery("input#"+inputID).parents("div.form-group").append(pass_vis_but);
+					if(!(jQuery("input#"+inputID).parent().parent().children("div#fcp_show_pass").length > 0))
+					{
+						jQuery("input#"+inputID).parents("div.form-group").append(pass_vis_but);
+					}
+				}
+
+				else
+				{
+					if(jQuery("input#"+inputID).parent().parent().children("div#fcp_show_pass").length > 0)
+					{
+						jQuery("input#"+inputID).parent().parent().children("div#fcp_show_pass").remove();
+					}
 				}
 				//fcp_formSubmitHandler();
 				if((jQuery("div#fieldOptions div#pass_conf_opt div.checkbox label input").attr("checked")) == "checked")
 				{
-					jQuery("input#"+inputID).parents("div.form-group").after('<div class="form-group"><label for="Password-field" class="col-sm-3 control-label">Password Confirmation</label><div class="col-sm-6 input-container"><input type="password" class="form-control pass_conf_input" id="Password-field" placeholder="Password"></div>');
+					if(!(jQuery("input#"+inputID).parent().parent().next().children("div.input-container").children("input.pass_conf_input").length > 0))
+					{
+						jQuery("input#"+inputID).parents("div.form-group").after('<div class="form-group"><label for="Password-field" class="col-sm-3 control-label">Password Confirmation</label><div class="col-sm-6 input-container"><input type="password" class="form-control pass_conf_input" id="Password-field" placeholder="Password"></div>');					
+					}
 				}
-					fcp_formSubmitHandler();
+
+				else
+				{
+					if(jQuery("input#"+inputID).parent().parent().next().children("div.input-container").children("input.pass_conf_input").length > 0)
+					{
+						jQuery("input#"+inputID).parent().parent().next().remove();
+					}
+				}
+				
+				fcp_formSubmitHandler();
+				
 			}
 		});
+	
+		if ( type == "password" )
+		{
+			if(jQuery("input#"+inputID).parent().parent().children("div#fcp_show_pass").length > 0)
+			{
+				jQuery("div#fieldOptions div#form-pass div#pass_vis_opt label input").attr("checked",true);
+			}
+
+			if(jQuery("input#"+inputID).parent().parent().next().children("div.input-container").children("input.pass_conf_input").length > 0)
+			{
+				jQuery("div#fieldOptions div#form-pass div#pass_conf_opt label input").attr("checked",true);
+			}	
+		}
+	
+	
 	}
+
 	else if (type == "select"){
 //		jQuery(name_field_options).prependTo("div#fieldOptions");
 
@@ -1013,8 +1055,17 @@ function fcp_formSubmitHandler(event) {
 		}
 	});
 
-	jQuery("div#fcp_show_pass button.btn").one("click",function(){
-		jQuery("div#fcp_show_pass button.btn").parent().prev().prev().prev("div.input-container:first").children(" input").attr("type","text");
+	jQuery("div#fcp_show_pass button.btn").off("click").on("click",function(){
+		if((jQuery(this).parent().parent().children("div.input-container").children("input").attr("type")) == "password")
+		{
+			jQuery(this).parent().parent().children("div.input-container").children("input").attr("type","text");	
+		}
+
+		else if((jQuery(this).parent().parent().children("div.input-container").children("input").attr("type")) == "text")
+		{
+			jQuery(this).parent().parent().children("div.input-container").children("input").attr("type","password");
+		}
+		
 	});
 
 	jQuery("input.pass_conf_input").blur(function(){
