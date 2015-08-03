@@ -27,7 +27,43 @@ jQuery(document).ready(function(){
 	fcp_deleteField(); // to invoke the click event handler function below
 	//jQuery("button.fcp_submitButton").click(fcp_formSubmitHandler); testing to make sure it works
 
+	jQuery("button#save_fcp_form").click(saveForm);
+	// get the text of the submit button and display it in the submit button text field input
+	var submit_button_text = jQuery("button.fcp_submitButton").text();
+	jQuery("input#submit-button-text").val(submit_button_text).on("keyup",updateSubmitButtonText);
+
 });
+
+/*
+	The following function handles updating the value of the submit button text
+*/
+
+function updateSubmitButtonText(event){
+	var desiredText = jQuery(this).val();
+	var button = jQuery("button.fcp_submitButton");
+
+	button.text(desiredText);
+}
+
+
+/*
+	The following function handles preparation for the form to be saved
+*/
+
+function saveForm(event){
+	formName = jQuery("input#fcp-form-name").val();
+	if ( !formName ) { // form name is empty
+		event.preventDefault();
+		alert("Write a name for the form first !!");
+	}
+	else {
+		jQuery("button.close, a.col-sm-1:contains('Edit')").remove();
+		var form = jQuery("div.form-sketch").html().replace(/\"/g,"&quot;"); // get the form elements and convert the each quote
+		jQuery("input[name='fcp']").attr("value",form);
+	}
+
+
+}
 
 function fcp_deleteField(){
 
@@ -120,7 +156,7 @@ var fcp_numeric_field = '<div class="form-group"><label for="Number-field'+numer
 var fcp_date_field = '<div class="form-group"><label for="Date-field'+date_picker_instance+'" class="col-sm-3 control-label">Date</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Date-field'+date_picker_instance+'" placeholder="DD/MM/YY"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //TIME PICKER
-var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time Picker</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" max="12" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" max="59" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+var fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time Picker</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" min="0" id="Time-field'+time_field_instance+'" placeholder="hrs" max="12" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" min="0" id="Time-field'+time_field_instance+'" placeholder="mins" max="59" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //SELECT MENU
 var fcp_select_field = '<div class="form-group"><label for="Select-field'+select_field_instance+'" class="col-sm-3 control-label">Select Menu</label><div class="col-sm-6 input-container"><select class="form-control" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
@@ -248,7 +284,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_time_field);
 		inputType = "time";
 		time_field_instance += 1;
-		fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time Picker</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="hrs" max="12" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" id="Time-field'+time_field_instance+'" placeholder="mins" max="59" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+		fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time Picker</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" min="0" id="Time-field'+time_field_instance+'" placeholder="hrs" max="12" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" min="0" id="Time-field'+time_field_instance+'" placeholder="mins" max="59" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Select Menu'){
@@ -724,12 +760,12 @@ function editFieldOptions(title,type,field,inputID){
 		{
 			if(jQuery(jQuery("div#"+inputID+" div.form-group div.radio label input").get(radio_n)).attr("checked") == "checked")
 			{
-				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2" checked>Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");				
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2" checked>Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
 			}
 			//console.log(radio_label_prev);
 			else
 			{
-				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");				
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
 			}
 
 			jQuery(jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_n)).val(radio_label_prev);
@@ -751,7 +787,7 @@ function editFieldOptions(title,type,field,inputID){
 			var radio_i = 0;
 			var radio_add_loop = jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_i);
 			while(radio_add_loop)
-			{	
+			{
 				if(jQuery(jQuery("div#fieldOptions div.input-container div.radio label input").get(radio_i)).attr("checked") == "checked")
 				{
 					jQuery('<div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input type="radio" class="col-sm-4" name="'+inputID+'_radio" checked>'+jQuery(jQuery("input.field-option-add").get(radio_i)).val()+'</label></div>').appendTo("div#"+inputID+" div.form-group");
@@ -785,8 +821,8 @@ function editFieldOptions(title,type,field,inputID){
 				}
 
 				jQuery("div#"+inputID).attr("id",field_id);
-
-				jQuery("div#"+field_id).attr("id",field_id).parent(".input-container").prev("label").attr("for",field_id);
+				inputID = field_id;
+				jQuery("div#"+field_id).children("label:first").attr("for",field_id);
 
 			}
 

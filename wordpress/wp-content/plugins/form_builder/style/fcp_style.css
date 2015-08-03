@@ -27,3 +27,14 @@ div#checkbox_add{
 div#radiobut_add{
 	padding: 10px;
 }
+
+#fcp_application_preview {
+	padding: 30px;
+	border: 1px solid #888;
+	box-shadow: 10px 10px 5px #888;
+}
+
+div.form-sketch {
+	box-shadow: 0px 0px 3px 3px #E5E5E5;
+	padding: 25px 50px 25px 25px;
+}
