@@ -27,7 +27,43 @@ jQuery(document).ready(function(){
 	fcp_deleteField(); // to invoke the click event handler function below
 	//jQuery("button.fcp_submitButton").click(fcp_formSubmitHandler); testing to make sure it works
 
+	jQuery("button#save_fcp_form").click(saveForm);
+	// get the text of the submit button and display it in the submit button text field input
+	var submit_button_text = jQuery("button.fcp_submitButton").text();
+	jQuery("input#submit-button-text").val(submit_button_text).on("keyup",updateSubmitButtonText);
+
 });
+
+/*
+	The following function handles updating the value of the submit button text
+*/
+
+function updateSubmitButtonText(event){
+	var desiredText = jQuery(this).val();
+	var button = jQuery("button.fcp_submitButton");
+
+	button.text(desiredText);
+}
+
+
+/*
+	The following function handles preparation for the form to be saved
+*/
+
+function saveForm(event){
+	formName = jQuery("input#fcp-form-name").val();
+	if ( !formName ) { // form name is empty
+		event.preventDefault();
+		alert("Write a name for the form first !!");
+	}
+	else {
+		jQuery("button.close, a.col-sm-1:contains('Edit')").remove();
+		var form = jQuery("div.form-sketch").html().replace(/\"/g,"&quot;"); // get the form elements and convert the each quote
+		jQuery("input[name='fcp']").attr("value",form);
+	}
+
+
+}
 
 function fcp_deleteField(){
 
