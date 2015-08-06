@@ -32,6 +32,9 @@ function fcp_application_page()
 	wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
 
 	//$fcp_default_app_form= '
+	fcp_fields_panel();
+	fcp_fields_options();
+
 	?>
 			<div class="container-fluid">
 			<div class="row">
@@ -109,20 +112,134 @@ function fcp_application_page()
 						</div>
 
 					  <div class="form-group">
-					      <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
+					    <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
 					    <div class="col-sm-6 input-container">
 					      <input type="file" id="app_attachment">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
-
-					   <div class="form-group">
+						
+					  <div class="form-group">
 					    <div class="col-sm-offset-3 col-sm-3">
 					      <button type="" class="btn btn-default fcp_submitButton" disabled>Submit</button>
 					    </div>
 					  </div>
 						</div>
+
+						<!-- Form Options Panel -->
+						<div class="panel-group container col-sm-12" id="accordion" role="tablist" aria-multiselectable="true" style="padding: 0">
+  							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingOne">
+		     			 			<h4 class="panel-title">
+		        						<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Backend Email Notification</a>
+		      						</h4>
+		    					</div>
+								
+								<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      								<div class="panel-body">
+      									<div class="text-center">
+      										<!-- Send to email checkbox -->
+											<div class="check_field" id="email_options">
+												<div class="form-group">
+													<div class = "checkbox col-sm-4" style="padding-top:0">
+														<label><input type="checkbox" class="col-sm-4" name="send-to-check">Backend Notification</label>
+													</div>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="fcp_wp_users" class="col-sm-3 control-label">Backend Users</label>
+												<div class="col-sm-6">
+													<select class="form-control" id="fcp_wp_users">
+														<option>Other Users</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="fcp_custon_from_email" class="col-sm-3 control-label">Custom From Email</label>
+												<div class="col-sm-6">
+													<input type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
+												<div class="col-sm-6">
+													<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
+												<div class="col-sm-6">
+													<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
+												</div>
+											</div>
+											<!-- End Send to email checkbox -->
+      									</div>
+      								</div>
+      							</div>
+
+
+      						</div>
+
+      						<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingTwo">
+		     			 			<h4 class="panel-title">
+		        						<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">User Email Notification</a>
+		      						</h4>
+		    					</div>
+								
+								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      								<div class="panel-body">
+      									<div class="text-center">
+      										<!-- Send to email checkbox -->
+											<div class="check_field" id="email_options">
+												<div class="form-group">
+													<div class = "checkbox col-sm-4" style="padding-top:0">
+														<label><input type="checkbox" class="col-sm-4" name="send-to-check">User Notification</label>
+													</div>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
+												<div class="col-sm-6">
+													<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
+												<div class="col-sm-6">
+													<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
+												</div>
+											</div>
+											<!-- End Send to email checkbox -->
+      									</div>
+      								</div>
+      							</div>
+
+      							
+      						</div>
+      					</div>		
+						<!-- End of Form Options panel -->	
 						<div class="row" style="padding: 20px">
 							<button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button>
 						</div>
@@ -139,8 +256,8 @@ function fcp_application_page()
 
 			echo $app_form;
 --> <?php
-			fcp_fields_panel();
-			fcp_fields_options();
+			fcp_scripts();
+			//fcp_fields_panel();
 
 			if (wp_verify_nonce($nonce,'form-builder-sub')) {
 				if ($_POST['form-name']){

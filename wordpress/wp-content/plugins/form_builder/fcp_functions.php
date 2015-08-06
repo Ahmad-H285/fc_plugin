@@ -17,10 +17,10 @@ function fcp_scripts()
 function fcp_fields_panel()
 {
 	?>
-	<div class="col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: -550px">
+	<div class="fcp_panel col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 360px; position: absolute">
 		<h4><strong>Available Fields</strong></h4>
 	</div>
-	<div class="col-md-3 col-md-push-4" id="fields-panel" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: -500px">
+	<div class="col-md-3 col-md-push-4" id="fields-panel" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: 410px; position: absolute">
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Numeric</button>
 		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Date Picker</button>
@@ -40,9 +40,9 @@ function fcp_fields_panel()
 function fcp_fields_options()
 {
 	?>
-	<div class="col-md-4 text-center col-md-push-4 hidden" id="edit_field_title" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: -250px">
+	<div class="col-md-4 text-center col-md-push-4 hidden" id="edit_field_title" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 720px; position: absolute">
 	</div>
-	<div class="col-md-4 col-md-push-4 hidden" id="edit_field_content" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: -200px; ">
+	<div class="col-md-4 col-md-push-4 hidden" id="edit_field_content" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: 770px; position: absolute">
 		<div id="fieldOptions" class="form-horizontal"></div><div><button type="button" class="btn btn-primary" id="saveButton" style="margin: 15px" onclick="">Save</button><button type="button" class="btn btn-danger" id="discardButton" style="margin: 15px" onclick="">Discard</button></div>
 	</div>
 	<?php

@@ -258,21 +258,21 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	if(jQuery(this).text() == 'Text'){
 
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_text_field);
+		jQuery("div.form-sketch div.form-group:last").before(fcp_text_field);
 		inputType = "text";
 		text_field_instance +=1; // increment counter and then re define the variable with new counter value
 		fcp_text_field = '<div class="form-group"><label for="Text-field'+text_field_instance+'" class="col-sm-3 control-label">Text</label><div class="col-sm-6 input-container"><input type="text" class="form-control" id="Text-field'+text_field_instance+'" placeholder="Text"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Numeric'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_numeric_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_numeric_field);
 		inputType = "number";
 		numeric_field_instance +=1;
 		fcp_numeric_field = '<div class="form-group"><label for="Number-field'+numeric_field_instance+'" class="col-sm-3 control-label">Numeric Field </label><div class="col-sm-6 input-container"><input type="number" class="form-control" id="Number-field'+numeric_field_instance+'" placeholder=""></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;number&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Date Picker'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_date_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_date_field);
 		jQuery("#Date-field"+date_picker_instance).datepicker();
 		inputType = "date";
 		date_picker_instance += 1;
@@ -281,14 +281,14 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	}
 
 	else if(jQuery(this).text()== 'Time Picker'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_time_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_time_field);
 		inputType = "time";
 		time_field_instance += 1;
 		fcp_time_field = '<div class="form-group"><label for="Time-field'+time_field_instance+'" class="col-sm-3 control-label">Time Picker</label><div class="col-sm-6 input-container"><input type="number" class="form-control col-sm-3" min="0" id="Time-field'+time_field_instance+'" placeholder="hrs" max="12" style="width: 70px"><label class="col-sm-1 control-label"> : </label><input type="number" class="form-control col-sm-3" min="0" id="Time-field'+time_field_instance+'" placeholder="mins" max="59" style="width: 70px"><select class="form-control col-sm-2" style="width:50px; margin-left:15px"><option>AM</option><option>PM</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Select Menu'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_select_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_select_field);
 		inputType = "select";
 
 		select_field_instance +=1;
@@ -297,7 +297,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	}
 
 	else if(jQuery(this).text()== 'Checkbox'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_checkbox_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_checkbox_field);
 		inputType = "checkbox";
 
 		checkbox_field_instance += 1;
@@ -305,7 +305,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	}
 
 	else if(jQuery(this).text()== 'Radio Button'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_radiobutton_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_radiobutton_field);
 		inputType = "radio";
 
 		radio_field_instance += 1;
@@ -313,27 +313,27 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	}
 
 	else if(jQuery(this).text()== 'Email'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_email_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_email_field);
 		inputType = "email";
 		email_field_instance +=1;
 		fcp_email_field = '<div class="form-group"><label for="Email-field'+email_field_instance+'" class="col-sm-3 control-label">Email</label><div class="col-sm-6 input-container"><input type="email" class="form-control" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Password'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_password_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_password_field);
 		inputType = "password";
 		password_field_instance +=1;
 		fcp_password_field = '<div class="form-group"><label for="Password-field'+password_field_instance+'" class="col-sm-3 control-label">Password</label><div class="col-sm-6 input-container"><input type="password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="close pass_close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 
 	else if(jQuery(this).text()== 'Text Area'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_textArea_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_textArea_field);
 		inputType = "textarea";
 		textarea_field_instance +=1;
 		fcp_textArea_field = '<div class="form-group"><label for="Textarea-field'+textarea_field_instance+'" class="col-sm-3 control-label">Text Area</label><div class="col-sm-6 input-container"><textarea rows="4" cols="50" class="form-control" style="resize: none" id="Textarea-field'+textarea_field_instance+'"></textarea></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 	}
 	else if(jQuery(this).text()== 'File'){
-		jQuery("form#fcp_application_preview div.form-group:last").before(fcp_fileSelect_field);
+		jQuery("div.form-sketch  div.form-group:last").before(fcp_fileSelect_field);
 		inputType = "file";
 
 		file_field_instance +=1;
@@ -359,19 +359,19 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 
 	else if(jQuery(this).text()== 'Select Menu')
 	{
-		addedField = jQuery("form#fcp_application_preview div.form-group:last").prev();
+		addedField = jQuery("div.form-sketch  div.form-group:last").prev();
 		fieldID = jQuery(addedField).children(".input-container").children("select").attr("id");
 	}
 
 	else if(jQuery(this).text()== 'Text Area')
 	{
-		addedField = jQuery("form#fcp_application_preview div.form-group:last").prev();
+		addedField = jQuery("div.form-sketch  div.form-group:last").prev();
 		fieldID = jQuery(addedField).children(".input-container").children("textarea").attr("id");
 	}
 
 	else
 	{
-		addedField = jQuery("form#fcp_application_preview div.form-group:last").prev();
+		addedField = jQuery("div.form-sketch  div.form-group:last").prev();
 		fieldID = jQuery(addedField).children(".input-container").children("input").attr("id");
 	}
 
