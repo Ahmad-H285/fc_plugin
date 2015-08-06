@@ -32,6 +32,8 @@ jQuery(document).ready(function(){
 	var submit_button_text = jQuery("button.fcp_submitButton").text();
 	jQuery("input#submit-button-text").val(submit_button_text).on("keyup",updateSubmitButtonText);
 
+	jQuery("select#backend_users_list").addClass("form-control").append("<option>Other</option>");
+
 });
 
 /*

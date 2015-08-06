@@ -143,45 +143,44 @@ function fcp_application_page()
 											<div class="check_field" id="email_options">
 												<div class="form-group">
 													<div class = "checkbox col-sm-4" style="padding-top:0">
-														<label><input type="checkbox" class="col-sm-4" name="send-to-check">Backend Notification</label>
+														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-check">Backend Notification</label>
 													</div>
 												</div>
 											</div>
-											
-											<div class="form-group">
-												<label for="fcp_wp_users" class="col-sm-3 control-label">Backend Users</label>
-												<div class="col-sm-6">
-													<select class="form-control" id="fcp_wp_users">
-														<option>Other Users</option>
-													</select>
+											<div class = "fcp_email_not_opt">
+												<div class="form-group">
+													<label for="fcp_wp_users" class="col-sm-3 control-label">Backend Users</label>
+													<div class="col-sm-6">
+														<?php wp_dropdown_users( array('name' => 'backend_users_list') ); ?>
+													</div>
 												</div>
-											</div>
 
-											<div class="form-group">
-												<label for="fcp_custon_from_email" class="col-sm-3 control-label">Custom From Email</label>
-												<div class="col-sm-6">
-													<input type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
+												<div class="form-group">
+													<label for="fcp_custon_from_email" class="col-sm-3 control-label">Custom From Email</label>
+													<div class="col-sm-6">
+														<input type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
+													</div>
 												</div>
-											</div>
-											
-											<div class="form-group">
-												<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
-												<div class="col-sm-6">
-													<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
+												
+												<div class="form-group">
+													<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
+													<div class="col-sm-6">
+														<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
+													</div>
 												</div>
-											</div>
-											
-											<div class="form-group">
-												<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
-												<div class="col-sm-6">
-													<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
+												
+												<div class="form-group">
+													<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
+													</div>
 												</div>
-											</div>
 
-											<div class="form-group">
-												<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
-												<div class="col-sm-6">
-													<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
+												<div class="form-group">
+													<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
+													<div class="col-sm-6">
+														<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea> 
+													</div>
 												</div>
 											</div>
 											<!-- End Send to email checkbox -->
@@ -206,29 +205,31 @@ function fcp_application_page()
 											<div class="check_field" id="email_options">
 												<div class="form-group">
 													<div class = "checkbox col-sm-4" style="padding-top:0">
-														<label><input type="checkbox" class="col-sm-4" name="send-to-check">User Notification</label>
+														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-check">User Notification</label>
 													</div>
 												</div>
 											</div>
 											
-											<div class="form-group">
-												<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
-												<div class="col-sm-6">
-													<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
+											<div class = "fcp_email_not_opt">
+												<div class="form-group">
+													<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
+													<div class="col-sm-6">
+														<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
+													</div>
 												</div>
-											</div>
-											
-											<div class="form-group">
-												<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
-												<div class="col-sm-6">
-													<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
+												
+												<div class="form-group">
+													<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
+													</div>
 												</div>
-											</div>
 
-											<div class="form-group">
-												<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
-												<div class="col-sm-6">
-													<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
+												<div class="form-group">
+													<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
+													<div class="col-sm-6">
+														<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
+													</div>
 												</div>
 											</div>
 											<!-- End Send to email checkbox -->
