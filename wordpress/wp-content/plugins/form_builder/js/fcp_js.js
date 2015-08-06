@@ -32,7 +32,9 @@ jQuery(document).ready(function(){
 	var submit_button_text = jQuery("button.fcp_submitButton").text();
 	jQuery("input#submit-button-text").val(submit_button_text).on("keyup",updateSubmitButtonText);
 
-	jQuery("select#backend_users_list").addClass("form-control").append("<option>Other</option>");
+	jQuery("select#backend_users_list").addClass("form-control").append("<option>Other ... </option>"); // style the wordpress users select menu and add "Other ..." option
+	jQuery("input.fcp_notification").change(toggleEmail_notificationFields);
+	jQuery("div.fcp_email_not_opt").hide();
 
 });
 
@@ -69,7 +71,7 @@ function saveForm(event){
 
 function fcp_deleteField(){
 
-	
+
 	jQuery("button.pass_close").click(function(){
 		if((jQuery(this).parent().next().text()) == "Password Confirmation")
 		{
@@ -96,7 +98,7 @@ function fcp_deleteField(){
 		jQuery(this).parent().remove();
 	});
 
-	
+
 }
 
 function fcp_check_deleteField(){
@@ -610,7 +612,7 @@ function editFieldOptions(title,type,field,inputID){
 
 			else if ( type == "password" )
 			{
-				
+
 
 				if((jQuery("div#fieldOptions div#pass_vis_opt div.checkbox label input").attr("checked")) == "checked")
 				{
@@ -632,7 +634,7 @@ function editFieldOptions(title,type,field,inputID){
 				{
 					if(!(jQuery("input#"+inputID).parent().parent().next().children("div.input-container").children("input.pass_conf_input").length > 0))
 					{
-						jQuery("input#"+inputID).parents("div.form-group").after('<div class="form-group"><label for="Password-field" class="col-sm-3 control-label">Password Confirmation</label><div class="col-sm-6 input-container"><input type="password" class="form-control pass_conf_input" id="Password-field" placeholder="Password"></div>');					
+						jQuery("input#"+inputID).parents("div.form-group").after('<div class="form-group"><label for="Password-field" class="col-sm-3 control-label">Password Confirmation</label><div class="col-sm-6 input-container"><input type="password" class="form-control pass_conf_input" id="Password-field" placeholder="Password"></div>');
 					}
 				}
 
@@ -643,12 +645,12 @@ function editFieldOptions(title,type,field,inputID){
 						jQuery("input#"+inputID).parent().parent().next().remove();
 					}
 				}
-				
+
 				fcp_formSubmitHandler();
-				
+
 			}
 		});
-	
+
 		if ( type == "password" )
 		{
 			if(jQuery("input#"+inputID).parent().parent().children("div#fcp_show_pass").length > 0)
@@ -659,10 +661,10 @@ function editFieldOptions(title,type,field,inputID){
 			if(jQuery("input#"+inputID).parent().parent().next().children("div.input-container").children("input.pass_conf_input").length > 0)
 			{
 				jQuery("div#fieldOptions div#form-pass div#pass_conf_opt label input").attr("checked",true);
-			}	
+			}
 		}
-	
-	
+
+
 	}
 
 	else if (type == "select"){
@@ -1096,14 +1098,14 @@ function fcp_formSubmitHandler(event) {
 	jQuery("div#fcp_show_pass button.btn").off("click").on("click",function(){
 		if((jQuery(this).parent().parent().children("div.input-container").children("input").attr("type")) == "password")
 		{
-			jQuery(this).parent().parent().children("div.input-container").children("input").attr("type","text");	
+			jQuery(this).parent().parent().children("div.input-container").children("input").attr("type","text");
 		}
 
 		else if((jQuery(this).parent().parent().children("div.input-container").children("input").attr("type")) == "text")
 		{
 			jQuery(this).parent().parent().children("div.input-container").children("input").attr("type","password");
 		}
-		
+
 	});
 
 	jQuery("input.pass_conf_input").blur(function(){
@@ -1115,3 +1117,19 @@ function fcp_formSubmitHandler(event) {
 
 }
 
+/*
+	The following function manages the email notification fields when their respective checkboxes are changed
+*/
+
+function toggleEmail_notificationFields(event){
+	var fcp_email_not_opt;
+	if ( jQuery(this).prop("checked") == true ) {
+		fcp_email_not_opt = jQuery(this).parents("div#email_options").next("div.fcp_email_not_opt");
+		fcp_email_not_opt.slideDown(500);
+	}
+	else {
+		fcp_email_not_opt = jQuery(this).parents("div#email_options").next("div.fcp_email_not_opt");
+		fcp_email_not_opt.slideUp(500);
+	}
+
+}
