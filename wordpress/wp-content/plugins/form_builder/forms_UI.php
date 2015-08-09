@@ -266,13 +266,15 @@ function fcp_application_page()
 				}
 
 				if ($_POST['fcp']){
+					//echo $_POST['fcp'];
+					var_dump($_POST['fcp']);
 					/*
 						we can save the form as it comes already and when we want to render it on the , we must use html_entity_decode
 					*/
 					echo "<form class='form-horizontal'>";
 					echo html_entity_decode($_POST['fcp']);
 					echo "</form>";
-					var_dump (html_entity_decode($_POST['fcp']));
+					//var_dump (html_entity_decode($_POST['fcp']));
 				}
 			}
 
