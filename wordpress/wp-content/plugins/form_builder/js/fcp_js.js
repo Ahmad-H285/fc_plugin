@@ -64,7 +64,7 @@ function saveForm(event){
 	}
 	else {
 		jQuery("button.close, a.col-sm-1:contains('Edit')").remove();
-		var form = jQuery("div.form-sketch").html().replace(/\"/g,"&quot;"); // get the form elements and convert the each quote
+		var form = jQuery("div.form-sketch").html().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); // get the form elements and convert the each quote
 		jQuery("input[name='fcp']").attr("value",form);
 	}
 

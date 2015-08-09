@@ -165,21 +165,21 @@ function fcp_application_page()
 												<div class="form-group">
 													<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
 													<div class="col-sm-6">
-														<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
+														<input type="Text" name="backend-from" class="form-control" id="fcp_email_from" placeholder="From">
 													</div>
 												</div>
 
 												<div class="form-group">
 													<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
 													<div class="col-sm-6">
-														<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
+														<input type="text" name="backend-subject" class="form-control" id="fcp_email_subject" placeholder="Subject">
 													</div>
 												</div>
 
 												<div class="form-group">
 													<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
 													<div class="col-sm-6">
-														<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
+														<textarea name="backend-body" rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
 													</div>
 												</div>
 											</div>
@@ -214,21 +214,21 @@ function fcp_application_page()
 												<div class="form-group">
 													<label for="fcp_user_email_from" class="col-sm-3 control-label">From</label>
 													<div class="col-sm-6">
-														<input type="Text" class="form-control" id="fcp_user_email_from" placeholder="From">
+														<input type="Text" name="user-from" class="form-control" id="fcp_user_email_from" placeholder="From">
 													</div>
 												</div>
 
 												<div class="form-group">
 													<label for="fcp_user_email_subject" class="col-sm-3 control-label">Subject</label>
 													<div class="col-sm-6">
-														<input type="text" class="form-control" id="fcp_user_email_subject" placeholder="Subject">
+														<input type="text" name="user-subject" class="form-control" id="fcp_user_email_subject" placeholder="Subject">
 													</div>
 												</div>
 
 												<div class="form-group">
 													<label for="fcp_user_email_body" class="col-sm-3 control-label">Body</label>
 													<div class="col-sm-6">
-														<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"></textarea>
+														<textarea rows="10" cols="50" name="user-body" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"></textarea>
 													</div>
 												</div>
 											</div>
@@ -260,21 +260,61 @@ function fcp_application_page()
 			fcp_scripts();
 			//fcp_fields_panel();
 
+			//$form_settings = array();  
+
 			if (wp_verify_nonce($nonce,'form-builder-sub')) {
 				if ($_POST['form-name']){
 
 				}
 
+				
 				if ($_POST['fcp']){
-					//echo $_POST['fcp'];
-					var_dump($_POST['fcp']);
+
+					$form_settings = array('form-name' => $_POST['form-name']);
+
+					if($_POST['send-to-backend'])
+					{	
+						$backend_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
+						$form_settings["backend-notifcation"] = $backend_settings;				
+					}
+
+					else
+					{
+						$form_settings["backend-notifcation"] = NULL;
+					}
+
+					$form_settings = serialize($form_settings);
+
+					var_dump(unserialize($form_settings));
+					//$form_settings = array('form-name' => $_POST['form-name'],"backend-notifcation" => $_POST['send-to-backend']);
+
+
+					Global $wpdb;
+					//var_dump( $_POST['fcp']);
+					$lambaz = $_POST['fcp'];
+					$wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp'],'form_settings' => $form_settings));
+					//var_dump($_POST['send-to-backend']);
+					//echo $wpdb -> last_query;
+					//$wpdb -> show_errors();
+					$dis_form = $wpdb -> get_col('SELECT `form_body` FROM `wp_fcp_formbuilder` WHERE `form_id`= 3');
+
+					
+					echo "<form class='form-horizontal'>";
+					echo html_entity_decode($dis_form[0]);
+					echo "</form><br>" ;
+					//var_dump($dis_form);
 					/*
 						we can save the form as it comes already and when we want to render it on the , we must use html_entity_decode
 					*/
+					// echo "<form class='form-horizontal'>";
+					// $lambaz = $_POST['fcp'];
+					// echo html_entity_decode($_POST['fcp']);
+					// echo "</form><br>" ;
+				/*	$testingHtmlEntities =  htmlentities($_POST['fcp']);
+					echo $testingHtmlEntities;
 					echo "<form class='form-horizontal'>";
-					echo html_entity_decode($_POST['fcp']);
-					echo "</form>";
-					//var_dump (html_entity_decode($_POST['fcp']));
+					echo (html_entity_decode($testingHtmlEntities));
+					echo "</form><br>" ;*/
 				}
 			}
 
