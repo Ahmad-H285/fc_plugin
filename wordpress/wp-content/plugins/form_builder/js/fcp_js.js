@@ -24,7 +24,9 @@ jQuery(document).ready(function(){
 	jQuery("div#wpcontent").css("background-color","white");
 	fcp_radio_deleteField();
 	fcp_check_deleteField();
-	fcp_deleteField(); // to invoke the click event handler function below
+	fcp_deleteField();
+	jQuery("div#wpfooter").css("width", "50%");
+	 // to invoke the click event handler function below
 	//jQuery("button.fcp_submitButton").click(fcp_formSubmitHandler); testing to make sure it works
 
 	jQuery("button#save_fcp_form").click(saveForm);

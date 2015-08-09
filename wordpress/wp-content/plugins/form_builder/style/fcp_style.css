@@ -1,3 +1,22 @@
+div#edit_field_title{
+	margin-top: 655px;
+	margin-left: 350px; 
+	padding: 5px; 
+	border-top: 1px solid grey; 
+	border-right: 1px solid grey; 
+	border-left: 1px solid grey; 
+	position: absolute;
+}
+
+div#edit_field_content{
+	margin-top: 705px;
+	margin-left: 350px; 
+	padding: 5px; 
+	border: 1px solid grey; 
+	background-color: #D2D2D2; 
+	position: absolute;
+}
+
 span#required-option{
 	font-weight: bold;
 }

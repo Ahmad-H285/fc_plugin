@@ -149,7 +149,7 @@ function fcp_application_page()
 											</div>
 											<div class = "fcp_email_not_opt">
 												<div class="form-group">
-													<label for="fcp_wp_users" class="col-sm-3 control-label">Backend Users</label>
+													<label for="backend_users_list" class="col-sm-3 control-label">Backend Users</label>
 													<div class="col-sm-6">
 														<?php wp_dropdown_users( array('name' => 'backend_users_list') ); ?>
 													</div>
