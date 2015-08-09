@@ -119,7 +119,7 @@ function fcp_application_page()
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
-						
+
 					  <div class="form-group">
 					    <div class="col-sm-offset-3 col-sm-3">
 					      <button type="" class="btn btn-default fcp_submitButton" disabled>Submit</button>
@@ -135,7 +135,7 @@ function fcp_application_page()
 		        						<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Backend Email Notification</a>
 		      						</h4>
 		    					</div>
-								
+
 								<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
       								<div class="panel-body">
       									<div class="text-center">
@@ -143,13 +143,13 @@ function fcp_application_page()
 											<div class="check_field" id="email_options">
 												<div class="form-group">
 													<div class = "checkbox col-sm-4" style="padding-top:0">
-														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-check">Backend Notification</label>
+														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-backend">Backend Notification</label>
 													</div>
 												</div>
 											</div>
 											<div class = "fcp_email_not_opt">
 												<div class="form-group">
-													<label for="fcp_wp_users" class="col-sm-3 control-label">Backend Users</label>
+													<label for="backend_users_list" class="col-sm-3 control-label">Backend Users</label>
 													<div class="col-sm-6">
 														<?php wp_dropdown_users( array('name' => 'backend_users_list') ); ?>
 													</div>
@@ -161,63 +161,14 @@ function fcp_application_page()
 														<input type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
 													</div>
 												</div>
-												
+
 												<div class="form-group">
 													<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
 													<div class="col-sm-6">
 														<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
 													</div>
 												</div>
-												
-												<div class="form-group">
-													<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
-													<div class="col-sm-6">
-														<input type="text" class="form-control" id="fcp_email_subject" placeholder="Subject">
-													</div>
-												</div>
 
-												<div class="form-group">
-													<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
-													<div class="col-sm-6">
-														<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea> 
-													</div>
-												</div>
-											</div>
-											<!-- End Send to email checkbox -->
-      									</div>
-      								</div>
-      							</div>
-
-
-      						</div>
-
-      						<div class="panel panel-default">
-								<div class="panel-heading" role="tab" id="headingTwo">
-		     			 			<h4 class="panel-title">
-		        						<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">User Email Notification</a>
-		      						</h4>
-		    					</div>
-								
-								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      								<div class="panel-body">
-      									<div class="text-center">
-      										<!-- Send to email checkbox -->
-											<div class="check_field" id="email_options">
-												<div class="form-group">
-													<div class = "checkbox col-sm-4" style="padding-top:0">
-														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-check">User Notification</label>
-													</div>
-												</div>
-											</div>
-											
-											<div class = "fcp_email_not_opt">
-												<div class="form-group">
-													<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
-													<div class="col-sm-6">
-														<input type="Text" class="form-control" id="fcp_email_from" placeholder="From">
-													</div>
-												</div>
-												
 												<div class="form-group">
 													<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
 													<div class="col-sm-6">
@@ -237,10 +188,59 @@ function fcp_application_page()
       								</div>
       							</div>
 
-      							
+
       						</div>
-      					</div>		
-						<!-- End of Form Options panel -->	
+
+      						<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingTwo">
+		     			 			<h4 class="panel-title">
+		        						<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">User Email Notification</a>
+		      						</h4>
+		    					</div>
+
+								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      								<div class="panel-body">
+      									<div class="text-center">
+      										<!-- Send to email checkbox -->
+											<div class="check_field" id="email_options">
+												<div class="form-group">
+													<div class = "checkbox col-sm-4" style="padding-top:0">
+														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-user">User Notification</label>
+													</div>
+												</div>
+											</div>
+
+											<div class = "fcp_email_not_opt">
+												<div class="form-group">
+													<label for="fcp_user_email_from" class="col-sm-3 control-label">From</label>
+													<div class="col-sm-6">
+														<input type="Text" class="form-control" id="fcp_user_email_from" placeholder="From">
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label for="fcp_user_email_subject" class="col-sm-3 control-label">Subject</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="fcp_user_email_subject" placeholder="Subject">
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label for="fcp_user_email_body" class="col-sm-3 control-label">Body</label>
+													<div class="col-sm-6">
+														<textarea rows="10" cols="50" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"></textarea>
+													</div>
+												</div>
+											</div>
+											<!-- End Send to email checkbox -->
+      									</div>
+      								</div>
+      							</div>
+
+
+      						</div>
+      					</div>
+						<!-- End of Form Options panel -->
 						<div class="row" style="padding: 20px">
 							<button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button>
 						</div>
