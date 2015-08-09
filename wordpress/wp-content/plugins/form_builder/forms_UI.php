@@ -266,13 +266,21 @@ function fcp_application_page()
 				}
 
 				if ($_POST['fcp']){
+					Global $wpdb;
+					var_dump( $_POST['fcp']);
+					$wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp']));
 					/*
 						we can save the form as it comes already and when we want to render it on the , we must use html_entity_decode
 					*/
 					echo "<form class='form-horizontal'>";
 					echo html_entity_decode($_POST['fcp']);
-					echo "</form>";
-					var_dump (html_entity_decode($_POST['fcp']));
+					echo "</form><br>" ;
+				/*	$testingHtmlEntities =  htmlentities($_POST['fcp']);
+					echo $testingHtmlEntities;
+					echo "<form class='form-horizontal'>";
+					echo (html_entity_decode($testingHtmlEntities));
+					echo "</form><br>" ;*/
+
 				}
 			}
 
