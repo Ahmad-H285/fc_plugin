@@ -283,6 +283,17 @@ function fcp_application_page()
 						$form_settings["backend-notification"] = NULL;
 					}
 
+					if($_POST['send-to-user'])
+					{
+						$user_notification_settings = array('From' => $_POST['user-from'], 'Subject' => $_POST['user-subject'], 'Body' => $_POST['user-body']);
+						$form_settings["user-notification"] = $user_notification_settings;
+					}
+
+					else
+					{
+						$form_settings["user-notification"] = NULL;
+					}
+
 					$form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
 					var_dump(unserialize($form_settings)); // We use unserialize when we need to have access to the array again
