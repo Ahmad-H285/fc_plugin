@@ -158,7 +158,7 @@ function fcp_application_page()
 												<div class="form-group" id="send_to_non_wordpress_user">
 													<label for="fcp_custon_from_email" class="col-sm-3 control-label">To</label>
 													<div class="col-sm-6">
-														<input type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
+														<input name="other_backend_email" type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
 													</div>
 												</div>
 
@@ -272,9 +272,16 @@ function fcp_application_page()
 
 					$form_settings = array('form-name' => $_POST['form-name']);
 
-					if($_POST['send-to-backend'])
+					if($_POST['send-to-backend']) // if the user enabled backend notification
 					{
-						$backend_notification_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
+                        if ($_POST['backend_users_list'] == "Other ...") // to check if the user wanted to email a non WordPress user
+                        {
+                            $backend_notification_settings = array('To' => $_POST['other_backend_email'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
+                        }
+                        else
+                        {
+                            $backend_notification_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
+                        }
 						$form_settings["backend-notification"] = $backend_notification_settings;
 					}
 
@@ -303,7 +310,7 @@ function fcp_application_page()
 					Global $wpdb;
 					//var_dump( $_POST['fcp']);
 					$lambaz = $_POST['fcp'];
-					$wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp'],'form_settings' => $form_settings));
+					$wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp'], 'form_type'=> "application_form" ,'form_settings' => $form_settings));
 					//var_dump($_POST['send-to-backend']);
 					//echo $wpdb -> last_query;
 					//$wpdb -> show_errors();
