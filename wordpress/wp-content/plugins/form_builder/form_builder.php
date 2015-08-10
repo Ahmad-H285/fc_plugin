@@ -3,7 +3,7 @@
 Plugin Name: Cape East Form Builder
 Plugin URI: http://www.facebook.com
 Description: This plugin builds forms
-Author: Watashi 
+Author: Watashi
 Version: 1.0
 Author URI: http://www.youtube.com
 */
@@ -13,21 +13,21 @@ require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
 
 function fcp_plugin_activation()
-{	
+{
 	Global $wpdb;
 	$fcp_form_table = $wpdb->prefix."fcp_formbuilder";
 	$fcp_submission_table = $wpdb->prefix."fcp_submissions";
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	$charset_collate = $wpdb->get_charset_collate();
-	
+
 	 if($wpdb->get_var('SHOW TABLES LIKE '.$fcp_form_table) != $fcp_form_table)
 	 {
-	 	$fcp_sql_form = 
-	 	
-	 		'CREATE TABLE '.$fcp_form_table.'(form_id INTEGER(10) UNSIGNED AUTO_INCREMENT, 
-	 		form_body VARCHAR(255) NOT NULL, 
-	 		form_type VARCHAR(30) NOT NULL, 
-	 		form_settings VARCHAR(255), 
+	 	$fcp_sql_form =
+
+	 		'CREATE TABLE '.$fcp_form_table.'(form_id INTEGER(10) UNSIGNED AUTO_INCREMENT,
+	 		form_body TEXT NOT NULL,
+	 		form_type VARCHAR(30) NOT NULL,
+	 		form_settings TEXT,
 	 		PRIMARY KEY (form_id)) '.$charset_collate;
 
 	 	dbDelta($fcp_sql_form);
@@ -35,11 +35,11 @@ function fcp_plugin_activation()
 
 	if($wpdb->get_var('SHOW TABLES LIKE '.$fcp_submission_table) != $fcp_submission_table)
 	{
-		$fcp_sql_submission = 
-		
+		$fcp_sql_submission =
+
 			'CREATE TABLE '.$fcp_submission_table.'(submission_id INTEGER(10) UNSIGNED AUTO_INCREMENT,
-		 	submission VARCHAR(255) NOT NULL, 
-		 	sub_date DATE NOT NULL, 
+		 	submission VARCHAR(255) NOT NULL,
+		 	sub_date DATE NOT NULL,
 		 	form_id INTEGER(10) UNSIGNED,
 		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id) ON DELETE CASCADE ON UPDATE NO ACTION,
 		 	PRIMARY KEY (submission_id)) '.$charset_collate;
@@ -50,7 +50,7 @@ function fcp_plugin_activation()
 }
 
 register_activation_hook(__FILE__,'fcp_plugin_activation');
-	
+
 
 function fcp_admin_menu()
 {
@@ -69,7 +69,7 @@ function fcp_admin_menu()
 	add_submenu_page('fcp-general','Event Form','Event Form','manage_options','fcp-event-form','fcp_event_page');
 	add_submenu_page('fcp-general','Custom Form','Custom Form','manage_options','fcp-custom-form','fcp_custom_page');
 
-	
+
 }
 
 add_action('admin_menu','fcp_admin_menu');
@@ -79,7 +79,7 @@ function fcp_general_page()
 {
 	fcp_stylesheets();
 	?>
-	
+
 	<h1>Add New Form</h1>
 
 	<!-- Accordion -->
@@ -101,13 +101,13 @@ function fcp_general_page()
         	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-registration-from');?>'">Registration Form</button>
         	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-booking-form');?>'">Booking Form</button>
         </div>
-        
+
         <div class="text-center">
         	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-newsletter-form');?>'">Newsletter Form</button>
         	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-event-form');?>'">Event Form</button>
         	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-custom-form');?>'">Custom Form</button>
         	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-application-form');?>'">Application Form</button>
-        </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -130,4 +130,3 @@ function fcp_general_page()
 
 		fcp_scripts();
 }
-

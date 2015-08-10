@@ -142,8 +142,8 @@ function fcp_application_page()
       										<!-- Send to email checkbox -->
 											<div class="check_field" id="email_options">
 												<div class="form-group">
-													<div class = "checkbox col-sm-4" style="padding-top:0">
-														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-backend">Backend Notification</label>
+													<div class = "checkbox col-sm-5" style="padding-top:0">
+														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-backend">Enable Backend Notification</label>
 													</div>
 												</div>
 											</div>
@@ -155,8 +155,8 @@ function fcp_application_page()
 													</div>
 												</div>
 
-												<div class="form-group">
-													<label for="fcp_custon_from_email" class="col-sm-3 control-label">Custom From Email</label>
+												<div class="form-group" id="send_to_non_wordpress_user">
+													<label for="fcp_custon_from_email" class="col-sm-3 control-label">To</label>
 													<div class="col-sm-6">
 														<input type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
 													</div>
@@ -204,8 +204,8 @@ function fcp_application_page()
       										<!-- Send to email checkbox -->
 											<div class="check_field" id="email_options">
 												<div class="form-group">
-													<div class = "checkbox col-sm-4" style="padding-top:0">
-														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-user">User Notification</label>
+													<div class = "checkbox col-sm-5" style="padding-top:0">
+														<label><input type="checkbox" class="col-sm-4 fcp_notification" name="send-to-user">Enable User Notification</label>
 													</div>
 												</div>
 											</div>
@@ -260,32 +260,32 @@ function fcp_application_page()
 			fcp_scripts();
 			//fcp_fields_panel();
 
-			//$form_settings = array();  
+			//$form_settings = array();
 
 			if (wp_verify_nonce($nonce,'form-builder-sub')) {
 				if ($_POST['form-name']){
 
 				}
 
-				
+
 				if ($_POST['fcp']){
 
 					$form_settings = array('form-name' => $_POST['form-name']);
 
 					if($_POST['send-to-backend'])
-					{	
-						$backend_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
-						$form_settings["backend-notifcation"] = $backend_settings;				
+					{
+						$backend_notification_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
+						$form_settings["backend-notification"] = $backend_notification_settings;
 					}
 
 					else
 					{
-						$form_settings["backend-notifcation"] = NULL;
+						$form_settings["backend-notification"] = NULL;
 					}
 
-					$form_settings = serialize($form_settings);
+					$form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
-					var_dump(unserialize($form_settings));
+					var_dump(unserialize($form_settings)); // We use unserialize when we need to have access to the array again
 					//$form_settings = array('form-name' => $_POST['form-name'],"backend-notifcation" => $_POST['send-to-backend']);
 
 
@@ -298,7 +298,7 @@ function fcp_application_page()
 					//$wpdb -> show_errors();
 					$dis_form = $wpdb -> get_col('SELECT `form_body` FROM `wp_fcp_formbuilder` WHERE `form_id`= 3');
 
-					
+
 					echo "<form class='form-horizontal'>";
 					echo html_entity_decode($dis_form[0]);
 					echo "</form><br>" ;

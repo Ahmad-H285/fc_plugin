@@ -34,10 +34,27 @@ jQuery(document).ready(function(){
 	var submit_button_text = jQuery("button.fcp_submitButton").text();
 	jQuery("input#submit-button-text").val(submit_button_text).on("keyup",updateSubmitButtonText);
 
-	jQuery("select#backend_users_list").addClass("form-control").append("<option>Other ... </option>"); // style the wordpress users select menu and add "Other ..." option
+	jQuery("select#backend_users_list").addClass("form-control").append("<option>Other ...</option>"); // style the wordpress users select menu and add "Other ..." option
 	jQuery("input.fcp_notification").change(toggleEmail_notificationFields);
 	jQuery("div.fcp_email_not_opt").hide();
 
+	// Hiding the custom to input field in the backend notification settings
+	jQuery("div.form-group#send_to_non_wordpress_user").hide();
+	// Then we display it when the user select other in the backend users list
+
+	jQuery("#backend_users_list").on("change",function(event){
+
+		var selected_option = jQuery(this).val();//jQuery("select#backend_users_list option:selected").val();
+		if (selected_option == "Other ..."){
+			jQuery("div.form-group#send_to_non_wordpress_user").slideDown(300); // show the input
+		}
+		else {
+			if ( jQuery("div.form-group#send_to_non_wordpress_user").is(':visible') ){
+				jQuery("div.form-group#send_to_non_wordpress_user").slideUp(300);
+			}
+
+		}
+	});
 });
 
 /*
@@ -92,7 +109,7 @@ function fcp_deleteField(){
 		jQuery("div#edit_field_title").removeClass("show").addClass("hidden");
 	});
 
-	jQuery("button.field_options close").click(function(){ // deletes a field when it's 'x' icon is clicked
+	jQuery("button.field_options.close").click(function(){ // deletes a field when it's 'x' icon is clicked
 		jQuery(this).parent().remove();
 	});
 
@@ -227,7 +244,7 @@ field_options.checkbox = '<button type="button" name="check" class="check_add">A
 
 //PASSWORD OPTIONS
 field_options.password = '<div id="form-pass" class="form-group"><div class="check_field" id="pass_vis_opt"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="pass_vis">Password Visibility</label></div></div><div class="check_field" id="pass_conf_opt"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="pass_conf">Password Confirmation</label></div></div></div>';
-var pass_vis_but = '<div class="col-sm-offset-3 col-sm-5" id="fcp_show_pass"><button type="button" class="btn btn-primary btn-sm" style="margin: 5px">Show Password</button</div>';
+var pass_vis_but = '<div class="col-sm-offset-3 col-sm-5" id="fcp_show_pass"><button type="button" class="btn btn-primary btn-sm" style="margin: 5px">Show Password</button></div>';
 
 //NUMERIC OPTIONS
 var range_activ_field_options = '<div class="form-group"><div class = "checkbox col-sm-10 num-range" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="range" id="range_active">Character Length</label></div></div>';
@@ -1012,7 +1029,7 @@ jQuery("input#required-option").click({label: field.children("label"), input: in
 	// 2 The Field parent (div.form-group) to allow traversing
 	// 3 The Field Type to do special case logic
 
-	jQuery("button#discardButton").one("click",{options, element: field},discardChanges);
+	jQuery("button#discardButton").one("click",{options:options, element: field},discardChanges);
 	//jQuery("button#discardButton").click({field_values, element: field, fieldType: type},discardChanges);
 
 }
