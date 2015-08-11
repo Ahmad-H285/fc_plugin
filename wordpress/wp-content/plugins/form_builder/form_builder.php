@@ -18,7 +18,8 @@ require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
 function fcp_plugin_activation()
 {
-	Global $wpdb;
+    Global $wpdb;
+    /** @var wpdb $wpdb */
 	$fcp_form_table = $wpdb->prefix."fcp_formbuilder";
 	$fcp_submission_table = $wpdb->prefix."fcp_submissions";
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -57,7 +58,7 @@ register_activation_hook(__FILE__,'fcp_plugin_activation');
 
 function form_builder_shortcode($atts){
 
-
+    /** @var wpdb $wpdb */
     Global $wpdb;
     $attributes = shortcode_atts(array('form' => null), $atts,'form-builder');
 
