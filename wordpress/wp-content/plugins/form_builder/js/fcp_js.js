@@ -320,7 +320,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	}
 
 	else if(jQuery(this).text()== 'Checkbox'){
-		jQuery("div.form-sketch  div.form-group:last").before(fcp_checkbox_field);
+		jQuery("div.form-sketch div.form-group:last").before(fcp_checkbox_field);
 		inputType = "checkbox";
 
 		checkbox_field_instance += 1;
@@ -365,13 +365,13 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 	}
 
 	if ( jQuery(this).text() == 'Radio Button' ){ // special case for radio button
-		addedField = jQuery("div.radio_field:last");
+		addedField = jQuery("div.form-sketch div.radio_field:last");
 
 		fieldID = addedField.attr("id");
 	}
 
 	else if( jQuery(this).text() == 'Checkbox' ){ // special case for checkbox
-		addedField = jQuery("div.check_field:last");
+		addedField = jQuery("div.form-sketch div.check_field:last");
 
 		fieldID = addedField.attr("id");
 	}
@@ -778,7 +778,7 @@ function editFieldOptions(title,type,field,inputID){
 
 		var radio_n = 0;
 		var radio_form_prev = jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n);
-		var radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n)).text();
+		var radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio label").get(radio_n)).text();
 		while(radio_form_prev)
 		{
 			if(jQuery(jQuery("div#"+inputID+" div.form-group div.radio label input").get(radio_n)).attr("checked") == "checked")
@@ -795,7 +795,7 @@ function editFieldOptions(title,type,field,inputID){
 
 			radio_n++;
 			radio_form_prev = jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n);
-			radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n)).text();
+			radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio label").get(radio_n)).text();
 		}
 		fcp_deleteField();
 
@@ -874,7 +874,7 @@ function editFieldOptions(title,type,field,inputID){
 
 		var check_n = 0;
 		var check_form_prev = jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n);
-		var check_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n)).text();
+		var check_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.checkbox label").get(check_n)).text();
 		while(check_form_prev)
 		{
 			//console.log(check_label_prev);
@@ -884,7 +884,7 @@ function editFieldOptions(title,type,field,inputID){
 
 			check_n++;
 			check_form_prev = jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n);
-			check_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.checkbox").get(check_n)).text();
+			check_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.checkbox label").get(check_n)).text();
 		}
 		fcp_deleteField();
 
