@@ -25,7 +25,6 @@ function fcp_survey_page()
 
 function fcp_application_page()
 {
-	fcp_stylesheets();
 
 	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js', array('jquery','jquery-ui-core','jquery-ui-datepicker'));
 	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
@@ -250,17 +249,8 @@ function fcp_application_page()
 					</div>
 				</div>
 			</div>
-					<!--  ';
-				$fcp_app_form_close='</form>
-			</div></div><div class="row" style="padding: 20px"><button type="button" class="btn btn-danger">Save Form</button></div></div>';
-			$app_form = $fcp_default_app_form . $fcp_app_form_close;
 
-			echo $app_form;
---> <?php
-			fcp_scripts();
-			//fcp_fields_panel();
-
-			//$form_settings = array();
+			<?php
 
 			if (wp_verify_nonce($nonce,'form-builder-sub')) {
 				if ($_POST['form-name']){
@@ -320,19 +310,6 @@ function fcp_application_page()
 					echo "<form class='form-horizontal'>";
 					echo html_entity_decode($dis_form[0]);
 					echo "</form><br>" ;
-					//var_dump($dis_form);
-					/*
-						we can save the form as it comes already and when we want to render it on the , we must use html_entity_decode
-					*/
-					// echo "<form class='form-horizontal'>";
-					// $lambaz = $_POST['fcp'];
-					// echo html_entity_decode($_POST['fcp']);
-					// echo "</form><br>" ;
-				/*	$testingHtmlEntities =  htmlentities($_POST['fcp']);
-					echo $testingHtmlEntities;
-					echo "<form class='form-horizontal'>";
-					echo (html_entity_decode($testingHtmlEntities));
-					echo "</form><br>" ;*/
 				}
 			}
 

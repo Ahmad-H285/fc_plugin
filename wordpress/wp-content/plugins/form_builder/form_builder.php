@@ -12,6 +12,10 @@ Author URI: http://www.youtube.com
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
 
+		wp_enqueue_style('bootstrap.min.css','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+		wp_enqueue_script('bootstrap.min.js','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
+
+
 function fcp_plugin_activation()
 {
 	Global $wpdb;
@@ -51,6 +55,23 @@ function fcp_plugin_activation()
 
 register_activation_hook(__FILE__,'fcp_plugin_activation');
 
+function form_builder_shortcode($atts){
+
+
+    Global $wpdb;
+    $attributes = shortcode_atts(array('form' => null), $atts,'form-builder');
+
+    $form_id = explode("fcp_",$attributes['form']); // this hold the id of the form to be loaded
+    $table_name = $wpdb->prefix."fcp_formbuilder";
+
+    $query =  "SELECT `form_body` FROM `".$table_name."` WHERE `form_id`=".$form_id[1];
+    $form = $wpdb->get_col($query);
+
+    return "<form class='form-horizontal' id='fcp_form".$form_id."'>" .html_entity_decode($form[0])."</form>";
+
+}
+
+	add_shortcode('form-builder', 'form_builder_shortcode');
 
 function fcp_admin_menu()
 {
@@ -77,7 +98,6 @@ add_action('admin_menu','fcp_admin_menu');
 
 function fcp_general_page()
 {
-	fcp_stylesheets();
 	?>
 
 	<h1>Add New Form</h1>
@@ -128,5 +148,4 @@ function fcp_general_page()
 </div>
 	<?php
 
-		fcp_scripts();
 }
