@@ -778,7 +778,7 @@ function editFieldOptions(title,type,field,inputID){
 
 		var radio_n = 0;
 		var radio_form_prev = jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n);
-		var radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n)).text();
+		var radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio label").get(radio_n)).text();
 		while(radio_form_prev)
 		{
 			if(jQuery(jQuery("div#"+inputID+" div.form-group div.radio label input").get(radio_n)).attr("checked") == "checked")
@@ -795,7 +795,7 @@ function editFieldOptions(title,type,field,inputID){
 
 			radio_n++;
 			radio_form_prev = jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n);
-			radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio").get(radio_n)).text();
+			radio_label_prev = jQuery(jQuery("div#"+inputID+" div.form-group div.radio label").get(radio_n)).text();
 		}
 		fcp_deleteField();
 
