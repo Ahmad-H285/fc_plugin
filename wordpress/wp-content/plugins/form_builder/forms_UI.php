@@ -31,8 +31,19 @@ function fcp_application_page()
 	wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
 
 	//$fcp_default_app_form= '
+	?>
+<div>
+	<ul class="nav nav-tabs" role="tablist">
+    	<li role="presentation" class="active"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Forms</a></li>
+    	<li role="presentation"><a href="#AddNewForm" aria-controls="Add" role="tab" data-toggle="tab">Add New Form</a></li>
+    	<li role="presentation"><a href="#submissions" aria-controls="Submission" role="tab" data-toggle="tab">Submissions</a></li>
+	</ul>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane" id="AddNewForm">
+	<?php
 	fcp_fields_panel();
 	fcp_fields_options();
+
 
 	?>
 			<div class="container-fluid">
@@ -249,7 +260,47 @@ function fcp_application_page()
 					</div>
 				</div>
 			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane active" id="edit">
+			<?php
+				Global $wpdb;
+				$app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `wp_fcp_formbuilder` WHERE `form_type`= 'application_form'",ARRAY_A);
+				//var_dump($app_created_forms);
+				//print_r(unserialize($app_created_forms[0]['form_settings'])['form-name']);
+				//print_r($app_created_forms[0]['form_id']);
+				//print_r($app_form_type);
+			?>
+			<div class="col-sm-8">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Form Name</th>
+						<th>Shortcode</th>
+						<th></th>
+						<td></td>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+				$form_count = 1;
+				foreach ($app_created_forms as $form) {
+					$form_name = unserialize($form['form_settings'])['form-name'];
+					$form_id = $form['form_id'];
+					echo "<tr><td>".$form_count."</td><td>".$form_name."</td>"."<td>[form id=\"".$form_name."_fcp_".$form_id."\"]</td><td>Edit</td><td>Delete</td></tr>" ;
+					$form_count++;
+				}
+				?>
+				</tbody>
+			</table>
+			</div>
 
+		</div>
+		<div role="tabpanel" class="tab-pane" id="submissions">
+			<p>There are no submissions available yet</p>
+		</div>
+	</div>	
+</div>	
 			<?php
 
 			if (wp_verify_nonce($nonce,'form-builder-sub')) {
@@ -293,11 +344,11 @@ function fcp_application_page()
 
 					$form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
-					var_dump(unserialize($form_settings)); // We use unserialize when we need to have access to the array again
+					//var_dump(unserialize($form_settings)); // We use unserialize when we need to have access to the array again
 					//$form_settings = array('form-name' => $_POST['form-name'],"backend-notifcation" => $_POST['send-to-backend']);
 
 
-					Global $wpdb;
+					//Global $wpdb;
 					//var_dump( $_POST['fcp']);
 					$lambaz = $_POST['fcp'];
 					$wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp'], 'form_type'=> "application_form" ,'form_settings' => $form_settings));
@@ -307,9 +358,9 @@ function fcp_application_page()
 					$dis_form = $wpdb -> get_col('SELECT `form_body` FROM `wp_fcp_formbuilder` WHERE `form_id`= 3');
 
 
-					echo "<form class='form-horizontal'>";
-					echo html_entity_decode($dis_form[0]);
-					echo "</form><br>" ;
+					// echo "<form class='form-horizontal'>";
+					// echo html_entity_decode($dis_form[0]);
+					// echo "</form><br>" ;
 				}
 			}
 
