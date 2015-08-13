@@ -33,6 +33,7 @@ function fcp_application_page()
 	//$fcp_default_app_form= '
 	?>
 <div>
+    <h1 class="col-sm-12">Application Form</h1>
 	<ul class="nav nav-tabs" role="tablist">
     	<li role="presentation" class="active"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Forms</a></li>
     	<li role="presentation"><a href="#AddNewForm" aria-controls="Add" role="tab" data-toggle="tab">Add New Form</a></li>
@@ -48,7 +49,7 @@ function fcp_application_page()
 	?>
 			<div class="container-fluid">
 			<div class="row">
-			<h1 class="col-sm-12">Application Form</h1>
+			<h2 class="col-sm-12">New Form</h2>
 
 
 			<div class="col-sm-7">
@@ -262,14 +263,6 @@ function fcp_application_page()
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane active" id="edit">
-			<?php
-				Global $wpdb;
-				$app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `wp_fcp_formbuilder` WHERE `form_type`= 'application_form'",ARRAY_A);
-				//var_dump($app_created_forms);
-				//print_r(unserialize($app_created_forms[0]['form_settings'])['form-name']);
-				//print_r($app_created_forms[0]['form_id']);
-				//print_r($app_form_type);
-			?>
 			<div class="col-sm-8">
 			<table class="table table-hover">
 				<thead>
@@ -283,18 +276,7 @@ function fcp_application_page()
 				</thead>
 				<tbody>
 				<?php
-				$form_count = 1;
-				foreach ($app_created_forms as $form) {
-					$form_name = unserialize($form['form_settings'])['form-name'];
-					$form_id = $form['form_id'];
-					echo "<tr>
-							<td>".$form_count."</td><td>".$form_name."</td>"
-							."<td>[form id=\"".$form_name."_fcp_".$form_id."\"]</td>
-							<td>Edit</td>
-							<td>Delete</td>
-						</tr>" ;
-					$form_count++;
-				}
+                    fcp_display_created_forms("application_form");
 				?>
 				</tbody>
 			</table>

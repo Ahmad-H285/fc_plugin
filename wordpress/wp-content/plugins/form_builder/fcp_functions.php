@@ -47,3 +47,21 @@ function fcp_fields_options()
 	</div>
 	<?php
 }
+
+function fcp_display_created_forms($form_type){
+
+	Global $wpdb;
+	$app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `wp_fcp_formbuilder` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+	$form_count = 1;
+	foreach ($app_created_forms as $form) {
+		$form_name = unserialize($form['form_settings'])['form-name'];
+		$form_id = $form['form_id'];
+		echo "<tr>
+			    <td>".$form_count."</td><td>".$form_name."</td>"
+			    ."<td>[form id=\"".$form_name."_fcp_".$form_id."\"]</td>
+				<td>Edit</td>
+				<td>Delete</td>
+			</tr>" ;
+		$form_count++;
+	}
+}
