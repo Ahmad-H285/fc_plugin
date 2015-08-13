@@ -287,7 +287,12 @@ function fcp_application_page()
 				foreach ($app_created_forms as $form) {
 					$form_name = unserialize($form['form_settings'])['form-name'];
 					$form_id = $form['form_id'];
-					echo "<tr><td>".$form_count."</td><td>".$form_name."</td>"."<td>[form id=\"".$form_name."_fcp_".$form_id."\"]</td><td>Edit</td><td>Delete</td></tr>" ;
+					echo "<tr>
+							<td>".$form_count."</td><td>".$form_name."</td>"
+							."<td>[form id=\"".$form_name."_fcp_".$form_id."\"]</td>
+							<td>Edit</td>
+							<td>Delete</td>
+						</tr>" ;
 					$form_count++;
 				}
 				?>
