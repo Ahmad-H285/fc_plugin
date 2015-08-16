@@ -331,23 +331,9 @@ function fcp_application_page()
 
 					$form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
-					//var_dump(unserialize($form_settings)); // We use unserialize when we need to have access to the array again
-					//$form_settings = array('form-name' => $_POST['form-name'],"backend-notifcation" => $_POST['send-to-backend']);
-
-
-					//Global $wpdb;
+					Global $wpdb;
 					//var_dump( $_POST['fcp']);
-					$lambaz = $_POST['fcp'];
 					$wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp'], 'form_type'=> "application_form" ,'form_settings' => $form_settings));
-					//var_dump($_POST['send-to-backend']);
-					//echo $wpdb -> last_query;
-					//$wpdb -> show_errors();
-					$dis_form = $wpdb -> get_col('SELECT `form_body` FROM `wp_fcp_formbuilder` WHERE `form_id`= 3');
-
-
-					// echo "<form class='form-horizontal'>";
-					// echo html_entity_decode($dis_form[0]);
-					// echo "</form><br>" ;
 				}
 			}
 

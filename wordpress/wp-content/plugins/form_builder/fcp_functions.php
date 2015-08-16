@@ -59,8 +59,8 @@ function fcp_display_created_forms($form_type){
 		echo "<tr>
 			    <td>".$form_count."</td><td>".$form_name."</td>"
 			    ."<td>[form id=\"".$form_name."_fcp_".$form_id."\"]</td>
-				<td>Edit</td>
-				<td>Delete</td>
+				<td><a href='' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >Edit</a></td>
+				<td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
 			</tr>" ;
 		$form_count++;
 	}
