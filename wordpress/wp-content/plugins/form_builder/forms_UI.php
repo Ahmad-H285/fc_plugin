@@ -26,16 +26,34 @@ function fcp_survey_page()
 function fcp_application_page()
 {
 
-	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js', array('jquery','jquery-ui-core','jquery-ui-datepicker'));
+	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js', array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog'));
 	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 	wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
+    wp_enqueue_script('jquery-effects-clip');
+    wp_enqueue_script('jquery-effects-bounce');
+    wp_enqueue_script('jquery-effects-blind');
+    $nonce = wp_create_nonce('form-builder-sub');
 
-	//$fcp_default_app_form= '
+    if (wp_verify_nonce($nonce,'form-builder-sub')) {
+
+        // check if there are forms to delete
+        if (isset($_POST['selected_forms_ids'])){
+            fcp_delete_forms($_POST['selected_forms_ids']);
+        }
+
+
+        if (isset($_POST['fcp'])){
+
+            fcp_save_form("application_form"); // passing the name of the form type
+
+        }
+    }
+
 	?>
 <div>
     <h1 class="col-sm-12">Application Form</h1>
 	<ul class="nav nav-tabs" role="tablist">
-    	<li role="presentation" class="active"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Forms</a></li>
+    	<li role="presentation" class="active"><a href="#forms" aria-controls="edit" role="tab" data-toggle="tab">Forms</a></li>
     	<li role="presentation"><a href="#AddNewForm" aria-controls="Add" role="tab" data-toggle="tab">Add New Form</a></li>
     	<li role="presentation"><a href="#submissions" aria-controls="Submission" role="tab" data-toggle="tab">Submissions</a></li>
 	</ul>
@@ -49,7 +67,7 @@ function fcp_application_page()
 	?>
 			<div class="container-fluid">
 			<div class="row">
-			<h2 class="col-sm-12">New Form</h2>
+			<h2 class="col-sm-12" id="top_of_form">New Form</h2>
 
 
 			<div class="col-sm-7">
@@ -255,87 +273,49 @@ function fcp_application_page()
 						<div class="row" style="padding: 20px">
 							<button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button>
 						</div>
-						<?php $nonce = wp_create_nonce('form-builder-sub'); ?>
+						<?php //$nonce = wp_create_nonce('form-builder-sub'); ?>
 						<input type="hidden" name="fcp" value="">
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane active" id="edit">
-			<div class="col-sm-8">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Form Name</th>
-						<th>Shortcode</th>
-						<th></th>
-						<td></td>
-					</tr>
-				</thead>
-				<tbody>
-				<?php
-                    fcp_display_created_forms("application_form");
-				?>
-				</tbody>
-			</table>
-			</div>
+		<div role="tabpanel" class="tab-pane active" id="forms">
+            <form action="" method="POST" class="form-horizontal col-sm-9" id="stored_forms">
+                <div class="col-sm-8">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Form Name</th>
+                            <th>Shortcode</th>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        fcp_display_created_forms("application_form");
+                    ?>
+                    </tbody>
+                </table>
+                </div>
+                <div class="col-sm-5">
+                    <button class="btn btn-default" type="submit" id="delete_selected_forms" disabled>Delete Selected Forms</button>
+                </div>
+                <input type="hidden" name="selected_forms_ids" id="selected_forms_ids">
+
+            </form>
 
 		</div>
 		<div role="tabpanel" class="tab-pane" id="submissions">
 			<p>There are no submissions available yet</p>
 		</div>
 	</div>	
-</div>	
+</div>
 			<?php
 
-			if (wp_verify_nonce($nonce,'form-builder-sub')) {
-				if ($_POST['form-name']){
 
-				}
-
-
-				if ($_POST['fcp']){
-
-					$form_settings = array('form-name' => $_POST['form-name']);
-
-					if($_POST['send-to-backend']) // if the user enabled backend notification
-					{
-                        if ($_POST['backend_users_list'] == "Other ...") // to check if the user wanted to email a non WordPress user
-                        {
-                            $backend_notification_settings = array('To' => $_POST['other_backend_email'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
-                        }
-                        else
-                        {
-                            $backend_notification_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
-                        }
-						$form_settings["backend-notification"] = $backend_notification_settings;
-					}
-
-					else
-					{
-						$form_settings["backend-notification"] = NULL;
-					}
-
-					if($_POST['send-to-user'])
-					{
-						$user_notification_settings = array('From' => $_POST['user-from'], 'Subject' => $_POST['user-subject'], 'Body' => $_POST['user-body']);
-						$form_settings["user-notification"] = $user_notification_settings;
-					}
-
-					else
-					{
-						$form_settings["user-notification"] = NULL;
-					}
-
-					$form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
-
-					Global $wpdb;
-					//var_dump( $_POST['fcp']);
-					$wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp'], 'form_type'=> "application_form" ,'form_settings' => $form_settings));
-				}
-			}
 
 }
 

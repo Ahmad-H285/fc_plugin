@@ -67,6 +67,17 @@ function updateSubmitButtonText(event){
 
 	button.text(desiredText);
 }
+/**
+ * The following function can be called to animate a scroll effect in the browser window
+ * @returns {*}
+ */
+jQuery.fn.scrollView = function () {
+    return this.each(function () {
+        jQuery('html, body').animate({
+            scrollTop: jQuery(this).offset().top
+        }, 1000);
+    });
+}
 
 
 /*
@@ -74,10 +85,26 @@ function updateSubmitButtonText(event){
 */
 
 function saveForm(event){
-	formName = jQuery("input#fcp-form-name").val();
+	var formName = jQuery("input#fcp-form-name").val();
+    var warningDialog = '<div id="empty_form_name_warning" title="Fill in form name"><p>Please fill in a form name.<br> Try to make it unique.</p></div>';
 	if ( !formName ) { // form name is empty
 		event.preventDefault();
-		alert("Write a name for the form first !!");
+		//alert("Write a name for the form first !!");
+        jQuery(warningDialog).appendTo("body").dialog({
+            modal: true,
+            resizable: false,
+            draggable: false,
+            buttons:{
+                Ok: function(){
+                    jQuery(this).dialog("close");
+                    jQuery("#top_of_form").scrollView();
+                }
+            },
+            open: function(event, ui) {
+                jQuery(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+            }
+        });
+
 	}
 	else {
 		jQuery("button.close, a.col-sm-1:contains('Edit')").remove();
@@ -492,10 +519,36 @@ jQuery.each(options_object,function(key,value){
 jQuery("button#saveButton").on("click",saveButtonHandler);
 
 function saveButtonHandler (){
-
+    var saveDialog = jQuery('<div id="field_saved_dialog" title="Field Saved"><p>Field saved successfully</p></div>');
 	jQuery("div#edit_field_title").toggleClass("show").addClass("hidden");
 	jQuery("div#edit_field_content").toggleClass("show").addClass("hidden");
-	alert("Saved !!");
+	//alert("Saved !!");
+
+    saveDialog.appendTo("body").dialog({
+        modal: true,
+        resizable: false,
+        draggable: false,
+        width: 300,
+        hide: {
+            effect: "clip",
+            duration: 250
+        },
+        show: {
+            effect: "blind",
+            duration: 500
+        },
+        open: function(event, ui) {
+            jQuery(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+            setTimeout("jQuery('#field_saved_dialog').dialog('close')",2000);
+        },
+        close: function(){
+            jQuery("#field_saved_dialog").dialog("destroy").remove();
+
+
+        }
+
+    });
+
 	jQuery("button#discardButton").off("click");
 	jQuery("input#range_active").off("click");
 	//fcp_numeric_range_activator();
@@ -1152,3 +1205,87 @@ function toggleEmail_notificationFields(event){
 	}
 
 }
+
+/*
+    The following code handles managing deleting forms
+    it enables and disables the delete forms button according to how many forms are selected
+    and attaches click event to the delete links next to each form
+ */
+
+jQuery(document).ready(function(){
+
+    jQuery("#stored_forms .form-select-checkbox").change(function(event){
+
+        var number_of_checked_boxes = 0;
+        var selected_form_id = (jQuery(this).attr("id")).replace("checkbox_form_id_","");
+        var previously_selected_form_ids = jQuery("#stored_forms #selected_forms_ids").val();
+        var selected_ids_field = jQuery("#stored_forms #selected_forms_ids");
+
+        // add the id of the form whose checkbox has been changed and either add it or remove it from the field
+        console.log("Field value = "+jQuery("#stored_forms #selected_forms_ids").val());
+        if ( jQuery(this).prop("checked")){
+            selected_ids_field.val(previously_selected_form_ids + "-" +selected_form_id);
+        }
+        else {
+            previously_selected_form_ids = previously_selected_form_ids.replace("-"+selected_form_id,"");
+            selected_ids_field.val(previously_selected_form_ids);
+        }
+        console.log("Field value = "+jQuery("#stored_forms #selected_forms_ids").val());
+
+        jQuery.each(jQuery("#stored_forms .form-select-checkbox"),function(index,value){
+
+            if ( jQuery(this).prop("checked") ){
+                number_of_checked_boxes++;
+            }
+
+        });
+
+        if ( number_of_checked_boxes >= 2 ){
+            jQuery("#delete_selected_forms").removeAttr("disabled");
+            return;
+        }
+        else if ( number_of_checked_boxes < 2 ){
+            jQuery("#delete_selected_forms").attr("disabled",true);
+        }
+
+    });
+
+    jQuery("#stored_forms .fcp-delete-selected-form").click(function(event){
+        var form_id =  (jQuery(this).attr("id")).replace("fcp_form_id_","");
+        jQuery("#stored_forms #selected_forms_ids").val("-"+form_id);
+
+    });
+    /**
+     * The following displays a dialog when the user tries to delete a form or more
+     */
+	jQuery("#stored_forms .fcp-delete-selected-form, button#delete_selected_forms").click(function(event){
+        event.preventDefault();
+        var dialog_content = jQuery('<div id="confirm_form_delete" title="Delete Confirmation"><p>Proceed with the deleteion process ? </p></div>');
+        dialog_content.appendTo("body");
+        dialog_content.dialog({
+            resizable: false,
+            height: 200,
+            width: 350,
+            modal: true,
+            draggable: false,
+            buttons: {
+                "Yes, delete !": function(){
+                    jQuery(this).dialog("close");
+                    jQuery("#stored_forms").submit();
+                },
+
+                "No wait !!": function(){
+                    jQuery(this).dialog("close");
+                }
+            },
+            hide: {
+                effect: "blind",
+                duration: 250
+            },
+            show: {
+                effect: "bounce",
+                duration: 500
+            }
+        });
+    });
+});
