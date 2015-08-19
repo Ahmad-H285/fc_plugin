@@ -59,9 +59,60 @@ function fcp_display_created_forms($form_type){
 		echo "<tr>
 			    <td>".$form_count."</td><td>".$form_name."</td>"
 			    ."<td>[form id=\"".$form_name."_fcp_".$form_id."\"]</td>
-				<td><a href='' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >Edit</a></td>
+				<td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."'>Edit</a></td>
 				<td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
 			</tr>" ;
 		$form_count++;
 	}
+}
+
+function fcp_update_form()
+{
+	if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
+				if ($_POST['form-name']){
+
+				}
+
+
+				if ($_POST['fcp_edit']){
+
+					$form_settings = array('form-name' => $_POST['form-name']);
+
+					if($_POST['send-to-backend']) // if the user enabled backend notification
+					{
+                        if ($_POST['backend_users_list'] == "Other ...") // to check if the user wanted to email a non WordPress user
+                        {
+                            $backend_notification_settings = array('To' => $_POST['other_backend_email'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
+                        }
+                        else
+                        {
+                            $backend_notification_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
+                        }
+						$form_settings["backend-notification"] = $backend_notification_settings;
+					}
+
+					else
+					{
+						$form_settings["backend-notification"] = NULL;
+					}
+
+					if($_POST['send-to-user'])
+					{
+						$user_notification_settings = array('From' => $_POST['user-from'], 'Subject' => $_POST['user-subject'], 'Body' => $_POST['user-body']);
+						$form_settings["user-notification"] = $user_notification_settings;
+					}
+
+					else
+					{
+						$form_settings["user-notification"] = NULL;
+					}
+
+					$form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
+
+					Global $wpdb;
+					
+					$wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> "application_form" ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
+				}
+			}
+
 }
