@@ -56,6 +56,10 @@ function fcp_plugin_activation()
 
 register_activation_hook(__FILE__,'fcp_plugin_activation');
 
+/**
+ * @param $atts
+ * @return string represents the form itself when found
+ */
 function form_builder_shortcode($atts){
 
     /** @var wpdb $wpdb */
@@ -63,12 +67,37 @@ function form_builder_shortcode($atts){
     $attributes = shortcode_atts(array('form' => null), $atts,'form-builder');
 
     $form_id = explode("fcp_",$attributes['form']); // this hold the id of the form to be loaded
-    $table_name = $wpdb->prefix."fcp_formbuilder";
+	$form_id = $form_id[1];
 
-    $query =  "SELECT `form_body` FROM `".$table_name."` WHERE `form_id`=".$form_id[1];
-    $form = $wpdb->get_col($query);
+	/**
+	 * @var $passed_form_name will hold the name of the form that the user passed in the hsortcode
+	 * to be checked later on against the stored name
+	 */
+	$passed_form_name = trim (str_replace("fcp_" . $form_id, "", $attributes['form']));
 
-    return "<form class='form-horizontal' id='fcp_form".$form_id."'>" .html_entity_decode($form[0])."</form>";
+
+	$table_name = $wpdb->prefix."fcp_formbuilder";
+    $query =  "SELECT `form_body` FROM `".$table_name."` WHERE `form_id`=".$form_id;
+    $form = $wpdb->get_col($query); // getting the form
+
+	$query = "SELECT `form_settings` FROM `".$table_name."` WHERE `form_id`=".$form_id;
+	$settings = $wpdb->get_col($query); // getting the form settings
+
+	$form_name = trim (unserialize($settings[0])['form-name']);
+
+	if ( !empty($form) ){
+
+		if ( !strcasecmp($form_name,$passed_form_name) ){
+			return "<form class='form-horizontal' id='fcp_form".$form_id."'>" .html_entity_decode($form[0])."</form>";
+		}
+		else {
+			return "The form name you passed is incorrect";
+		}
+
+	}
+	else {
+		return "No Form Found";
+	}
 
 }
 
