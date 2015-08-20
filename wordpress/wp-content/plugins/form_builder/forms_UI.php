@@ -92,7 +92,7 @@ function fcp_application_page()
 					  <div class="form-group">
 					     <label for="app_first_name" class="col-sm-3 control-label ">First Name</label>
 					     <div class="col-sm-6 input-container">
-					      <input type="text" class="form-control" id="app_first_name" placeholder="First Name">
+					      <input name="first_name" type="text" class="form-control fcp-no-special" id="app_first_name" placeholder="First Name">
 						 </div>
 						 <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 						 <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
@@ -101,7 +101,7 @@ function fcp_application_page()
 					  <div class="form-group">
 					    <label for="app_last_name" class="col-sm-3 control-label">Last Name</label>
 					    <div class="col-sm-6 input-container">
-					      <input type="text" class="form-control" id="app_last_name" placeholder="Last Name">
+					      <input type="text" class="form-control fcp-no-special" id="app_last_name" placeholder="Last Name">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
@@ -110,7 +110,7 @@ function fcp_application_page()
 					  <div class="form-group">
 					    <label for="app_email" class="col-sm-3 control-label text-left">Email</label>
 					    <div class="col-sm-6 input-container">
-					      <input type="email" class="form-control" id="app_email" placeholder="Email">
+					      <input type="email" class="form-control fcp-no-special" id="app_email" placeholder="Email">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
@@ -119,7 +119,7 @@ function fcp_application_page()
 					  <div class="form-group">
 					    <label for="app_opt" class="col-sm-4 control-label">Application Options</label>
 					    <div class="col-sm-5  input-container">
-					      <select class="form-control" id="app_opt"><option>List Item 1</option></select>
+					      <select class="form-control fcp-select-menu-field" id="app_opt"><option>List Item 1</option></select>
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
@@ -287,10 +287,10 @@ function fcp_application_page()
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Form Name</th>
-                            <th>Shortcode</th>
+                            <th>Name</th>
+                            <th>Form Shortcode</th>
                             <th></th>
-                            <td></td>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

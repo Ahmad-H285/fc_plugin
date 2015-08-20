@@ -11,7 +11,7 @@ Author URI: http://www.youtube.com
 
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
-
+        wp_enqueue_script('jquery');
 		wp_enqueue_style('bootstrap.min.css','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
 		wp_enqueue_script('bootstrap.min.js','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
 
@@ -43,9 +43,10 @@ function fcp_plugin_activation()
 		$fcp_sql_submission =
 
 			'CREATE TABLE '.$fcp_submission_table.'(submission_id INTEGER(10) UNSIGNED AUTO_INCREMENT,
-		 	submission VARCHAR(255) NOT NULL,
+		 	submission TEXT NOT NULL,
 		 	sub_date DATE NOT NULL,
 		 	form_id INTEGER(10) UNSIGNED,
+		 	form_type VARCHAR(30) NOT NULL,
 		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id) ON DELETE CASCADE ON UPDATE NO ACTION,
 		 	PRIMARY KEY (submission_id)) '.$charset_collate;
 
@@ -66,11 +67,16 @@ function form_builder_shortcode($atts){
     Global $wpdb;
     $attributes = shortcode_atts(array('form' => null), $atts,'form-builder');
 
+    // include the js file
+    wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_front_end.js',
+        array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog'));
+    wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
+
     $form_id = explode("fcp_",$attributes['form']); // this hold the id of the form to be loaded
 	$form_id = $form_id[1];
 
 	/**
-	 * @var $passed_form_name will hold the name of the form that the user passed in the hsortcode
+	 * @var $passed_form_name : will hold the name of the form that the user passed in the hsortcode
 	 * to be checked later on against the stored name
 	 */
 	$passed_form_name = trim (str_replace("fcp_" . $form_id, "", $attributes['form']));
@@ -88,7 +94,18 @@ function form_builder_shortcode($atts){
 	if ( !empty($form) ){
 
 		if ( !strcasecmp($form_name,$passed_form_name) ){
-			return "<form class='form-horizontal' id='fcp_form".$form_id."'>" .html_entity_decode($form[0])."</form>";
+            $nonce = wp_create_nonce($form_name.$form_id);
+            if (wp_verify_nonce($nonce,$form_name.$form_id)){
+
+                if ( isset( $_POST['fcp_submission_state'] ) && $_POST['fcp_submission_state'] == "True" ){
+                    fcp_save_submission($form_id);
+                }
+
+            }
+			return "<form method='POST' action='' class='form-horizontal fcp_form' id='".$form_name.$form_id."'>"
+            .html_entity_decode($form[0]).
+            "<input type='hidden' name='fcp_submission_state'><input type='hidden' name='fcp_submission'></form>";
+
 		}
 		else {
 			return "The form name you passed is incorrect";
