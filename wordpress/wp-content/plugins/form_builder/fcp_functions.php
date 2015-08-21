@@ -56,7 +56,8 @@ function fcp_fields_options()
 function fcp_display_created_forms($form_type){
 
 	Global $wpdb;
-	$app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `wp_fcp_formbuilder` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+    $form_table = $wpdb->prefix."fcp_formbuilder";
+	$app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
     if (!empty($app_created_forms)){
         $form_count = 1;
         foreach ($app_created_forms as $form) {
@@ -283,6 +284,44 @@ function fcp_save_submission($form_id){
 
         $wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type));
 
+    }
+
+}
+
+/**
+ * This function retrieves submissions and displays them
+ *
+ * The function queries the database and gets all of the submissions which belong to the passed form type.
+ * The function then displays them all sequentially and generates view and delete links to each submission.
+ * @param $form_type : represents the form type which the function should only get from the table
+ *
+ */
+
+function fcp_display_submissions($form_type){
+    Global $wpdb;
+    $sub_table = $wpdb->prefix."fcp_submissions";
+    $form_table = $wpdb->prefix."fcp_formbuilder";
+    $submissions = $wpdb -> get_results("SELECT `submission_id`, `submission`, `sub_date`, `form_id` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+
+    if (!empty($submissions)){
+        $submission_count = 1;
+        foreach ($submissions as $key => $submission) {
+            $form_id = $submission['form_id'];
+            $submission_id = $submission['submission_id'];
+            $submission_date = $submission['sub_date'];
+            $form = $wpdb -> get_col("SELECT `form_settings` FROM `{$form_table}` WHERE `form_id`= '".$form_id."'");
+            $form_name = unserialize($form[0])['form-name'];
+            echo "<tr>
+			    <td><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
+                ."<td><b>{$submission_date}</b></td>
+				<td><a href='' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View Content</a></td>
+				<td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
+			</tr>" ;
+            $submission_count++;
+        }
+    }
+    else {
+        echo "<tr><td id='no_forms_to_display'>No content has been submitted yet.</td></tr>";
     }
 
 }

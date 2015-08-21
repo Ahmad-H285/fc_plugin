@@ -1260,11 +1260,12 @@ jQuery(document).ready(function(){
      */
 	jQuery("#stored_forms .fcp-delete-selected-form, button#delete_selected_forms").click(function(event){
         event.preventDefault();
-        var dialog_content = jQuery('<div id="confirm_form_delete" title="Delete Confirmation"><p>Proceed with the deleteion process ? </p></div>');
+        var dialog_content =
+			jQuery('<div id="confirm_form_delete" title="Delete Confirmation"><p><b>If you delete the form all of its <u>submissions</u> will be deleted.</b><br><br>Proceed with the deleteion process ? </p></div>');
         dialog_content.appendTo("body");
         dialog_content.dialog({
             resizable: false,
-            height: 200,
+            height: 230,
             width: 350,
             modal: true,
             draggable: false,

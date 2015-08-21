@@ -309,7 +309,31 @@ function fcp_application_page()
 
 		</div>
 		<div role="tabpanel" class="tab-pane" id="submissions">
-			<p>There are no submissions available yet</p>
+			<form action="" method="POST" class="form-horizontal col-sm-9" id="stored_submission">
+				<div class="col-sm-8">
+					<table class="table table-hover">
+						<thead>
+						<tr>
+							<th>#</th>
+							<th>Form Name</th>
+							<th>Submission Date</th>
+							<th>Submission Content</th>
+							<th></th>
+						</tr>
+						</thead>
+						<tbody>
+						<?php
+						fcp_display_submissions("application_form");
+						?>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-sm-5">
+					<button class="btn btn-default" type="submit" id="delete_selected_submissions" disabled>Delete Selected Submissions</button>
+				</div>
+				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
+
+			</form>
 		</div>
 	</div>	
 </div>
