@@ -142,6 +142,12 @@ function fcp_admin_menu()
 
 add_action('admin_menu','fcp_admin_menu');
 
+function fcp_edit_redirect()
+{
+	require_once(plugin_dir_path(__FILE__).'forms_UI.php');
+	add_submenu_page('Form Builder',"Edit Application Fomr","Edit Application Form","manage_options","fcp-edit","fcp_contact_page");
+}
+//add_action('admin_menu','fcp_edit_redirect');
 
 function fcp_general_page()
 {
