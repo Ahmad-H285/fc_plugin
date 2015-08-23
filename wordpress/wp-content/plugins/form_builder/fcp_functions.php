@@ -65,8 +65,8 @@ function fcp_display_created_forms($form_type){
         foreach ($app_created_forms as $form) {
             $form_name = unserialize($form['form_settings'])['form-name'];
             $form_id = $form['form_id'];
-            echo "<tr>
-			    <td><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td><td>".$form_name."</td>"
+            echo "<tr class='fcp-table-head'>
+			    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
                 ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
 				<td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >Edit</a></td>
 				<td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
@@ -160,10 +160,9 @@ function fcp_delete_forms($form_ids){
         else {
             $array_of_ids[$index] .= $form_ids[$i];
         }
-//        echo "<br>current array of ids<br>";
-//        print_r($array_of_ids);
+
     }
-    //echo "<br>Ides to be deleted: <br>";
+
 
     foreach($array_of_ids as $id){
         $wpdb->delete($wpdb -> prefix."fcp_formbuilder",array('form_id' => $id));
@@ -216,7 +215,7 @@ function fcp_save_form($form_type){
     //var_dump( $_POST['fcp']);
     $wpdb->insert($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp'], 'form_type'=> $form_type ,'form_settings' => $form_settings));
 }
-//<<<<<<< HEAD
+
 
 
 /**
@@ -295,7 +294,7 @@ function fcp_save_submission($form_id){
                 if (!empty($field_value)) { // checkboxes were ticked
                     foreach ($field_value as $val) { // loop on the checkboxes that were ticked
                         $val = strip_tags($val);
-                        //(notneeded)echo $val . "<br>";
+
 
                         array_push($fields_val_array,$val);
 
@@ -366,10 +365,10 @@ function fcp_display_submissions($form_type){
             $submission_date = $submission['sub_date'];
             $form = $wpdb -> get_col("SELECT `form_settings` FROM `{$form_table}` WHERE `form_id`= '".$form_id."'");
             $form_name = unserialize($form[0])['form-name'];
-            echo "<tr>
-			    <td><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
-                ."<td style='text-align:center;'><b>{$submission_date}</b></td>
-				<td><a href='' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View Content</a></td>
+            echo "<tr class='fcp-table-head'>
+			    <td class='col-sm-1'><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
+                ."<td><b>{$submission_date}</b></td>
+				<td><a href='' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View</a></td>
 				<td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
 			</tr>" ;
             $submission_count++;

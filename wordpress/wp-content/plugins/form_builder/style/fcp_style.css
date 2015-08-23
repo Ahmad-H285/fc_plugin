@@ -59,3 +59,7 @@ div.form-sketch {
 
 	margin-bottom: 30px;
 }
+
+tr.fcp-table-head th, tr.fcp-table-head td  {
+	text-align: center;
+}

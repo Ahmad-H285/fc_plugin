@@ -93,26 +93,12 @@ function fcp_application_page()
 					$wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> "application_form" ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
 		}
 		Global $wpdb;
-		$edit_form = $wpdb -> get_results("SELECT `form_body`, `form_settings` FROM `wp_fcp_formbuilder` WHERE `form_id`= '".$_GET['id']."'",ARRAY_A);
+		$table_name = $wpdb->prefix."fcp_formbuilder";
+		$edit_form = $wpdb -> get_results("SELECT `form_body`, `form_settings` FROM `{$table_name}` WHERE `form_id`= '".$_GET['id']."'",ARRAY_A);
 		$fcp_edit_settings = unserialize($edit_form[0]['form_settings']);
 		$fcp_settings_backend = $fcp_edit_settings['backend-notification'];
 		$fcp_settings_user = $fcp_edit_settings['user-notification'];
-		$form_body_wrap = '	<h2 class="col-sm-12" id="top_of_form">Edit Form</h2>
-							<div class="col-sm-7">
-								<form action="" method="POST" class="form-horizontal" id="fcp_application_preview">
-									<div class="form-group">
-										<label for="fcp-form-name" class="col-sm-10"><h3>Form Name</h3></label>
-										<div class="col-sm-10">
-											<input name="form-name" class="form-control col-sm-3" id="fcp-form-name" placeholder="Form Name" type="text" value="'.$fcp_edit_settings['form-name'].'">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="submit-button-text" class="col-sm-10"><h3>Submit Button Text</h3></label>
-										<div class="col-sm-4">
-											<input name="submit-button-text" class="form-control col-sm-3" id="submit-button-text" placeholder="Submit Button Text" type="text">
-										</div>
-									</div>
-									<div class="form-sketch">';
+
 		if($fcp_settings_backend != NULL)
 		{?>
 			<script>jQuery(document).ready(function(){
@@ -145,12 +131,11 @@ function fcp_application_page()
 			$user_body = $fcp_settings_user['Body'];
 		}
 
-		$return_form_body = html_entity_decode($edit_form[0]['form_body']);
 		fcp_fields_panel();
 		fcp_fields_options();
 
 
-	$nonce_edit = wp_create_nonce('form-builder-sub');
+	//$nonce_edit = wp_create_nonce('form-builder-sub');
 	?><input type="hidden" name="fcp_edit" value="">
 
 
@@ -561,10 +546,10 @@ function fcp_application_page()
 		</div>
 		<div role="tabpanel" class="tab-pane active" id="forms">
             <form action="" method="POST" class="form-horizontal col-sm-9" id="stored_forms">
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                 <table class="table table-hover">
                     <thead>
-                        <tr>
+                        <tr class="fcp-table-head">
                             <th>#</th>
                             <th>Name</th>
                             <th>Form Shortcode</th>
@@ -589,14 +574,14 @@ function fcp_application_page()
 		</div>
 		<div role="tabpanel" class="tab-pane" id="submissions">
 			<form action="" method="POST" class="form-horizontal col-sm-9" id="stored_submission">
-				<div class="col-sm-8">
+				<div class="col-sm-12">
 					<table class="table table-hover">
 						<thead>
-						<tr>
+						<tr class="fcp-table-head">
 							<th>#</th>
 							<th>Form Name</th>
 							<th>Submission Date</th>
-							<th>Submission Content</th>
+							<th>Content</th>
 							<th></th>
 						</tr>
 						</thead>
