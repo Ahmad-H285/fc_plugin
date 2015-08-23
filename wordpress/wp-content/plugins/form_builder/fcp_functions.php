@@ -312,8 +312,8 @@ function fcp_display_submissions($form_type){
             $form = $wpdb -> get_col("SELECT `form_settings` FROM `{$form_table}` WHERE `form_id`= '".$form_id."'");
             $form_name = unserialize($form[0])['form-name'];
             echo "<tr>
-			    <td><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
-                ."<td><b>{$submission_date}</b></td>
+			    <td><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
+                ."<td style='text-align:center;'><b>{$submission_date}</b></td>
 				<td><a href='' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View Content</a></td>
 				<td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
 			</tr>" ;
