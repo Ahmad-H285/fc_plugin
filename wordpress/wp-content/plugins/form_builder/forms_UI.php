@@ -40,11 +40,14 @@ function fcp_application_page()
         if (isset($_POST['selected_forms_ids'])){
             fcp_delete_forms($_POST['selected_forms_ids']);
         }
+        else if (isset($_POST['selected_submissions_ids'])){
+            fcp_delete_submissions($_POST['selected_submissions_ids']);
+        }
 
 
         if (isset($_POST['fcp'])){
 
-            fcp_save_form("application_form"); // passing the name of the form type
+            fcp_save_form(APPLICATION_FORM_FCP); // passing the name of the form type
 
         }
     }
@@ -307,6 +310,12 @@ function fcp_application_page()
 
 
 	}
+    /*
+     * Now display the contents of the submission
+     */
+    else if (isset($_GET['submission_content_id'])){
+        fcp_display_submission_content($_GET['submission_content_id']);
+    }
 
 
 
@@ -559,7 +568,7 @@ function fcp_application_page()
                     </thead>
                     <tbody>
                     <?php
-                        fcp_display_created_forms("application_form");
+                        fcp_display_created_forms(APPLICATION_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -581,13 +590,14 @@ function fcp_application_page()
 							<th>#</th>
 							<th>Form Name</th>
 							<th>Submission Date</th>
+                            <th>Submission ID</th>
 							<th>Content</th>
 							<th></th>
 						</tr>
 						</thead>
 						<tbody>
 						<?php
-						fcp_display_submissions("application_form");
+						fcp_display_submissions(APPLICATION_FORM_FCP);
 						?>
 						</tbody>
 					</table>

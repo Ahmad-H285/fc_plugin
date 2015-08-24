@@ -49,7 +49,7 @@ function fcp_fields_options()
 }
 
 /**
- * @param $form_type represents the string value of the form type
+ * @param $form_type :represents the string value of the form type
  * form type should be passed in all lower case and separated with underscores between each word
  */
 
@@ -368,7 +368,8 @@ function fcp_display_submissions($form_type){
             echo "<tr class='fcp-table-head'>
 			    <td class='col-sm-1'><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
                 ."<td><b>{$submission_date}</b></td>
-				<td><a href='' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View</a></td>
+                <td>{$submission_id}</td>
+				<td><a href='".$_SERVER['REQUEST_URI'].'&submission_content_id='.$submission_id."' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View</a></td>
 				<td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
 			</tr>" ;
             $submission_count++;
@@ -377,5 +378,134 @@ function fcp_display_submissions($form_type){
     else {
         echo "<tr><td id='no_forms_to_display'>No content has been submitted yet.</td></tr>";
     }
+
+}
+
+/**
+ * The function deletes the submissions based on their passed ids.
+ *
+ * The function take the ids separated by '-', it extracts the ids individually then deletes them
+ * @param $submissions_ids
+ */
+function fcp_delete_submissions($submissions_ids){
+
+    Global $wpdb;
+    $submissions_ids = str_split($submissions_ids);
+    $array_of_ids = array();
+    $index = 0;
+
+    /**
+     * The following loop creates array elements after scanning for dashes. It takes the elements between the
+     * dashes and adds them to a new array element
+     */
+    for($i=0;$i<sizeof($submissions_ids); $i++){
+        if ($submissions_ids[$i] == "-"){
+            if ($i > 0){
+                $index++;
+            }
+            $i++;
+            $array_of_ids[$index] = $submissions_ids[$i];
+        }
+        else {
+            $array_of_ids[$index] .= $submissions_ids[$i];
+        }
+
+    }
+
+
+    foreach($array_of_ids as $id){
+        $wpdb->delete($wpdb -> prefix."fcp_submissions",array('submission_id' => $id));
+    }
+
+}
+
+
+/**
+ * The function display the content of the submission based on the passed id.
+ * The function display all of the field values except for the password fields.
+ * @param $submission_id
+ */
+function fcp_display_submission_content($submission_id){
+    Global $wpdb;
+    $submissions_table = $wpdb->prefix."fcp_submissions";
+    $forms_table = $wpdb->prefix."fcp_formbuilder";
+
+    $submission_query = "SELECT * FROM `".$submissions_table."` WHERE `submission_id`=".$submission_id;
+    $submission_row = $wpdb->get_row($submission_query,ARRAY_A);
+    $form_id = $submission_row['form_id'];
+    $form_query = "SELECT `form_settings` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
+    $form_settings = $wpdb->get_col($form_query);
+    $form_name = unserialize($form_settings[0])['form-name'];
+
+
+    $field_label_pattern = "/_fcp_[0-9]/"; // regular expression to match the postfix and remove it
+    $password_pattern = "/(\(_fcp_pass)\)/"; // used to match if the field is a password field or not
+
+
+    $field_counter = 1;
+
+
+
+
+    $content_fields = (unserialize($submission_row['submission']));
+    ?>
+    <div class="col-sm-9 fcp-submission-content">
+        <h1>Submission Information</h1>
+
+        <dl class="dl-horizontal">
+            <dt>Form Name:</dt>
+            <dd><?php echo $form_name; ?></dd>
+            <dt>Form Type:</dt>
+            <dd><?php echo $submission_row['form_type']; ?></dd>
+            <dt>Submission Date:</dt>
+            <dd><?php echo $submission_row['sub_date']; ?></dd>
+            <dt>Submission ID: </dt>
+            <dd><?php echo $submission_row['submission_id'];?></dd>
+        </dl>
+        <h2 class="col-sm-9">Submission Content :-</h2>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Field</th>
+                <th>Values</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <?php
+            foreach($content_fields as $field_label => $field_values){
+                echo "<tr>";
+                $field_label = preg_replace($field_label_pattern,"",$field_label);
+
+                $password = strstr($field_label, "(_fcp_pass)");
+                if ($password !== FALSE){
+                    $field_label = preg_replace($password_pattern,"",$field_label);
+                    $password = TRUE;
+                }
+                echo "<td>{$field_counter}</td> ";
+                echo "<td>{$field_label}</td> ";
+                echo "<td><ul>";
+                foreach ($field_values as $key=> $value){
+
+                    if ($password) {
+                        $value = "Stored Securely";
+                    }
+                    echo "<li>{$value}</li>";
+                }
+                echo "</ul></td>";
+                $field_counter++;
+                echo "</tr>";
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <?php
+
+
 
 }

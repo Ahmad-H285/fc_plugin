@@ -14,7 +14,18 @@ require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
         wp_enqueue_script('jquery');
 		wp_enqueue_style('bootstrap.min.css','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
 		wp_enqueue_script('bootstrap.min.js','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
-
+/*
+ * Some constant to denote the application type
+ */
+define("APPLICATION_FORM_FCP","Application Form");
+define("CONTACT_FORM_FCP","Contact Form");
+define("Survey_FORM_FCP","Survey Form");
+define("CONTENT_SUBMISSION_FORM_FCP","Content Submission Form");
+define("REGISTRATION_FORM_FCP","Registration Form");
+define("BOOKING_FORM_FCP","Booking Form");
+define("NEWSLETTER_FORM_FCP","Newsletter Form");
+define("EVENT_FORM_FCP","Event Form");
+define("CUSTOM_FORM_FCP","Custom Form");
 
 function fcp_plugin_activation()
 {
