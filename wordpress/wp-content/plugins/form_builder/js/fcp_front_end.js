@@ -269,5 +269,27 @@ jQuery(document).ready(function($){
         $("form.fcp_form").submit();
     });
 
+/*
+    Adjustments to how the form is displayed on the front end
+
+    ******* START *******
+*/
+//Fixing Radio styles
+jQuery("div.radio label").addClass("col-sm-10");
+jQuery("div.radio input").removeClass("col-sm-4");
+jQuery("div.radio input").addClass("col-sm-1");
+jQuery("div.radio").removeClass("radio");
+
+//Fixing Checkbox styles
+jQuery("div.checkbox label").addClass("col-sm-10");
+jQuery("div.checkbox input").removeClass("col-sm-4");
+jQuery("div.checkbox input").addClass("col-sm-1");
+jQuery("div.checkbox").removeClass("checkbox");
+
+//Fixing Time styles
+jQuery("div.fcp_time select").css("width","70px");
+
+/* ******* Adjustments END ******* */
+
 });
 
