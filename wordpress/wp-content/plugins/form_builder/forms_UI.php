@@ -44,6 +44,41 @@ function fcp_application_page()
 
         if (isset($_POST['fcp'])){
 
+        	if(file_exists("css"))
+        	{
+        		$fcp_att_dir = "../wp-content/plugins/form_builder/attachments/";
+	        	$fcp_att_file = $fcp_att_dir.basename($_FILES["fcp-att"]["name"]);
+	        	//$fcp_att_file = $fcp_att_dir;
+	        	//move_uploaded_file($_FILES['fcp-att']["temp-name"], $fcp_att_file);
+
+	        	if (file_exists($fcp_att_file)) 
+	        	{
+	    			echo "Sorry, file already exists.";
+	    		}
+	        	else
+	        	{
+	        		if(move_uploaded_file($_FILES['fcp-att']["tmp_name"],$fcp_att_file))
+	        		{
+	        			echo "The file ".basename($_FILES['fcp-att']['name'])." has been uploaded";
+	        		}	
+
+	        		else
+	        		{
+	        			echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
+	        		}
+	        	}
+        	}
+        	
+
+        	else
+        	{
+        		echo "Folder does not exists";
+        	}
+
+        	 
+
+        	
+
             fcp_save_form("application_form"); // passing the name of the form type
 
         }
@@ -336,7 +371,7 @@ function fcp_application_page()
 
 			<div class="col-sm-7">
 
-				<form action="" method="POST" class="form-horizontal" id="fcp_application_preview">
+				<form action="" method="POST" class="form-horizontal" id="fcp_application_preview" enctype="multipart/form-data">
 
 					<div class="form-group">
 						<label for="fcp-form-name" class="col-sm-10"><h3>Form Name</h3></label>
@@ -407,7 +442,7 @@ function fcp_application_page()
 					  <div class="form-group fcp_file">
 					    <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
 					    <div class="col-sm-6 input-container">
-					      <input type="file" id="app_attachment">
+					      <input type="file" id="app_attachment" name="fcp-att">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
@@ -587,7 +622,9 @@ function fcp_application_page()
 						</thead>
 						<tbody>
 						<?php
+					
 						fcp_display_submissions("application_form");
+
 						?>
 						</tbody>
 					</table>
