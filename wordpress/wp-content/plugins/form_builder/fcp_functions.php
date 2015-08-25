@@ -80,13 +80,9 @@ function fcp_display_created_forms($form_type){
 
 }
 
-function fcp_update_form()
+function fcp_update_form($form_type_update)
 {
-	if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
-				if ($_POST['form-name']){
-
-				}
-
+	//if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
 
 				if ($_POST['fcp_edit']){
 
@@ -125,10 +121,11 @@ function fcp_update_form()
 
 					Global $wpdb;
 
-					$wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> "application_form" ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
+					$wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> $form_type_update ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
+
 
 				}
-			}
+			//}
 
 }
 
