@@ -423,7 +423,7 @@ function fcp_application_page()
 					  </div>
 
 					  <div class="form-group">
-					    <div class="col-sm-offset-3 col-sm-3">
+					    <div class="col-sm-offset-3 col-sm-5">
 					      <button type="" class="btn btn-default fcp_submitButton" disabled>Submit</button>
 					    </div>
 					  </div>

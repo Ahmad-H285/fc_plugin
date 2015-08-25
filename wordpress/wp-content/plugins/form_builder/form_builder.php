@@ -11,9 +11,10 @@ Author URI: http://www.youtube.com
 
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
-        wp_enqueue_script('jquery');
-		wp_enqueue_style('bootstrap.min.css','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
-		wp_enqueue_script('bootstrap.min.js','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
+wp_enqueue_script('jquery');
+wp_enqueue_style('bootstrap.min.css','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+wp_enqueue_script('bootstrap.min.js','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
+wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
 /*
  * Some constant to denote the application type
  */

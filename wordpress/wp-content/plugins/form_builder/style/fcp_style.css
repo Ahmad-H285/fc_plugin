@@ -63,3 +63,8 @@ div.form-sketch {
 tr.fcp-table-head th, tr.fcp-table-head td  {
 	text-align: center;
 }
+
+.fcp-empty-required-field{
+	border: 2px solid #F00;
+	border-radius: 5px;
+}

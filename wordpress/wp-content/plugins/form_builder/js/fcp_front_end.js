@@ -207,6 +207,155 @@ jQuery(document).ready(function($){
 
         event.preventDefault();
 
+        //******** Checking required fields **********
+
+        var input_fields =  jQuery("input.fcp-required-input");
+        var select_fields = jQuery("select.fcp-required-input");
+        var textarea_fields = jQuery("textarea.fcp-required-input");
+        var radio_fields = jQuery(".radio_field.fcp-required-input");
+        var checkbox_fields = jQuery(".check_field.fcp-required-input");
+        var empty_fields = 0;
+
+        // Check required fields
+        // input fields
+        jQuery.each(input_fields,function(index, field){
+
+            if ( !jQuery(field).val() ) { // if field is empty
+                empty_fields += 1;
+
+                if ( !($(field).hasClass("fcp-empty-required-field")) ) {
+                    $(field).addClass("fcp-empty-required-field");
+                }
+            }
+            else if ($(field).hasClass("fcp-empty-required-field")){
+                $(field).removeClass("fcp-empty-required-field");
+            }
+            // special case for minutes in the time picker
+
+            if (jQuery(field).attr("placeholder") === "hrs"){
+                var minutes_field = jQuery(field).nextAll("input[placeholder='mins']");
+                if ( !minutes_field.val() ) { // if field is empty
+                    empty_fields += 1;
+
+                    if ( !minutes_field.hasClass("fcp-empty-required-field")) {
+                        minutes_field.addClass("fcp-empty-required-field");
+                    }
+                }
+                else if (minutes_field.hasClass("fcp-empty-required-field")){
+                    minutes_field.removeClass("fcp-empty-required-field");
+                }
+            }
+        });
+
+        //textarea fields
+        jQuery.each(textarea_fields,function(index, field){
+
+            if ( !jQuery(field).val() ) { // if field is empty
+                empty_fields += 1;
+
+                if ( !($(field).hasClass("fcp-empty-required-field")) ) {
+                    $(field).addClass("fcp-empty-required-field");
+                }
+            }
+            else if ($(field).hasClass("fcp-empty-required-field")){
+                $(field).removeClass("fcp-empty-required-field");
+            }
+        });
+
+        // select menu fields
+
+        jQuery.each(select_fields,function(index, field){
+
+            if ( !jQuery(field).val() ) { // if field is empty
+                empty_fields += 1;
+
+                if ( !($(field).hasClass("fcp-empty-required-field")) ) {
+                    $(field).addClass("fcp-empty-required-field");
+                }
+            }
+            else if ($(field).hasClass("fcp-empty-required-field")){
+                $(field).removeClass("fcp-empty-required-field");
+            }
+        });
+
+
+        // radio button fields
+        radio_fields = radio_fields.children(".form-group");
+
+        jQuery.each(radio_fields, function(index,form_group_field){
+            var input_containers = jQuery(form_group_field).children(".input-container");
+            var checked_flag = false;
+            jQuery.each(input_containers,function(index,radio){
+
+                radio = jQuery(radio).find("input");
+                if ( radio.prop("checked")){
+                    checked_flag = true;
+                }
+            });
+
+            if ( checked_flag ){
+                if (jQuery(form_group_field).hasClass("fcp-empty-required-field")){
+                    jQuery(form_group_field).removeClass("fcp-empty-required-field");
+                }
+            }
+            else {
+                jQuery(form_group_field).removeClass("fcp-empty-required-field").addClass("fcp-empty-required-field");
+                empty_fields+=1;
+            }
+        });
+
+        // checkbox fields
+        checkbox_fields = checkbox_fields.children(".form-group");
+
+        jQuery.each(checkbox_fields, function(index,form_group_field){
+            var input_containers = jQuery(form_group_field).children(".input-container");
+            var checked_flag = false;
+            jQuery.each(input_containers,function(index,checkbox){
+
+                checkbox = jQuery(checkbox).find("input");
+                if ( checkbox.prop("checked")){
+                    checked_flag = true;
+                }
+            });
+
+            if ( checked_flag ){
+                if (jQuery(form_group_field).hasClass("fcp-empty-required-field")){
+                    jQuery(form_group_field).removeClass("fcp-empty-required-field");
+                }
+            }
+            else {
+                jQuery(form_group_field).removeClass("fcp-empty-required-field").addClass("fcp-empty-required-field");
+                empty_fields+=1;
+            }
+        });
+
+
+        if (empty_fields > 0){
+
+            var warning = "<div id='fcp_empty_fields_warning' title='Empty Required Fields'>There are "
+                + empty_fields +" fields that you did not fill</div>";
+            $(warning).appendTo("body").dialog({
+                resizable: false,
+                height: 220,
+                width: 450,
+                modal: true,
+                draggable: false,
+                open: function(event, ui) {
+                    jQuery(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                    setTimeout("jQuery('#fcp_empty_fields_warning').dialog('close')",3000);
+                },
+                close: function(event,ui){
+                    jQuery("#fcp_empty_fields_warning").dialog("destroy").remove();
+                }
+            });
+
+            return;
+        }
+
+
+        //*********Required fields checking end**********
+
+
         //var submission_data ={};
         var dataObject = {};
         // signaling that the form has been submitted
@@ -290,6 +439,7 @@ jQuery("div.checkbox").removeClass("checkbox");
 jQuery("div.fcp_time select").css("width","70px");
 
 /* ******* Adjustments END ******* */
+
 
 });
 
