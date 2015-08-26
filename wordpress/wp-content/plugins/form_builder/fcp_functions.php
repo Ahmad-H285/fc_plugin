@@ -80,13 +80,9 @@ function fcp_display_created_forms($form_type){
 
 }
 
-function fcp_update_form()
+function fcp_update_form($form_type_update)
 {
-	if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
-				if ($_POST['form-name']){
-
-				}
-
+	//if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
 
 				if ($_POST['fcp_edit']){
 
@@ -125,10 +121,11 @@ function fcp_update_form()
 
 					Global $wpdb;
 
-					$wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> "application_form" ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
+					$wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> $form_type_update ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
+
 
 				}
-			}
+			//}
 
 }
 
@@ -228,6 +225,43 @@ function fcp_save_form($form_type){
 function fcp_save_submission($form_id){
 
     Global $wpdb;
+
+    if(file_exists("wp-content/plugins/form_builder/attachments"))
+        	{
+        		$fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
+	        	$fcp_att_file = $fcp_att_dir.basename($_FILES["fcp-att"]["name"]);
+	        	$fcp_att_type = pathinfo($fcp_att_file, PATHINFO_EXTENSION);
+
+	        	if (file_exists($fcp_att_file)) 
+	        	{
+	    			//echo "This file already exists";
+	    		}
+
+	    		else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
+	    		{
+	    			//echo "This file format is not supported";
+	    		}
+
+	    		else if($_FILES["fcp-att"]["size"] > 20000000)
+	    		{
+	    			//echo "The File size is too large";
+	    		}
+
+	        	else
+	        	{
+	        		if(move_uploaded_file($_FILES['fcp-att']["tmp_name"],$fcp_att_file))
+	        		{
+	        			//echo "The file "."<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>"." has been uploaded";
+	        			//echo "<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>";
+	        		}	
+
+	        		else
+	        		{
+	        			echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
+	        		}
+	        	}
+        	}
+
 
     if ( isset( $_POST['fcp_submission']) ){
         //var_dump($_POST['fcp_submission']);
@@ -336,9 +370,13 @@ function fcp_save_submission($form_id){
         $sub_date = date('Y-m-d');//, strtotime(date("H:i:s")));
 
 
-        $wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type));
+        $wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type,'attachment_path'=>$fcp_att_file));
 
     }
+
+    //Sending file attahments
+
+
 
 }
 
@@ -355,7 +393,7 @@ function fcp_display_submissions($form_type){
     Global $wpdb;
     $sub_table = $wpdb->prefix."fcp_submissions";
     $form_table = $wpdb->prefix."fcp_formbuilder";
-    $submissions = $wpdb -> get_results("SELECT `submission_id`, `submission`, `sub_date`, `form_id` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+    $submissions = $wpdb -> get_results("SELECT `submission_id`, `submission`, `sub_date`, `form_id`, `attachment_path` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
 
     if (!empty($submissions)){
         $submission_count = 1;
@@ -496,6 +534,12 @@ function fcp_display_submission_content($submission_id){
                 echo "</ul></td>";
                 $field_counter++;
                 echo "</tr>";
+            }
+            if($submission_row['attachment_path'])
+            {
+            	echo "<td>{$field_counter}</td> ";
+                echo "<td>Attachment</td> ";
+                echo "<td>"."<a href='".get_site_url()."/".$submission_row['attachment_path']."'>File</a>"."</td> ";
             }
             ?>
             </tbody>

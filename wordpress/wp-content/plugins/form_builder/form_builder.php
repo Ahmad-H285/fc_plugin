@@ -59,6 +59,7 @@ function fcp_plugin_activation()
 		 	sub_date DATE NOT NULL,
 		 	form_id INTEGER(10) UNSIGNED,
 		 	form_type VARCHAR(30) NOT NULL,
+      attachment_path TEXT,
 		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id) ON DELETE CASCADE ON UPDATE NO ACTION,
 		 	PRIMARY KEY (submission_id)) '.$charset_collate;
 
@@ -114,7 +115,7 @@ function form_builder_shortcode($atts){
                 }
 
             }
-			return "<form method='POST' action='' class='form-horizontal fcp_form' id='".$form_name.$form_id."'>"
+			return "<form method='POST' action='' class='form-horizontal fcp_form' id='".$form_name.$form_id."' enctype='multipart/form-data'>"
             .html_entity_decode($form[0]).
             "<input type='hidden' name='fcp_submission_state'><input type='hidden' name='fcp_submission'></form>";
 
