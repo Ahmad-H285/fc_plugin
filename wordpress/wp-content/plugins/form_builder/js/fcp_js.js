@@ -1288,6 +1288,7 @@ jQuery(document).ready(function(){
     });
     /**
      * The following displays a dialog when the user tries to delete a form or more
+     * before deleting
      */
 	jQuery("#stored_forms .fcp-delete-selected-form, button#delete_selected_forms").click(function(event){
         event.preventDefault();
@@ -1320,4 +1321,91 @@ jQuery(document).ready(function(){
             }
         });
     });
+
+    /*
+        The following attaches change event on the checkboxes of the submission to extract
+        their ids and pass them to the field to be deleted
+     */
+
+    jQuery("#stored_submission .submission-select-checkbox").change(function(event){
+
+        var number_of_checked_boxes = 0;
+        var selected_form_id = (jQuery(this).attr("id")).replace("checkbox_submission_id_","");
+        var previously_selected_form_ids = jQuery("#stored_submission #selected_submissions_ids").val();
+        var selected_ids_field = jQuery("#stored_submission #selected_submissions_ids");
+
+        // add the id of the form whose checkbox has been changed and either add it or remove it from the field
+        console.log("Field value = "+jQuery("#stored_submission #selected_submissions_ids").val());
+        if ( jQuery(this).prop("checked")){
+            selected_ids_field.val(previously_selected_form_ids + "-" +selected_form_id);
+        }
+        else {
+            previously_selected_form_ids = previously_selected_form_ids.replace("-"+selected_form_id,"");
+            selected_ids_field.val(previously_selected_form_ids);
+        }
+        console.log("Field value = "+jQuery("#stored_submission #selected_submissions_ids").val());
+
+        jQuery.each(jQuery("#stored_submission .submission-select-checkbox"),function(index,value){
+
+            if ( jQuery(this).prop("checked") ){
+                number_of_checked_boxes++;
+            }
+
+        });
+
+        if ( number_of_checked_boxes >= 2 ){
+            jQuery("#delete_selected_submissions").removeAttr("disabled");
+            return;
+        }
+        else if ( number_of_checked_boxes < 2 ){
+            jQuery("#delete_selected_submissions").attr("disabled",true);
+        }
+
+    });
+    /*
+        The following attaches a click event on the delete link of each submission to
+        extract its id and pass it to the field
+     */
+
+    jQuery("#stored_submission .fcp-delete-selected-submission").click(function(event){
+        var form_id =  (jQuery(this).attr("id")).replace("fcp_submission_id_","");
+        jQuery("#stored_submission #selected_submissions_ids").val("-"+form_id);
+
+    });
+    /**
+     * The following displays a dialog when the user tries to delete a form or more
+     * before deleting
+     */
+    jQuery("#stored_submission .fcp-delete-selected-submission, button#delete_selected_submissions").click(function(event){
+        event.preventDefault();
+        var dialog_content =
+            jQuery('<div id="confirm_sub_delete" title="Delete Confirmation"><p>You are about to <b>DELETE a user filled</b> submission!</b><br><br>Proceed with the deleteion process ? </p></div>');
+        dialog_content.appendTo("body");
+        dialog_content.dialog({
+            resizable: false,
+            height: 230,
+            width: 350,
+            modal: true,
+            draggable: false,
+            buttons: {
+                "Yes, delete": function(){
+                    jQuery(this).dialog("close");
+                    jQuery("#stored_submission").submit();
+                },
+
+                "No wait !!": function(){
+                    jQuery(this).dialog("close");
+                }
+            },
+            hide: {
+                effect: "blind",
+                duration: 250
+            },
+            show: {
+                effect: "bounce",
+                duration: 500
+            }
+        });
+    });
+
 });

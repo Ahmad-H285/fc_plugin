@@ -40,46 +40,15 @@ function fcp_application_page()
         if (isset($_POST['selected_forms_ids'])){
             fcp_delete_forms($_POST['selected_forms_ids']);
         }
+        else if (isset($_POST['selected_submissions_ids'])){
+            fcp_delete_submissions($_POST['selected_submissions_ids']);
+        }
 
 
         if (isset($_POST['fcp'])){
-
-        	if(file_exists("css"))
-        	{
-        		$fcp_att_dir = "../wp-content/plugins/form_builder/attachments/";
-	        	$fcp_att_file = $fcp_att_dir.basename($_FILES["fcp-att"]["name"]);
-	        	//$fcp_att_file = $fcp_att_dir;
-	        	//move_uploaded_file($_FILES['fcp-att']["temp-name"], $fcp_att_file);
-
-	        	if (file_exists($fcp_att_file)) 
-	        	{
-	    			echo "Sorry, file already exists.";
-	    		}
-	        	else
-	        	{
-	        		if(move_uploaded_file($_FILES['fcp-att']["tmp_name"],$fcp_att_file))
-	        		{
-	        			echo "The file ".basename($_FILES['fcp-att']['name'])." has been uploaded";
-	        		}	
-
-	        		else
-	        		{
-	        			echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
-	        		}
-	        	}
-        	}
         	
 
-        	else
-        	{
-        		echo "Folder does not exists";
-        	}
-
-        	 
-
-        	
-
-            fcp_save_form("application_form"); // passing the name of the form type
+           fcp_save_form(APPLICATION_FORM_FCP); 
 
         }
     }
@@ -88,7 +57,7 @@ function fcp_application_page()
 
 	if($_GET['id'])
 	{
-		fcp_update_form("application_form");
+		fcp_update_form(APPLICATION_FORM_FCP);
 		
 		Global $wpdb;
 		$table_name = $wpdb->prefix."fcp_formbuilder";
@@ -305,6 +274,12 @@ function fcp_application_page()
 
 
 	}
+    /*
+     * Now display the contents of the submission
+     */
+    else if (isset($_GET['submission_content_id'])){
+        fcp_display_submission_content($_GET['submission_content_id']);
+    }
 
 
 
@@ -557,7 +532,7 @@ function fcp_application_page()
                     </thead>
                     <tbody>
                     <?php
-                        fcp_display_created_forms("application_form");
+                        fcp_display_created_forms(APPLICATION_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -579,6 +554,7 @@ function fcp_application_page()
 							<th>#</th>
 							<th>Form Name</th>
 							<th>Submission Date</th>
+                            <th>Submission ID</th>
 							<th>Content</th>
 							<th></th>
 						</tr>
@@ -586,7 +562,7 @@ function fcp_application_page()
 						<tbody>
 						<?php
 					
-						fcp_display_submissions("application_form");
+						fcp_display_submissions(APPLICATION_FORM_FCP);
 
 						?>
 						</tbody>
@@ -605,7 +581,7 @@ function fcp_application_page()
 }
 		if($_GET['id'])
 		{
-			fcp_update_form("application_form");
+			fcp_update_form(APPLICATION_FORM_FCP);
 		}
 
 }
