@@ -484,7 +484,7 @@ function fcp_display_submission_content($submission_id){
                     $password = TRUE;
                 }
                 echo "<td>{$field_counter}</td> ";
-                echo "<td>{$field_label}</td> ";
+                echo "<td class='fcp-submission-field-label'>{$field_label}</td> ";
                 echo "<td><ul>";
                 foreach ($field_values as $key=> $value){
 

@@ -12,6 +12,19 @@
  */
 
 
+// disable submission button function
+
+function disableSubmissionButton(reason){
+    var button = jQuery(".fcp_submitButton");
+    button.attr("disabled","true");
+}
+
+function enableSubmissionButton(){
+    var button = jQuery(".fcp_submitButton");
+    button.removeAttr("disabled");
+}
+
+
 /*
  The following shall be called only when submitting the form
  */
@@ -332,24 +345,16 @@ jQuery(document).ready(function($){
 
         if (empty_fields > 0){
 
-            var warning = "<div id='fcp_empty_fields_warning' title='Empty Required Fields'>There are "
-                + empty_fields +" fields that you did not fill</div>";
-            $(warning).appendTo("body").dialog({
-                resizable: false,
-                height: 220,
-                width: 450,
-                modal: true,
-                draggable: false,
-                open: function(event, ui) {
-                    jQuery(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
-                    setTimeout("jQuery('#fcp_empty_fields_warning').dialog('close')",3000);
-                },
-                close: function(event,ui){
-                    jQuery("#fcp_empty_fields_warning").dialog("destroy").remove();
-                }
-            });
+            
+            jQuery("#fcp-required-field-warning").remove();
+            var message = "<div class ='col-sm-12' id='fcp-required-field-warning'><div class='col-sm-3'>" +
+                "</div>" +
+                "<div class='col-sm-6 bg-warning' style='border-radius: 10px;font-weight: bold;'>" +
+                "Please fill in the required fields</div><div class='col-sm-3'>" +
+                "</div></div>";
+            jQuery(this).parents(".form-group").after(message);
 
-            return;
+            return; // to prevent form submission
         }
 
 
@@ -441,5 +446,22 @@ jQuery("div.fcp_time select").css("width","70px");
 /* ******* Adjustments END ******* */
 
 
+
+    /*
+     Email Format Verification
+     */
+
+    jQuery("input[type='email']").keyup(function(event){
+        var re_email = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/igm;
+
+        if (!re_email.test($(this).val()) && $(this).val()){
+            $(this).css("background-color","rgba(254, 87, 87, 0.44)");
+            disableSubmissionButton("Email format is not correct");
+        }
+        else if (!($(this).val())) {
+            $(this).css("background-color","");
+            enableSubmissionButton();
+        }
+    });
 });
 
