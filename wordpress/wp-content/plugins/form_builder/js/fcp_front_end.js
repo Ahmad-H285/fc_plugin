@@ -454,11 +454,11 @@ jQuery("div.fcp_time select").css("width","70px");
     jQuery("input[type='email']").keyup(function(event){
         var re_email = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/igm;
 
-        if (!re_email.test($(this).val()) && $(this).val()){
+        if ($(this).val() != "" && !re_email.test($(this).val())){
             $(this).css("background-color","rgba(254, 87, 87, 0.44)");
             disableSubmissionButton("Email format is not correct");
         }
-        else if (!($(this).val())) {
+        else {
             $(this).css("background-color","");
             enableSubmissionButton();
         }

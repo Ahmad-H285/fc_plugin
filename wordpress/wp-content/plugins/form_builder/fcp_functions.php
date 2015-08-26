@@ -535,7 +535,7 @@ function fcp_display_submission_content($submission_id){
                 $field_counter++;
                 echo "</tr>";
             }
-            if($submission_row['attachment_path'])
+            if(!empty($submission_row['attachment_path']))
             {
             	echo "<td>{$field_counter}</td> ";
                 echo "<td>Attachment</td> ";
