@@ -345,7 +345,7 @@ jQuery(document).ready(function($){
 
         if (empty_fields > 0){
 
-            
+
             jQuery("#fcp-required-field-warning").remove();
             var message = "<div class ='col-sm-12' id='fcp-required-field-warning'><div class='col-sm-3'>" +
                 "</div>" +

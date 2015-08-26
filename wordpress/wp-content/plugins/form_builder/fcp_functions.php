@@ -234,17 +234,17 @@ function fcp_save_submission($form_id){
 
 	        	if (file_exists($fcp_att_file)) 
 	        	{
-	    			//echo "This file already exists";
+	    			echo "This file already exists";
 	    		}
 
 	    		else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
 	    		{
-	    			//echo "This file format is not supported";
+	    			echo "This file format is not supported";
 	    		}
 
 	    		else if($_FILES["fcp-att"]["size"] > 20000000)
 	    		{
-	    			//echo "The File size is too large";
+	    			echo "The File size is too large";
 	    		}
 
 	        	else
@@ -539,7 +539,7 @@ function fcp_display_submission_content($submission_id){
             {
             	echo "<td>{$field_counter}</td> ";
                 echo "<td>Attachment</td> ";
-                echo "<td>"."<a href='".get_site_url()."/".$submission_row['attachment_path']."'>File</a>"."</td> ";
+                echo "<td>"."<a href='".get_site_url()."/".$submission_row['attachment_path']."' download>File</a>"."</td> ";
             }
             ?>
             </tbody>

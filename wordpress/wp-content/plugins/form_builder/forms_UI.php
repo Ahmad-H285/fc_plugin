@@ -48,7 +48,7 @@ function fcp_application_page()
         if (isset($_POST['fcp'])){
         	
 
-           fcp_save_form(APPLICATION_FORM_FCP); 
+           fcp_save_form(APPLICATION_FORM_FCP);
 
         }
     }
