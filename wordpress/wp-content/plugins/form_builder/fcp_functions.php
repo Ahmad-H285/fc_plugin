@@ -264,13 +264,17 @@ function fcp_save_submission($form_id){
 
 
     if ( isset( $_POST['fcp_submission']) ){
-        //var_dump($_POST['fcp_submission']);
         $form_fields = json_decode(stripslashes($_POST['fcp_submission']));
-        //var_dump($sub);
 
-        $password_flag = FALSE; // to indicate that the password has already been added. In order not to add the confirmation
 
         $submission_array = array(); // associative array
+
+        // password ops
+        $hashed_password = "";
+        if ( !empty($_POST['fcp_password']) ){
+
+            $hashed_password = wp_hash_password($_POST['fcp_password']);
+        }
 
         foreach($form_fields as $field_name => $field_value){
 
@@ -283,45 +287,21 @@ function fcp_save_submission($form_id){
 
             //Check for special fields and deal with them separetly
 
-            // (1) password ops variables
-            $password = strstr($field_name, "(_fcp_pass)");
-            $pass_postfix_reg_exp = "/(\(_fcp_pass)\)/";
 
-            // (2) checkbox ops variables
+
+            // (1) checkbox ops variables
             $checkbox_special_reg_exp = "/_fcp_box_field_/";
             $checkbox = strstr($field_name,"_fcp_box_field_"); // used to check if the string exists or not
 
 
 
             // ****************IMPORTANT*********** removing postifix from the field name will be done when displaying only
-            //$field_name = preg_replace($field_label_reg,"",$field_name,1);
             $field_name = strip_tags($field_name);
 
-            // password ops
-            if ( $password != FALSE && !$password_flag){
-                // $value contains a password and should be hashed before storing it
-                $password = $field_value;
 
-                if ($field_value != ""){
-                    $field_value = "Password entered";
-                }
-                else {
-                    $field_value = "No password entered";
-                }
-
-                $password_flag = TRUE;
-
-                $fields_val_array[$field_val_counter] = $password;
-
-                // saving the password field with the password postfix to recognize it when polling it from the DB
-                $submission_array[$field_name] = $fields_val_array; // should be hashed
-
-                $field_name = preg_replace($pass_postfix_reg_exp,"",$field_name,1);
-
-            }
 
             // checkbox ops
-            else if ($checkbox != FALSE) {
+            if ($checkbox != FALSE) {
                 $field_name = preg_replace($checkbox_special_reg_exp,"",$field_name,1);
 
 
@@ -370,7 +350,7 @@ function fcp_save_submission($form_id){
         $sub_date = date('Y-m-d');//, strtotime(date("H:i:s")));
 
 
-        $wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type,'attachment_path'=>$fcp_att_file));
+        $wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type,'attachment_path'=>$fcp_att_file, 'password'=> $hashed_password));
 
     }
 

@@ -59,7 +59,8 @@ function fcp_plugin_activation()
 		 	sub_date DATE NOT NULL,
 		 	form_id INTEGER(10) UNSIGNED,
 		 	form_type VARCHAR(30) NOT NULL,
-      attachment_path TEXT,
+            attachment_path TEXT,
+            password VARCHAR(64),
 		 	FOREIGN KEY (form_id) REFERENCES '.$fcp_form_table.'(form_id) ON DELETE CASCADE ON UPDATE NO ACTION,
 		 	PRIMARY KEY (submission_id)) '.$charset_collate;
 

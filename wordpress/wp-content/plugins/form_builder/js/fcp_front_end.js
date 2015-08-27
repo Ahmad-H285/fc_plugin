@@ -46,17 +46,6 @@ function submission_data_parse(data){
 }
 
 /* *********Functions START********* */
-function password_masking_parse(){
-    var pass_field = jQuery("form.fcp_form input[type='password']:first");
-
-    if (pass_field.length > 0) {
-        var masked_value =  pass_field.val();//"(_fcp_p)" + pass_field.val();
-        return masked_value;
-    }
-    else {
-        return 0;
-    }
-}
 
 function time_picker_parse(){
     var time_value_array = [];
@@ -372,12 +361,6 @@ jQuery(document).ready(function($){
         /* ********Special Ops START******** */
 
         // (1) password ops
-        var password = password_masking_parse();
-        if (password !== 0) {
-            var password_field_name = $("form.fcp_form input[type='password']:first").parents("div.form-group")
-                .children("label").text();
-            submission_data[password_field_name+"(_fcp_pass)"] = password;
-        }
 
         // (2) time picker ops
         var time_array = time_picker_parse();
