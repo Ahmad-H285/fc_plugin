@@ -334,12 +334,15 @@ jQuery(document).ready(function($){
 
         if (empty_fields > 0){
 
-            jQuery("#fcp_message").text("Please fill in the required fields");
+            jQuery("#fcp_message").html("<p id='fcp_required_message'>Please fill in the required fields</p>");
             jQuery("div#fcp-form-messages").removeClass("hidden");
 
             return; // to prevent form submission
         }
-
+        else {
+            jQuery("#fcp_message").html(" "); // removing the content
+            jQuery("div#fcp-form-messages").addClass("hidden");
+        }
 
         //*********Required fields checking end**********
 
