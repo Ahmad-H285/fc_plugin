@@ -117,6 +117,14 @@ function form_builder_shortcode($atts){
             }
 			return "<form method='POST' action='' class='form-horizontal fcp_form' id='".$form_name.$form_id."' enctype='multipart/form-data'>"
             .html_entity_decode($form[0]).
+            "<div class ='col-sm-12 hidden' id='fcp-form-messages'>
+                <div class='col-sm-3'>
+                </div>
+                <div class='col-sm-6 bg-warning' id='fcp_message' style='border-radius: 10px;font-weight: bold;'>
+                </div>
+                <div class='col-sm-3'>
+                </div>
+            </div>".
             "<input type='hidden' name='fcp_submission_state'><input type='hidden' name='fcp_submission'></form>";
 
 		}

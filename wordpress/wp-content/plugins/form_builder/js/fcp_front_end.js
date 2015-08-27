@@ -345,14 +345,8 @@ jQuery(document).ready(function($){
 
         if (empty_fields > 0){
 
-
-            jQuery("#fcp-required-field-warning").remove();
-            var message = "<div class ='col-sm-12' id='fcp-required-field-warning'><div class='col-sm-3'>" +
-                "</div>" +
-                "<div class='col-sm-6 bg-warning' style='border-radius: 10px;font-weight: bold;'>" +
-                "Please fill in the required fields</div><div class='col-sm-3'>" +
-                "</div></div>";
-            jQuery(this).parents(".form-group").after(message);
+            jQuery("#fcp_message").text("Please fill in the required fields");
+            jQuery("div#fcp-form-messages").removeClass("hidden");
 
             return; // to prevent form submission
         }
