@@ -226,41 +226,61 @@ function fcp_save_submission($form_id){
 
     Global $wpdb;
 
-    if(file_exists("wp-content/plugins/form_builder/attachments"))
-        	{
-        		$fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
-	        	$fcp_att_file = $fcp_att_dir.basename($_FILES["fcp-att"]["name"]);
-	        	$fcp_att_type = pathinfo($fcp_att_file, PATHINFO_EXTENSION);
+    $file_flag = 1;
 
-	        	if (file_exists($fcp_att_file)) 
-	        	{
-	    			echo "This file already exists";
-	    		}
+    if(!file_exists("wp-content/plugins/form_builder/attachments"))
+    {
+       	mkdir("wp-content/plugins/form_builder/attachments", 0700);
+       	$file_flag = 0;
+    }
+   
+    else
+    {
+    	$file_flag =1;
+    }    	
+        		
+    if($_FILES['fcp-att']['name'])
+    {
 
-	    		else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
-	    		{
-	    			echo "This file format is not supported";
-	    		}
+	  	$fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
+		$fcp_att_file = $fcp_att_dir.basename($_FILES["fcp-att"]["name"]);
+		$fcp_att_type = pathinfo($fcp_att_file, PATHINFO_EXTENSION);
 
-	    		else if($_FILES["fcp-att"]["size"] > 20000000)
-	    		{
-	    			echo "The File size is too large";
-	    		}
+		if (file_exists($fcp_att_file)) 
+		{
+		    echo "This file already exists";
+		   	$file_flag = 0;
+		}
 
-	        	else
-	        	{
-	        		if(move_uploaded_file($_FILES['fcp-att']["tmp_name"],$fcp_att_file))
-	        		{
-	        			//echo "The file "."<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>"." has been uploaded";
-	        			//echo "<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>";
-	        		}	
+		else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
+		{
+		    echo "This file format is not supported";
+		   	$file_flag = 0;
+		}
 
-	        		else
-	        		{
-	        			echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
-	        		}
-	        	}
-        	}
+		else if($_FILES["fcp-att"]["size"] > 20000000)
+		{
+		    echo "The File size is too large";
+		  	$file_flag = 0;
+		}
+
+		else
+	    {
+		    if(move_uploaded_file($_FILES['fcp-att']["tmp_name"],$fcp_att_file))
+		    {
+		       	//echo "The file "."<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>"." has been uploaded";
+		        //echo "<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>";
+		        $file_flag = 1;
+		    }	
+
+		    else
+		    {
+		        echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
+		        $file_flag = 0;
+		    }
+		}
+	}
+        
 
 
     if ( isset( $_POST['fcp_submission']) ){
@@ -369,8 +389,19 @@ function fcp_save_submission($form_id){
         $form_type = $form_type[0];
         $sub_date = date('Y-m-d');//, strtotime(date("H:i:s")));
 
+		if($_FILES['fcp-att']['name'])
+		{
+			$fcp_file_found = $fcp_att_file;
+		}
+		else
+		{
+			$fcp_file_found = NULL;
+		}
 
-        $wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type,'attachment_path'=>$fcp_att_file));
+		if($file_flag == 1)
+		{
+			$wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type,'attachment_path'=>$fcp_file_found));	
+		}
 
     }
 
