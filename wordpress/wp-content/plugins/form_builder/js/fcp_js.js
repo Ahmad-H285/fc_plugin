@@ -1234,7 +1234,7 @@ function toggleEmail_notificationFields(event){
 		fcp_email_not_opt = jQuery(this).parents("div#email_options").next("div.fcp_email_not_opt");
 		fcp_email_not_opt.slideUp(500);
 	}
-
+	userNotificationEmailFields();
 }
 
 /*
@@ -1420,6 +1420,63 @@ jQuery(document).ready(function(){
 		var field_label = jQuery(label).text();
 		field_label = field_label.replace("*"," (required)");
 		jQuery(label).text(field_label);
+	});
+
+});
+
+
+/**
+ * The following function retrives and returns all of the email fields inserted in a form
+ * and inserts them into the select menu from which the user will select an email field
+ */
+function userNotificationEmailFields(){
+	var email_fields = jQuery("div.form-sketch input[type='email']");
+	var fields_html = "<option value='0'>Select an email field to use</option>";
+	jQuery.each(email_fields,function(index,field){
+		var field_label = jQuery(field).parents("div.form-group").children("label");
+		field_label = field_label.text();
+
+		var field_id = jQuery(field).attr("id");
+		fields_html = fields_html +
+				"<option value='"+field_id+"'>"+field_label+"</option>";
+	});
+
+
+	var previously_selected = jQuery("select#fcp_user_email_to_notification option:selected");
+	var value_attr = previously_selected.attr("value");
+
+	jQuery("select#fcp_user_email_to_notification").children("option").remove();
+	jQuery("select#fcp_user_email_to_notification").append(fields_html);
+
+	jQuery("select#fcp_user_email_to_notification option[value='"+value_attr+"']").attr("selected","true");
+}
+
+// This ready function checks the select menu which displays the email fields
+// for the user to select one from to use with notification
+
+
+jQuery(document).ready(function(){
+	//userNotificationEmailFields();
+	var email_fields_menu = jQuery("select#fcp_user_email_to_notification");
+	// to update the fields just before the user clicks the menu
+	email_fields_menu.on("mouseover",userNotificationEmailFields);
+
+	email_fields_menu.change(function(event){
+		var selected_field_id = jQuery(this).val();
+		var email_fields = jQuery("div.form-sketch input[type='email']");
+		if (selected_field_id != 0){
+			jQuery.each(email_fields,function(index,field){
+				if (jQuery(field).attr("id") == selected_field_id){
+					jQuery(field).attr("name","fcp_user_email_notify");
+				}
+				else{
+					jQuery(field).removeAttr("name");
+				}
+			});
+		}
+		else{ // remove all the name attribute from all fields
+			email_fields.removeAttr("name");
+		}
 	});
 
 });

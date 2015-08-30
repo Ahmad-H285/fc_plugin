@@ -442,3 +442,17 @@ jQuery("div.fcp_time select").css("width","70px");
     });
 });
 
+
+
+function confirm_submission(message){
+    var notification_container = "<div class='fcp_submission_confirmation col-sm-12'>" +
+        "<div class='col-sm-3'></div>" +
+        "<div class='col-sm-6 bg-success' style='border-radius: 15px;margin-bottom: 25px;'>" + message+ "</div>" +
+        "<div class='col-sm-3'></div>" +
+        "</div>";
+    jQuery("form.fcp_form").prepend(notification_container);
+
+    setTimeout(function(){
+        jQuery("div.fcp_submission_confirmation").fadeOut(1000);
+    },3500);
+}

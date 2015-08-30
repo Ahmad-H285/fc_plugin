@@ -401,7 +401,7 @@ function fcp_save_submission($form_id){
         $form_type = $wpdb->get_col($form_type_query);
         $form_type = $form_type[0];
         $sub_date = date('Y-m-d');//, strtotime(date("H:i:s")));
-
+        $submission_inserted = FALSE; // used to indicate whether the submission was inserted or not
 
 			if($_FILES['fcp-att']['name'])
 			{
@@ -414,7 +414,56 @@ function fcp_save_submission($form_id){
 
 			if($file_flag == 1)
 			{
-				$wpdb->insert($submission_table, array('submission' => $submission_array, 'sub_date' => $sub_date,'form_id' => $form_id,'form_type'=> $form_type,'attachment_path'=>$fcp_file_found, 'password'=> $hashed_password));
+				$submission_inserted = $wpdb->insert($submission_table,
+                    array('submission' => $submission_array,
+                          'sub_date' => $sub_date,
+                          'form_id' => $form_id,
+                          'form_type'=> $form_type,
+                          'attachment_path'=>$fcp_file_found,
+                          'password'=> $hashed_password));
+
+                // Now check if the submission was inserted or not
+                // ( 1 ) display a confrimation message
+                // ( 2 ) refer to form settings for notifications
+                if ( $submission_inserted !== FALSE ){
+                    echo "<script>
+                            jQuery(document).ready(function(){
+                                confirm_submission('Submission Successful');
+                            });
+                    </script>";
+
+                    // retrieving the settings of the form
+                    $form_settings_query = "SELECT `form_settings` FROM " . $form_table . " WHERE `form_id`=".$form_id;
+                    $form_settings = $wpdb->get_col($form_settings_query);
+                    $form_settings = unserialize($form_settings[0]);
+
+                    if ($form_settings['backend-notification'] != NULL){
+                        $backend_settings = $form_settings['backend-notification'];
+                        $backend_to = $backend_settings['To'];
+                        $backend_from = $backend_settings['From'];
+                        $backend_subject = $backend_settings['Subject'];
+                        $backend_body = $backend_settings['Body'];
+
+                        if ( !is_email($backend_to)){
+                            // It is a wordpress user ID
+                            $wordpress_user = get_user_by('id',$backend_to);
+                            $backend_to =  $wordpress_user->user_email;
+                        }
+
+                        // now you have an email address and you should send
+                    }
+
+                    if ($form_settings['user-notification'] != NULL){
+                        $user_settings = $form_settings['user-notification'];
+                        $user_from = $user_settings['From'];
+                        $user_subject = $user_settings['Subject'];
+                        $user_body = $user_settings['Body'];
+                        $user_to = $_POST['fcp_user_email_notify'];
+
+
+                    }
+
+                }
 			}
 
 
