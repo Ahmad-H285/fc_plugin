@@ -199,9 +199,6 @@ jQuery(document).ready(function($){
     //enabling the datepicker on elements
     $(".hasDatepicker").removeClass("hasDatepicker").datepicker();
 
-
-
-
     /**
      * The following takes the values of the fields and parses them into a JSON object
      */

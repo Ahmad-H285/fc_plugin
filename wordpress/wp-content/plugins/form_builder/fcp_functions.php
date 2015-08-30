@@ -222,6 +222,9 @@ function fcp_save_form($form_type){
  *
  */
 
+
+
+
 function fcp_save_submission($form_id){
 
     Global $wpdb;
@@ -248,19 +251,43 @@ function fcp_save_submission($form_id){
 
 		if (file_exists($fcp_att_file))
 		{
-		    echo "This file already exists";
+		    //$file_err_msg = "This file already exists";
+		    ?>
+		    <script type="text/javascript">
+		    jQuery(document).ready(function(){
+		    	jQuery("#fcp_message").text("This file already exists");
+		    	jQuery("#fcp-form-messages").removeClass('hidden');	
+		    });
+		    </script>
+		    <?php
+		    
+			
 		   	$file_flag = 0;
 		}
 
 		else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
 		{
-		    echo "This file format is not supported";
+		    ?>
+		    <script type="text/javascript">
+		    jQuery(document).ready(function(){
+		    	jQuery("#fcp_message").text("This file format is not supported");
+		    	jQuery("#fcp-form-messages").removeClass('hidden');	
+		    });
+		    </script>
+		    <?php
 		   	$file_flag = 0;
 		}
 
 		else if($_FILES["fcp-att"]["size"] > 20000000)
 		{
-		    echo "The File size is too large";
+		    ?>
+		    <script type="text/javascript">
+		    jQuery(document).ready(function(){
+		    	jQuery("#fcp_message").text("The file size is too large");
+		    	jQuery("#fcp-form-messages").removeClass('hidden');	
+		    });
+		    </script>
+		    <?php
 		  	$file_flag = 0;
 		}
 
@@ -268,17 +295,23 @@ function fcp_save_submission($form_id){
 	    {
 		    if(move_uploaded_file($_FILES['fcp-att']["tmp_name"],$fcp_att_file))
 		    {
-		       	//echo "The file "."<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>"." has been uploaded";
-		        //echo "<a href='".get_site_url()."/".$fcp_att_file."'>".$_FILES['fcp-att']['name']."</a>";
 		        $file_flag = 1;
 		    }
 
 		    else
 		    {
-		        echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
+		        //echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
+		        ?>
+		    <script type="text/javascript">
+		    jQuery(document).ready(function(){
+		    	jQuery("#fcp_message").text("There was a problem uploading the file");
+		    	jQuery("#fcp-form-messages").removeClass('hidden');	
+		    });
+		    </script>
+		    <?php
 		        $file_flag = 0;
 		    }
-		}
+		}		
 	}
 
 
