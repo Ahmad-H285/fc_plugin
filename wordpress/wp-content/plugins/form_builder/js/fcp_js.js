@@ -1480,3 +1480,18 @@ jQuery(document).ready(function(){
 	});
 
 });
+
+
+/*
+	The following attaches a click event to checkbox to select all forms / submissions to be deleted
+ */
+jQuery("#fcp_select_all_forms, #fcp_select_all_submissions").change(function(event){
+	var is_checked = jQuery(this).prop("checked");
+
+	if (is_checked){
+		jQuery(this).parents("table:first").find("input[type='checkbox']").not(jQuery(this)).prop("checked","true").change();
+	}
+	else {
+		jQuery(this).parents("table:first").find("input[type='checkbox']").not(jQuery(this)).removeAttr("checked").change();
+	}
+});

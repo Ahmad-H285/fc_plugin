@@ -532,7 +532,9 @@ function fcp_application_page()
                 <table class="table table-hover">
                     <thead>
                         <tr class="fcp-table-head">
-                            <th>#</th>
+							<th>
+								<input type="checkbox" id="fcp_select_all_forms"> #
+							</th>
                             <th>Name</th>
                             <th>Form Shortcode</th>
                             <th></th>
@@ -560,7 +562,9 @@ function fcp_application_page()
 					<table class="table table-hover">
 						<thead>
 						<tr class="fcp-table-head">
-							<th>#</th>
+							<th>
+								<input type="checkbox" id="fcp_select_all_submissions"> #
+							</th>
 							<th>Form Name</th>
 							<th>Submission Date</th>
                             <th>Submission ID</th>
