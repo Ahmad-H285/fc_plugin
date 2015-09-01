@@ -422,6 +422,10 @@ function fcp_save_submission($form_id){
                           'attachment_path'=>$fcp_file_found,
                           'password'=> $hashed_password));
 
+                $Sub_body = fcp_submission_content_loop(unserialize($submission_array));
+                //echo $Sub_body;
+                
+
                 // Now check if the submission was inserted or not
                 // ( 1 ) display a confrimation message
                 // ( 2 ) refer to form settings for notifications
@@ -449,7 +453,9 @@ function fcp_save_submission($form_id){
                             $wordpress_user = get_user_by('id',$backend_to);
                             $backend_to =  $wordpress_user->user_email;
                         }
-
+                        $submission_email = unserialize($submission_array);
+                        //var_dump($submission_email);
+                        wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_att_file);
                         // now you have an email address and you should send
                     }
 
@@ -460,7 +466,7 @@ function fcp_save_submission($form_id){
                         $user_body = $user_settings['Body'];
                         $user_to = $_POST['fcp_user_email_notify'];
 
-
+                        wp_mail($user_to,$user_subject,$user_body,"From: ".$user_from." <fcpForm>"."\r\n");
                     }
 
                 }
@@ -473,6 +479,57 @@ function fcp_save_submission($form_id){
 
 
 
+}
+
+
+
+function fcp_submission_content_loop($form_fields)
+{
+    // $submissions_table = $wpdb->prefix."fcp_submissions";
+    // $submission_query = "SELECT * FROM `".$submissions_table."` WHERE `submission_id`=".$submission_id;
+    // $submission_row = $wpdb->get_row($submission_query,ARRAY_A);
+
+    $field_label_pattern = "/_fcp_[0-9]/";
+    $password_pattern = "/(\(_fcp_pass)\)/";
+
+    $field_counter = 1;
+
+    //$content_fields = (unserialize($submission_row['submission']));
+            //var_dump($form_fields);
+            foreach($form_fields as $field_label => $field_values){
+                //echo "<tr>";
+                $field_label = preg_replace($field_label_pattern,"",$field_label);
+
+                $password = strstr($field_label, "(_fcp_pass)");
+                if ($password !== FALSE){
+                    $field_label = preg_replace($password_pattern,"",$field_label);
+                    $password = TRUE;
+                }
+                //echo $field_counter;
+                //echo $field_label;
+                //echo "<td><ul>";
+                //var_dump($field_values);
+                $value_temp = "";
+
+                foreach ($field_values as $key => $value){
+
+                    if ($password) {
+                        $value = "Stored Securely";
+                    }
+                    //echo $value;
+
+                    $value_temp.=" ".$value;
+                    //echo $key; 
+                }
+                //echo "</ul></td>";
+                $field_counter++;
+                //echo "</tr>";
+
+                $sub_temp.= $field_label. " : " . $value_temp."\r\n";
+                //$sub_temp = $value_temp; 
+                //echo $field_label;
+            }
+            return $sub_temp;
 }
 
 /**
@@ -571,16 +628,16 @@ function fcp_display_submission_content($submission_id){
     $form_name = unserialize($form_settings[0])['form-name'];
 
 
-    $field_label_pattern = "/_fcp_[0-9]/"; // regular expression to match the postfix and remove it
-    $password_pattern = "/(\(_fcp_pass)\)/"; // used to match if the field is a password field or not
+    $field_label_pattern = "/_fcp_[0-9]/"; // regular expression to match the postfix and remove it //NEEDED
+    $password_pattern = "/(\(_fcp_pass)\)/"; // used to match if the field is a password field or not //NEEDED
 
 
-    $field_counter = 1;
+    $field_counter = 1; //NEEDED
 
 
 
 
-    $content_fields = (unserialize($submission_row['submission']));
+    $content_fields = (unserialize($submission_row['submission'])); //NEEDED
     ?>
     <div class="col-sm-9 fcp-submission-content">
         <h1>Submission Information</h1>
