@@ -657,7 +657,7 @@ function fcp_display_submission_content($submission_id){
             <dd><?php echo $submission_row['submission_id'];?></dd>
         </dl>
         <h2 class="col-sm-9">Submission Content :-</h2>
-        <table class="table table-hover">
+        <table class="table table-hover"  id="fcp_submission_table">
             <thead>
             <tr>
                 <th>#</th>

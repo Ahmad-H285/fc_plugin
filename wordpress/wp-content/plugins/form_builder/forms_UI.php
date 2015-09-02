@@ -273,7 +273,7 @@ function fcp_application_page()
 					  jQuery("div.form-sketch div.fcp_date").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_time").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_email").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
-					  jQuery("div.form-sketch div.fcp_textarea").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
+					  jQuery("div.form-sketch div.fcp_textarea").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_file").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 				});
 			</script>
@@ -335,8 +335,8 @@ function fcp_application_page()
 					<br>
 					<div class="form-sketch"> <!--The begining of the form fields -->
 					  <div class="form-group fcp_text">
-					     <label for="app_first_name" class="col-sm-3 control-label ">First Name</label>
-					     <div class="col-sm-6 input-container">
+					     <label for="app_first_name" class="col-sm-4 control-label ">First Name</label>
+					     <div class="col-sm-5 input-container">
 					      <input name="first_name" type="text" class="form-control fcp-no-special" id="app_first_name" placeholder="First Name">
 						 </div>
 						 <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -344,8 +344,8 @@ function fcp_application_page()
 					  </div>
 
 					  <div class="form-group fcp_text">
-					    <label for="app_last_name" class="col-sm-3 control-label">Last Name</label>
-					    <div class="col-sm-6 input-container">
+					    <label for="app_last_name" class="col-sm-4 control-label">Last Name</label>
+					    <div class="col-sm-5 input-container">
 					      <input type="text" class="form-control fcp-no-special" id="app_last_name" placeholder="Last Name">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -353,8 +353,8 @@ function fcp_application_page()
 					  </div>
 
 					  <div class="form-group fcp_email">
-					    <label for="app_email" class="col-sm-3 control-label text-left">Email</label>
-					    <div class="col-sm-6 input-container">
+					    <label for="app_email" class="col-sm-4 control-label text-left">Email</label>
+					    <div class="col-sm-5 input-container">
 					      <input type="email" class="form-control fcp-no-special" id="app_email" placeholder="Email">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -377,17 +377,17 @@ function fcp_application_page()
 							<button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">×</span></button>
 							<div class="form-group">
 								<div class="radio col-sm-10 input-container" style="padding-top:0">
-									<label><input class="col-sm-4" name="radio_but_1_radio" type="radio">Male</label>
+									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Male</label>
 								</div>
 								<div class="radio col-sm-10 input-container" style="padding-top:0">
-									<label><input class="col-sm-4" name="radio_but_1_radio" type="radio">Female</label>
+									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Female</label>
 								</div>
 							</div>
 						</div>
 
 					  <div class="form-group fcp_file">
-					    <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
-					    <div class="col-sm-6 input-container">
+					    <label for="app_attachment" class="col-sm-4 control-label">Attachment</label>
+					    <div class="col-sm-5 input-container">
 					      <input type="file" id="app_attachment" name="fcp-att">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -395,7 +395,7 @@ function fcp_application_page()
 					  </div>
 
 					  <div class="form-group">
-					    <div class="col-sm-offset-3 col-sm-5">
+					    <div class="col-sm-offset-4 col-sm-5">
 					      <button type="" class="btn btn-default fcp_submitButton" disabled>Submit</button>
 					    </div>
 					  </div>

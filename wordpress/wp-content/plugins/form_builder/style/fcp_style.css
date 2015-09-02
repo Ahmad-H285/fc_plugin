@@ -68,3 +68,12 @@ tr.fcp-table-head th, tr.fcp-table-head td  {
 	border: 2px solid #F00;
 	border-radius: 5px;
 }
+
+input.fcp-check-radio{
+	margin-right: 10px;
+}
+
+table#fcp_submission_table{
+	table-layout: fixed;
+	word-wrap: break-word;
+}
