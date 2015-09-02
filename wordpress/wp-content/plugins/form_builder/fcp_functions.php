@@ -441,6 +441,9 @@ function fcp_save_submission($form_id){
                     $form_settings = $wpdb->get_col($form_settings_query);
                     $form_settings = unserialize($form_settings[0]);
 
+                    // to set the content type to html
+                    add_filter('wp_mail_content_type',create_function('', 'return "text/html"; '));
+
                     if ($form_settings['backend-notification'] != NULL){
                         $backend_settings = $form_settings['backend-notification'];
                         $backend_to = $backend_settings['To'];
@@ -496,6 +499,7 @@ function fcp_submission_content_loop($form_fields)
 
     //$content_fields = (unserialize($submission_row['submission']));
             //var_dump($form_fields);
+            $sub_temp = '';
             foreach($form_fields as $field_label => $field_values){
                 //echo "<tr>";
                 $field_label = preg_replace($field_label_pattern,"",$field_label);

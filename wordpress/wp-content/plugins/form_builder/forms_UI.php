@@ -212,6 +212,14 @@ function fcp_application_page()
 
 												<div style="display: none;" class="fcp_email_not_opt" id="user-not">
 													<div class="form-group">
+														<label for="fcp_user_email_to" class="col-sm-3 control-label">To</label>
+														<div class="col-sm-6">
+															<select class="form-control fcp-select-menu-field" id="fcp_user_email_to_notification">
+																<option value="0">Select an email field to use</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
 														<label for="fcp_user_email_from" class="col-sm-3 control-label">From</label>
 														<div class="col-sm-6">
 															<input name="user-from" class="form-control" id="fcp_user_email_from" placeholder="From" type="Text" value="<?php echo $user_from; ?>">

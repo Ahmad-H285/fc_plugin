@@ -737,7 +737,7 @@ function editFieldOptions(title,type,field,inputID){
 				{
 					if(!(jQuery("input#"+inputID).parent().parent().next().children("div.input-container").children("input.pass_conf_input").length > 0))
 					{
-						jQuery("input#"+inputID).parents("div.form-group").after('<div class="form-group"><label for="Password-field" class="col-sm-3 control-label">Password Confirmation</label><div class="col-sm-6 input-container"><input type="password" class="form-control pass_conf_input" id="Password-field" placeholder="Password"></div>');
+						jQuery("input#"+inputID).parents("div.form-group").after('<div class="form-group"><label for="Password-field" class="col-sm-3 control-label">Password Confirmation</label><div class="col-sm-6 input-container"><input type="password" class="form-control pass_conf_input fcp-required-input" id="Password-field" placeholder="Password"></div>');
 					}
 				}
 
@@ -1211,12 +1211,6 @@ function fcp_formSubmitHandler(event) {
 
 	});
 
-	jQuery("input.pass_conf_input").blur(function(){
-		if((jQuery(this).val()) != jQuery(this).parent().parent().prev().children("div.input-container").children("input").val())
-		{
-			alert("Password does not match password confirmation ");
-		}
-	});
 
 }
 
