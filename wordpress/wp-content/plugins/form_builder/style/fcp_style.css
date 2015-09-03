@@ -70,7 +70,7 @@ tr.fcp-table-head th, tr.fcp-table-head td  {
 }
 
 input.fcp-check-radio{
-	margin-right: 10px;
+	margin-right: 10px !important;
 }
 
 table#fcp_submission_table{

@@ -88,8 +88,10 @@ jQuery.fn.scrollView = function () {
 function saveForm(event){
 
  	var formName = jQuery("input#fcp-form-name").val();
-     var warningDialog = '<div id="empty_form_name_warning" title="Fill in form name"><p>Please fill in a form name.<br> Try to make it unique.</p></div>';
+	var warningDialog = '<div id="empty_form_name_warning" title="Fill in form name"><p>Please fill in a form name.<br> Try to make it unique.</p></div>';
 
+	// emptying any value for the inputs
+	jQuery("div.form-sketch input, div.form-sketch textarea").val("");
 	if((jQuery("form#fcp_application_preview button[type='submit']").attr("id")) == "save_fcp_form" )
 	{
 		if ( !formName ) { // form name is empty
@@ -236,7 +238,7 @@ var fcp_time_field = '<div class="form-group fcp_time"><label for="Time-field'+t
 var fcp_select_field = '<div class="form-group fcp_select"><label for="Select-field'+select_field_instance+'" class="col-sm-4 control-label">Select Menu</label><div class="col-sm-5 input-container"><select class="form-control fcp-select-menu-field" id="Select-field'+select_field_instance+'"><option>Option 1</option><option>Option 2</option></select></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //CHECKBOX
-var fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-9" for="check_box_'+checkbox_field_instance+'">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="fcp-check-radio” name=“check"">Checkbox</label></div></div></div>';
+var fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-9" for="check_box_'+checkbox_field_instance+'">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="fcp-check-radio" name="check">Checkbox</label></div></div></div>';
 
 //RADIO BUTTON
 var fcp_radiobutton_field = '<div class="radio_field" id="radio_but_'+radio_field_instance+'"><label class="radio_label col-sm-9" for="radio_but_'+radio_field_instance+'">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="fcp-check-radio">Radio</label></div></div></div>';
@@ -381,7 +383,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		inputType = "checkbox";
 
 		checkbox_field_instance += 1;
-		fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-10" for="check_box_'+checkbox_field_instance+'">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="fcp-check-radio” name=“check"">Checkbox</label></div></div></div>';
+		fcp_checkbox_field = '<div class="check_field" id="check_box_'+checkbox_field_instance+'"><label class="check_label col-sm-9" for="check_box_'+checkbox_field_instance+'">Chackbox options</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="fcp-check-radio" name="check">Checkbox</label></div></div></div>';
 	}
 
 	else if(jQuery(this).text()== 'Radio Button'){
@@ -1488,4 +1490,21 @@ jQuery("#fcp_select_all_forms, #fcp_select_all_submissions").change(function(eve
 	else {
 		jQuery(this).parents("table:first").find("input[type='checkbox']").not(jQuery(this)).removeAttr("checked").change();
 	}
+});
+
+
+jQuery(document).ready(function($){
+	jQuery("div.form-sketch").sortable({
+		revert: true
+	});
+
+	var draggable_elements =
+		jQuery(" div.form-sketch div.fcp-drag-sort, div.form-sketch div.check_field, div.form-sketch div.radio_field");
+
+	draggable_elements.draggable({
+		containment: "div.form-sketch",
+		axis: "y",
+		connectToSortable: "div.form-sketch",
+
+	});
 });

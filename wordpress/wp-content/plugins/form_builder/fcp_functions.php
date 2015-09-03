@@ -68,7 +68,8 @@ function fcp_display_created_forms($form_type){
             echo "<tr class='fcp-table-head'>
 			    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
                 ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
-				<td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >Edit</a></td>
+				<td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+				<span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
 				<td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
 			</tr>" ;
             $form_count++;
@@ -563,7 +564,8 @@ function fcp_display_submissions($form_type){
 			    <td class='col-sm-1'><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
                 ."<td><b>{$submission_date}</b></td>
                 <td>{$submission_id}</td>
-				<td><a href='".$_SERVER['REQUEST_URI'].'&submission_content_id='.$submission_id."' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View</a></td>
+				<td><a href='".$_SERVER['REQUEST_URI'].'&submission_content_id='.$submission_id."' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >
+				<span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> View</a></td>
 				<td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
 			</tr>" ;
             $submission_count++;

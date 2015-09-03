@@ -26,7 +26,8 @@ function fcp_survey_page()
 function fcp_application_page()
 {
 
-	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js', array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog'));
+	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js',
+		array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog','jquery-ui-draggable','jquery-ui-sortable'));
 	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 	wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
     wp_enqueue_script('jquery-effects-clip');
@@ -248,7 +249,7 @@ function fcp_application_page()
 
 	      						</div>
 	      					</div>
-	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-danger">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
+	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-success">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
 							<input type="hidden" name="fcp_edit" value="">
 			<!-- $return_form_body = html_entity_decode($edit_form[0]['form_body']);
 			fcp_fields_panel();
@@ -298,9 +299,18 @@ function fcp_application_page()
 <div>
     <h1 class="col-sm-12">Application Form</h1>
 	<ul class="nav nav-tabs" role="tablist">
-    	<li role="presentation" class="active"><a href="#forms" aria-controls="edit" role="tab" data-toggle="tab">Forms</a></li>
-    	<li role="presentation"><a href="#AddNewForm" aria-controls="Add" role="tab" data-toggle="tab">Add New Form</a></li>
-    	<li role="presentation"><a href="#submissions" aria-controls="Submission" role="tab" data-toggle="tab">Submissions</a></li>
+    	<li role="presentation" class="active"><a href="#forms" aria-controls="edit" role="tab" data-toggle="tab">
+				<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Forms
+			</a>
+		</li>
+    	<li role="presentation"><a href="#AddNewForm" aria-controls="Add" role="tab" data-toggle="tab">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Form
+			</a>
+		</li>
+    	<li role="presentation"><a href="#submissions" aria-controls="Submission" role="tab" data-toggle="tab">
+				<span class="glyphicon glyphicon-inbox" aria-hidden="true"></span> Submissions
+			</a>
+		</li>
 	</ul>
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane" id="AddNewForm">
@@ -525,7 +535,7 @@ function fcp_application_page()
       					</div>
 						<!-- End of Form Options panel -->
 						<div class="row" style="padding: 20px">
-							<button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button>
+							<button id="save_fcp_form" type="submit" class="btn btn-success">Save Form</button>
 						</div>
 						<?php //$nonce = wp_create_nonce('form-builder-sub'); ?>
 						<input type="hidden" name="fcp" value="">
@@ -557,7 +567,10 @@ function fcp_application_page()
                 </table>
                 </div>
                 <div class="col-sm-5">
-                    <button class="btn btn-default" type="submit" id="delete_selected_forms" disabled>Delete Selected Forms</button>
+                    <button class="btn btn-danger" type="submit" id="delete_selected_forms" disabled>
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						Delete Selected Forms
+					</button>
                 </div>
                 <input type="hidden" name="selected_forms_ids" id="selected_forms_ids">
 
@@ -590,7 +603,10 @@ function fcp_application_page()
 					</table>
 				</div>
 				<div class="col-sm-5">
-					<button class="btn btn-default" type="submit" id="delete_selected_submissions" disabled>Delete Selected Submissions</button>
+					<button class="btn btn-danger" type="submit" id="delete_selected_submissions" disabled>
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						Delete Selected Submissions
+					</button>
 				</div>
 				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
 
