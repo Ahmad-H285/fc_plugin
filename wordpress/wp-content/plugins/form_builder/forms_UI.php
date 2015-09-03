@@ -276,6 +276,8 @@ function fcp_application_page()
 					  jQuery("div.form-sketch div.fcp_email").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_textarea").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_file").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
+					var drag_icon = '<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>';
+					jQuery(".fcp-drag-sort").prepend(drag_icon);
 				});
 			</script>
 
@@ -344,7 +346,8 @@ function fcp_application_page()
 					<br>
 					<br>
 					<div class="form-sketch"> <!--The begining of the form fields -->
-					  <div class="form-group fcp_text">
+					  <div class="form-group fcp_text fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					     <label for="app_first_name" class="col-sm-4 control-label ">First Name</label>
 					     <div class="col-sm-5 input-container">
 					      <input name="first_name" type="text" class="form-control fcp-no-special" id="app_first_name" placeholder="First Name">
@@ -353,7 +356,8 @@ function fcp_application_page()
 						 <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_text">
+					  <div class="form-group fcp_text fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <label for="app_last_name" class="col-sm-4 control-label">Last Name</label>
 					    <div class="col-sm-5 input-container">
 					      <input type="text" class="form-control fcp-no-special" id="app_last_name" placeholder="Last Name">
@@ -362,7 +366,8 @@ function fcp_application_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_email">
+					  <div class="form-group fcp_email fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <label for="app_email" class="col-sm-4 control-label text-left">Email</label>
 					    <div class="col-sm-5 input-container">
 					      <input type="email" class="form-control fcp-no-special" id="app_email" placeholder="Email">
@@ -371,7 +376,8 @@ function fcp_application_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_select">
+					  <div class="form-group fcp_select fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <label for="app_opt" class="col-sm-4 control-label">Application Options</label>
 					    <div class="col-sm-5  input-container">
 					      <select class="form-control fcp-select-menu-field" id="app_opt"><option>List Item 1</option></select>
@@ -381,7 +387,8 @@ function fcp_application_page()
 					  </div>
 
 
-						<div class="radio_field" id="radio_button">
+						<div class="radio_field fcp-drag-sort" id="radio_button">
+							<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 							<label class="radio_label col-sm-9" for="radio_button">Gender</label>
 							<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a>
 							<button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">×</span></button>
@@ -395,7 +402,8 @@ function fcp_application_page()
 							</div>
 						</div>
 
-					  <div class="form-group fcp_file">
+					  <div class="form-group fcp_file fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <label for="app_attachment" class="col-sm-4 control-label">Attachment</label>
 					    <div class="col-sm-5 input-container">
 					      <input type="file" id="app_attachment" name="fcp-att">
@@ -404,7 +412,8 @@ function fcp_application_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group">
+					  <div class="form-group fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <div class="col-sm-offset-4 col-sm-5">
 					      <button type="" class="btn btn-default fcp_submitButton" disabled>Submit</button>
 					    </div>

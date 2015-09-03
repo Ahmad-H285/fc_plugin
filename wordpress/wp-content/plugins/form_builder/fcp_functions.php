@@ -177,7 +177,7 @@ function fcp_save_form($form_type){
 
     Global $wpdb;
 
-    $form_settings = array('form-name' => $_POST['form-name']);
+    $form_settings = array('form-name' => stripslashes($_POST['form-name']));
 
     if($_POST['send-to-backend']) // if the user enabled backend notification
     {

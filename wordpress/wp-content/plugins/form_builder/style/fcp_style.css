@@ -77,3 +77,9 @@ table#fcp_submission_table{
 	table-layout: fixed;
 	word-wrap: break-word;
 }
+
+
+.fcp_drag_icon{
+	cursor: move;
+	color: lightslategrey;
+}
