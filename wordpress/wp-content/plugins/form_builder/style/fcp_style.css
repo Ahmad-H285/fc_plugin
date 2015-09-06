@@ -68,3 +68,8 @@ tr.fcp-table-head th, tr.fcp-table-head td  {
 	border: 2px solid #F00;
 	border-radius: 5px;
 }
+
+.email_send{
+	margin: 10px !important;
+	padding: 0 !important;
+}

@@ -2,50 +2,50 @@
 
 function fcp_stylesheets()
 {
-	?>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<?php
+    ?>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <?php
 }
 
 function fcp_scripts()
 {
-	?>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<?php
+    ?>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <?php
 }
 
 function fcp_fields_panel()
 {
-	?>
-	<div class="fcp_panel col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 360px; position: absolute">
-		<h4><strong>Available Fields</strong></h4>
-	</div>
-	<div class="col-md-3 col-md-push-4" id="fields-panel" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: 410px; position: absolute">
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Numeric</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Date Picker</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Time Picker</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Select Menu</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Checkbox</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Radio Button</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">File</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Email</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Password</button>
-		<button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
+    ?>
+    <div class="fcp_panel col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 360px; position: absolute">
+        <h4><strong>Available Fields</strong></h4>
+    </div>
+    <div class="col-md-3 col-md-push-4" id="fields-panel" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: 410px; position: absolute">
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Numeric</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Date Picker</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Time Picker</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Select Menu</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Checkbox</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Radio Button</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">File</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Email</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Password</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
 
-	</div>
-	<?php
+    </div>
+    <?php
 }
 
 function fcp_fields_options()
 {
-	?>
-	<div class="col-md-4 text-center col-md-push-4 hidden" id="edit_field_title">
-	</div>
-	<div class="col-md-4 col-md-push-4 hidden" id="edit_field_content">
-		<div id="fieldOptions" class="form-horizontal"></div><div><button type="button" class="btn btn-primary" id="saveButton" style="margin: 15px" onclick="">Save</button><button type="button" class="btn btn-danger" id="discardButton" style="margin: 15px" onclick="">Discard</button></div>
-	</div>
-	<?php
+    ?>
+    <div class="col-md-4 text-center col-md-push-4 hidden" id="edit_field_title">
+    </div>
+    <div class="col-md-4 col-md-push-4 hidden" id="edit_field_content">
+        <div id="fieldOptions" class="form-horizontal"></div><div><button type="button" class="btn btn-primary" id="saveButton" style="margin: 15px" onclick="">Save</button><button type="button" class="btn btn-danger" id="discardButton" style="margin: 15px" onclick="">Discard</button></div>
+    </div>
+    <?php
 }
 
 /**
@@ -55,10 +55,10 @@ function fcp_fields_options()
 
 function fcp_display_created_forms($form_type){
 
-	Global $wpdb;
+    Global $wpdb;
 
   $form_table = $wpdb->prefix."fcp_formbuilder";
-	$app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+    $app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
 
     if (!empty($app_created_forms)){
         $form_count = 1;
@@ -66,11 +66,11 @@ function fcp_display_created_forms($form_type){
             $form_name = unserialize($form['form_settings'])['form-name'];
             $form_id = $form['form_id'];
             echo "<tr class='fcp-table-head'>
-			    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
+                <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
                 ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
-				<td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >Edit</a></td>
-				<td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
-			</tr>" ;
+                <td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >Edit</a></td>
+                <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+            </tr>" ;
             $form_count++;
         }
     }
@@ -82,14 +82,14 @@ function fcp_display_created_forms($form_type){
 
 function fcp_update_form($form_type_update)
 {
-	//if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
+    //if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
 
-				if ($_POST['fcp_edit']){
+                if ($_POST['fcp_edit']){
 
-					$form_settings = array('form-name' => $_POST['form-name']);
+                    $form_settings = array('form-name' => $_POST['form-name']);
 
-					if($_POST['send-to-backend']) // if the user enabled backend notification
-					{
+                    if($_POST['send-to-backend']) // if the user enabled backend notification
+                    {
                         if ($_POST['backend_users_list'] == "Other ...") // to check if the user wanted to email a non WordPress user
                         {
                             $backend_notification_settings = array('To' => $_POST['other_backend_email'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
@@ -98,34 +98,34 @@ function fcp_update_form($form_type_update)
                         {
                             $backend_notification_settings = array('To' => $_POST['backend_users_list'], 'From' => $_POST['backend-from'], 'Subject' => $_POST['backend-subject'], 'Body' => $_POST['backend-body']);
                         }
-						$form_settings["backend-notification"] = $backend_notification_settings;
-					}
+                        $form_settings["backend-notification"] = $backend_notification_settings;
+                    }
 
-					else
-					{
-						$form_settings["backend-notification"] = NULL;
-					}
+                    else
+                    {
+                        $form_settings["backend-notification"] = NULL;
+                    }
 
-					if($_POST['send-to-user'])
-					{
-						$user_notification_settings = array('From' => $_POST['user-from'], 'Subject' => $_POST['user-subject'], 'Body' => $_POST['user-body']);
-						$form_settings["user-notification"] = $user_notification_settings;
-					}
+                    if($_POST['send-to-user'])
+                    {
+                        $user_notification_settings = array('From' => $_POST['user-from'], 'Subject' => $_POST['user-subject'], 'Body' => $_POST['user-body']);
+                        $form_settings["user-notification"] = $user_notification_settings;
+                    }
 
-					else
-					{
-						$form_settings["user-notification"] = NULL;
-					}
+                    else
+                    {
+                        $form_settings["user-notification"] = NULL;
+                    }
 
-					$form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
+                    $form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
-					Global $wpdb;
+                    Global $wpdb;
 
-					$wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> $form_type_update ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
+                    $wpdb->update($wpdb -> prefix."fcp_formbuilder", array('form_body' => $_POST['fcp_edit'], 'form_type'=> $form_type_update ,'form_settings' => $form_settings), array('form_id' => $_GET['id']));
 
 
-				}
-			//}
+                }
+            //}
 
 }
 
@@ -223,98 +223,113 @@ function fcp_save_form($form_type){
  */
 
 
+function file_upload($file_name)
 
+{
+    $file_flag = 1;
+
+    if(!file_exists("wp-content/plugins/form_builder/attachments"))
+    {
+        mkdir("wp-content/plugins/form_builder/attachments", 0700);
+        $file_flag = 0;
+    }
+
+    else
+    {
+        $file_flag =1;
+    }
+
+    if($_FILES[$file_name]["name"])
+    {
+
+        $fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
+        $fcp_att_file = $fcp_att_dir.basename($_FILES[$file_name]["name"]);
+        $fcp_att_type = pathinfo($fcp_att_file, PATHINFO_EXTENSION);
+
+        if (file_exists($fcp_att_file))
+        {
+            //$file_err_msg = "This file already exists";
+            ?>
+            <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("#fcp_message").text("This file already exists");
+                jQuery("#fcp-form-messages").removeClass('hidden'); 
+            });
+            </script>
+            <?php
+            
+            
+            $file_flag = 0;
+        }
+
+        else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
+        {
+            ?>
+            <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("#fcp_message").text("This file format is not supported");
+                jQuery("#fcp-form-messages").removeClass('hidden'); 
+            });
+            </script>
+            <?php
+            $file_flag = 0;
+        }
+
+        else if($_FILES[$file_name]["size"] > 20000000)
+        {
+            ?>
+            <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("#fcp_message").text("The file size is too large");
+                jQuery("#fcp-form-messages").removeClass('hidden'); 
+            });
+            </script>
+            <?php
+            $file_flag = 0;
+        }
+
+        else
+        {
+            if(move_uploaded_file($_FILES[$file_name]["tmp_name"],$fcp_att_file))
+            {
+                $file_flag = 1;
+            }
+
+            else
+            {
+                //echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
+                ?>
+            <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("#fcp_message").text("There was a problem uploading the file");
+                jQuery("#fcp-form-messages").removeClass('hidden'); 
+            });
+            </script>
+            <?php
+                $file_flag = 0;
+            }
+        }       
+    }
+
+    return $file_flag;
+}
 
 function fcp_save_submission($form_id){
 
     Global $wpdb;
 
-    $file_flag = 1;
-
-    if(!file_exists("wp-content/plugins/form_builder/attachments"))
-    {
-       	mkdir("wp-content/plugins/form_builder/attachments", 0700);
-       	$file_flag = 0;
-    }
-
-    else
-    {
-    	$file_flag =1;
-    }
+    $flag = 0;
+    $flag_email = 0;
 
     if($_FILES['fcp-att']['name'])
     {
+        $flag = file_upload("fcp-att");
+    }
 
-	  	$fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
-		$fcp_att_file = $fcp_att_dir.basename($_FILES["fcp-att"]["name"]);
-		$fcp_att_type = pathinfo($fcp_att_file, PATHINFO_EXTENSION);
-
-		if (file_exists($fcp_att_file))
-		{
-		    //$file_err_msg = "This file already exists";
-		    ?>
-		    <script type="text/javascript">
-		    jQuery(document).ready(function(){
-		    	jQuery("#fcp_message").text("This file already exists");
-		    	jQuery("#fcp-form-messages").removeClass('hidden');	
-		    });
-		    </script>
-		    <?php
-		    
-			
-		   	$file_flag = 0;
-		}
-
-		else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
-		{
-		    ?>
-		    <script type="text/javascript">
-		    jQuery(document).ready(function(){
-		    	jQuery("#fcp_message").text("This file format is not supported");
-		    	jQuery("#fcp-form-messages").removeClass('hidden');	
-		    });
-		    </script>
-		    <?php
-		   	$file_flag = 0;
-		}
-
-		else if($_FILES["fcp-att"]["size"] > 20000000)
-		{
-		    ?>
-		    <script type="text/javascript">
-		    jQuery(document).ready(function(){
-		    	jQuery("#fcp_message").text("The file size is too large");
-		    	jQuery("#fcp-form-messages").removeClass('hidden');	
-		    });
-		    </script>
-		    <?php
-		  	$file_flag = 0;
-		}
-
-		else
-	    {
-		    if(move_uploaded_file($_FILES['fcp-att']["tmp_name"],$fcp_att_file))
-		    {
-		        $file_flag = 1;
-		    }
-
-		    else
-		    {
-		        //echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
-		        ?>
-		    <script type="text/javascript">
-		    jQuery(document).ready(function(){
-		    	jQuery("#fcp_message").text("There was a problem uploading the file");
-		    	jQuery("#fcp-form-messages").removeClass('hidden');	
-		    });
-		    </script>
-		    <?php
-		        $file_flag = 0;
-		    }
-		}		
-	}
-
-
+    else if($_FILES['send-email'])
+    {
+        $flag_email = file_upload("send-email");    
+    }
 
     if ( isset( $_POST['fcp_submission']) ){
         $form_fields = json_decode(stripslashes($_POST['fcp_submission']));
@@ -403,18 +418,26 @@ function fcp_save_submission($form_id){
         $sub_date = date('Y-m-d');//, strtotime(date("H:i:s")));
         $submission_inserted = FALSE; // used to indicate whether the submission was inserted or not
 
-			if($_FILES['fcp-att']['name'])
-			{
-				$fcp_file_found = $fcp_att_file;
-			}
-			else
-			{
-				$fcp_file_found = NULL;
-			}
+        $fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
+            
+            if($_FILES['fcp-att']['name'])
+            {
+                $fcp_file_found = $fcp_att_dir.basename($_FILES['fcp-att']["name"]);
+            }
 
-			if($file_flag == 1)
-			{
-				$submission_inserted = $wpdb->insert($submission_table,
+            else if($_FILES['send-email']['name'])
+            {
+                $fcp_file_found = $fcp_att_dir.basename($_FILES['send-email']["name"]);
+            }
+
+            else
+            {
+                $fcp_file_found = NULL;
+            }
+
+            if($flag == 1)
+            {
+                $submission_inserted = $wpdb->insert($submission_table,
                     array('submission' => $submission_array,
                           'sub_date' => $sub_date,
                           'form_id' => $form_id,
@@ -455,7 +478,14 @@ function fcp_save_submission($form_id){
                         }
                         $submission_email = unserialize($submission_array);
                         //var_dump($submission_email);
-                        wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_att_file);
+
+                        
+                        //var_dump($file_send_email);
+                        //if()
+                        
+                            wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n");
+                        
+                        
                         // now you have an email address and you should send
                     }
 
@@ -470,7 +500,74 @@ function fcp_save_submission($form_id){
                     }
 
                 }
-			}
+            }
+
+            else if($flag_email == 1)
+            {
+
+                $submission_inserted = $wpdb->insert($submission_table,
+                    array('submission' => $submission_array,
+                          'sub_date' => $sub_date,
+                          'form_id' => $form_id,
+                          'form_type'=> $form_type,
+                          'attachment_path'=>$fcp_file_found,
+                          'password'=> $hashed_password));
+
+                $Sub_body = fcp_submission_content_loop(unserialize($submission_array));
+                //echo $Sub_body;
+                
+
+                // Now check if the submission was inserted or not
+                // ( 1 ) display a confrimation message
+                // ( 2 ) refer to form settings for notifications
+                if ( $submission_inserted !== FALSE ){
+                    echo "<script>
+                            jQuery(document).ready(function(){
+                                confirm_submission('Submission Successful');
+                            });
+                    </script>";
+
+                    // retrieving the settings of the form
+                    $form_settings_query = "SELECT `form_settings` FROM " . $form_table . " WHERE `form_id`=".$form_id;
+                    $form_settings = $wpdb->get_col($form_settings_query);
+                    $form_settings = unserialize($form_settings[0]);
+
+                    if ($form_settings['backend-notification'] != NULL){
+                        $backend_settings = $form_settings['backend-notification'];
+                        $backend_to = $backend_settings['To'];
+                        $backend_from = $backend_settings['From'];
+                        $backend_subject = $backend_settings['Subject'];
+                        $backend_body = $backend_settings['Body'];
+
+                        if ( !is_email($backend_to)){
+                            // It is a wordpress user ID
+                            $wordpress_user = get_user_by('id',$backend_to);
+                            $backend_to =  $wordpress_user->user_email;
+                        }
+                        $submission_email = unserialize($submission_array);
+                        //var_dump($submission_email);
+
+                        
+                        //var_dump($file_send_email);
+                        //if()
+                       
+                            wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_att_dir.basename($_FILES['send-email']["name"]));  
+                        
+                        // now you have an email address and you should send
+                    }
+
+                    if ($form_settings['user-notification'] != NULL){
+                        $user_settings = $form_settings['user-notification'];
+                        $user_from = $user_settings['From'];
+                        $user_subject = $user_settings['Subject'];
+                        $user_body = $user_settings['Body'];
+                        $user_to = $_POST['fcp_user_email_notify'];
+
+                        wp_mail($user_to,$user_subject,$user_body,"From: ".$user_from." <fcpForm>"."\r\n");
+                    }
+
+                }
+            }
 
 
     }
@@ -556,12 +653,12 @@ function fcp_display_submissions($form_type){
             $form = $wpdb -> get_col("SELECT `form_settings` FROM `{$form_table}` WHERE `form_id`= '".$form_id."'");
             $form_name = unserialize($form[0])['form-name'];
             echo "<tr class='fcp-table-head'>
-			    <td class='col-sm-1'><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
+                <td class='col-sm-1'><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
                 ."<td><b>{$submission_date}</b></td>
                 <td>{$submission_id}</td>
-				<td><a href='".$_SERVER['REQUEST_URI'].'&submission_content_id='.$submission_id."' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View</a></td>
-				<td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
-			</tr>" ;
+                <td><a href='".$_SERVER['REQUEST_URI'].'&submission_content_id='.$submission_id."' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View</a></td>
+                <td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
+            </tr>" ;
             $submission_count++;
         }
     }
@@ -689,7 +786,7 @@ function fcp_display_submission_content($submission_id){
             }
             if(!empty($submission_row['attachment_path']))
             {
-            	echo "<td>{$field_counter}</td> ";
+                echo "<td>{$field_counter}</td> ";
                 echo "<td>Attachment</td> ";
                 echo "<td>"."<a href='".get_site_url()."/".$submission_row['attachment_path']."' download>File</a>"."</td> ";
             }

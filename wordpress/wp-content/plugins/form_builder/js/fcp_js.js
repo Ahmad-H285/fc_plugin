@@ -311,6 +311,10 @@ field_options.textarea = '<div class="form-group"><label class="col-sm-5 control
 
 // SELECT MENU
 field_options.select = '<button type="button" id="select_menu_option_addButton" name="select-option" class="">Add Item</button><div id="select_list_options" class="col-sm-12"><p id="list_options_title">List Items: </p></div>';
+
+//FILE OPTIONS
+field_options.file = '<div class="checkbox email_send col-sm-10"><label><input class="col-sm-4" name="send-email-option" id="email-option" type="checkbox"><span id="email-option">Send attachment to admin email</span></label></div>';
+
 /******************End of Editable Fields of Inputs ******************/
 
 /*
@@ -752,6 +756,10 @@ function editFieldOptions(title,type,field,inputID){
 				fcp_formSubmitHandler();
 
 			}
+
+			
+
+
 		});
 
 		if ( type == "password" )
@@ -768,7 +776,37 @@ function editFieldOptions(title,type,field,inputID){
 		}
 
 
+
 	}
+
+	 
+	if( type == "file" )
+			{
+				//jQuery(field_options[type]).appendTo("div#fieldOptions");
+
+				if((jQuery("input#"+inputID).prop("name")) == "send-email")
+				{
+					console.log("true");
+					jQuery("input#email-option").attr("checked","true");
+				}
+
+				
+
+				jQuery("button#saveButton").click(function(){
+
+					if((jQuery("input#email-option").attr("checked")) == "checked")
+					{
+						//console.log("true");
+						jQuery("input#"+inputID).prop("name","send-email");
+					}
+
+					else
+					{
+						jQuery("input#"+inputID).prop("name","fcp-att");
+					}
+				});
+			}
+
 
 	else if (type == "select"){
 //		jQuery(name_field_options).prependTo("div#fieldOptions");
@@ -849,7 +887,7 @@ function editFieldOptions(title,type,field,inputID){
 		// jQuery(".radio_add").click(function() {
 		// 	jQuery("div.radio:last").after(radio_add_options);
 		// });
-	jQuery(radio_add_button).appendTo("div#fieldOptions");
+		jQuery(radio_add_button).appendTo("div#fieldOptions");
 
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
 
