@@ -244,7 +244,7 @@ function file_upload($file_name,$att_num)
     $i = 0;
     while($i<=$att_num)
     {
-        if($_FILES[$file_name]["name"][$i])
+        if($_FILES[$file_name]["name"][$i] != "")
         {
             
 
@@ -270,7 +270,7 @@ function file_upload($file_name,$att_num)
                 $file_flag = 0;
             }
 
-            if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
+            else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "jpg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
             {
                 ?>
                 <script type="text/javascript">
@@ -283,7 +283,7 @@ function file_upload($file_name,$att_num)
                 $file_flag = 0;
             }
 
-            if($_FILES[$file_name]["size"][$i] > 20000000)
+            else if($_FILES[$file_name]["size"][$i] > 20000000)
             {
                 ?>
                 <script type="text/javascript">
@@ -320,7 +320,16 @@ function file_upload($file_name,$att_num)
                 }
             }       
         }
-        $i++;
+
+        if($file_flag == 0)
+        {
+            break;
+        }
+        else
+        {
+            $i++;
+        }
+    
     }
     return $file_flag;
 }
@@ -342,14 +351,16 @@ function fcp_save_submission($form_id){
         $count++;
     }
 
-    if($_FILES['fcp-att']['name'][$count_att])
+    if($_FILES['fcp-att']['name'])
     {
         $flag = file_upload("fcp-att",$count_att);
     }
+
     else
     {
         $flag = 1;
     }
+
     $count = 0;
     while($_FILES['send-email']['name'][$count] > -1)
     {
@@ -360,6 +371,11 @@ function fcp_save_submission($form_id){
     if($_FILES['send-email']['name'])
     {
         $flag_email = file_upload("send-email",$count_att_send);
+    }
+
+    else
+    {
+        $flag_email = 1;
     }
 
     if ( isset( $_POST['fcp_submission']) ){
@@ -514,8 +530,7 @@ function fcp_save_submission($form_id){
             }
 
             
-
-            if($flag == 1 || $flag_email == 1)
+            if(($flag == 1) && ($flag_email == 1))
             {
                 $submission_inserted = $wpdb->insert($submission_table,
                     array('submission' => $submission_array,
@@ -583,7 +598,7 @@ function fcp_save_submission($form_id){
                         $user_body = $user_settings['Body'];
                         $user_to = $_POST['fcp_user_email_notify'];
 
-                        wp_mail($user_to,$user_subject,$user_body,"From: ".$user_from." <fcpForm>"."\r\n");
+                        wp_mail($user_to,$user_subject,$user_body."\r\n"."\r\n".$Sub_body,"From: ".$user_from." <fcpForm>"."\r\n");
                     }
 
                 }
