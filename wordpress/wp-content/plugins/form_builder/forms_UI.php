@@ -26,7 +26,8 @@ function fcp_survey_page()
 function fcp_application_page()
 {
 
-	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js', array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog'));
+	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js',
+		array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog','jquery-ui-draggable','jquery-ui-sortable'));
 	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 	wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
     wp_enqueue_script('jquery-effects-clip');
@@ -212,6 +213,14 @@ function fcp_application_page()
 
 												<div style="display: none;" class="fcp_email_not_opt" id="user-not">
 													<div class="form-group">
+														<label for="fcp_user_email_to" class="col-sm-3 control-label">To</label>
+														<div class="col-sm-6">
+															<select class="form-control fcp-select-menu-field" id="fcp_user_email_to_notification">
+																<option value="0">Select an email field to use</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
 														<label for="fcp_user_email_from" class="col-sm-3 control-label">From</label>
 														<div class="col-sm-6">
 															<input name="user-from" class="form-control" id="fcp_user_email_from" placeholder="From" type="Text" value="<?php echo $user_from; ?>">
@@ -240,7 +249,7 @@ function fcp_application_page()
 
 	      						</div>
 	      					</div>
-	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-danger">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
+	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-success">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
 							<input type="hidden" name="fcp_edit" value="">
 			<!-- $return_form_body = html_entity_decode($edit_form[0]['form_body']);
 			fcp_fields_panel();
@@ -265,8 +274,10 @@ function fcp_application_page()
 					  jQuery("div.form-sketch div.fcp_date").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_time").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_email").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
-					  jQuery("div.form-sketch div.fcp_textarea").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
+					  jQuery("div.form-sketch div.fcp_textarea").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_file").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
+					var drag_icon = '<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>';
+					jQuery(".fcp-drag-sort").prepend(drag_icon);
 				});
 			</script>
 
@@ -290,9 +301,18 @@ function fcp_application_page()
 <div>
     <h1 class="col-sm-12">Application Form</h1>
 	<ul class="nav nav-tabs" role="tablist">
-    	<li role="presentation" class="active"><a href="#forms" aria-controls="edit" role="tab" data-toggle="tab">Forms</a></li>
-    	<li role="presentation"><a href="#AddNewForm" aria-controls="Add" role="tab" data-toggle="tab">Add New Form</a></li>
-    	<li role="presentation"><a href="#submissions" aria-controls="Submission" role="tab" data-toggle="tab">Submissions</a></li>
+    	<li role="presentation" class="active"><a href="#forms" aria-controls="edit" role="tab" data-toggle="tab">
+				<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Forms
+			</a>
+		</li>
+    	<li role="presentation"><a href="#AddNewForm" aria-controls="Add" role="tab" data-toggle="tab">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Form
+			</a>
+		</li>
+    	<li role="presentation"><a href="#submissions" aria-controls="Submission" role="tab" data-toggle="tab">
+				<span class="glyphicon glyphicon-inbox" aria-hidden="true"></span> Submissions
+			</a>
+		</li>
 	</ul>
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane" id="AddNewForm">
@@ -326,34 +346,38 @@ function fcp_application_page()
 					<br>
 					<br>
 					<div class="form-sketch"> <!--The begining of the form fields -->
-					  <div class="form-group fcp_text">
-					     <label for="app_first_name" class="col-sm-3 control-label ">First Name</label>
-					     <div class="col-sm-6 input-container">
+					  <div class="form-group fcp_text fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					     <label for="app_first_name" class="col-sm-4 control-label ">First Name</label>
+					     <div class="col-sm-5 input-container">
 					      <input name="first_name" type="text" class="form-control fcp-no-special" id="app_first_name" placeholder="First Name">
 						 </div>
 						 <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 						 <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_text">
-					    <label for="app_last_name" class="col-sm-3 control-label">Last Name</label>
-					    <div class="col-sm-6 input-container">
+					  <div class="form-group fcp_text fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					    <label for="app_last_name" class="col-sm-4 control-label">Last Name</label>
+					    <div class="col-sm-5 input-container">
 					      <input type="text" class="form-control fcp-no-special" id="app_last_name" placeholder="Last Name">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_email">
-					    <label for="app_email" class="col-sm-3 control-label text-left">Email</label>
-					    <div class="col-sm-6 input-container">
+					  <div class="form-group fcp_email fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					    <label for="app_email" class="col-sm-4 control-label text-left">Email</label>
+					    <div class="col-sm-5 input-container">
 					      <input type="email" class="form-control fcp-no-special" id="app_email" placeholder="Email">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_select">
+					  <div class="form-group fcp_select fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <label for="app_opt" class="col-sm-4 control-label">Application Options</label>
 					    <div class="col-sm-5  input-container">
 					      <select class="form-control fcp-select-menu-field" id="app_opt"><option>List Item 1</option></select>
@@ -363,31 +387,34 @@ function fcp_application_page()
 					  </div>
 
 
-						<div class="radio_field" id="radio_button">
+						<div class="radio_field fcp-drag-sort" id="radio_button">
+							<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 							<label class="radio_label col-sm-9" for="radio_button">Gender</label>
 							<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a>
 							<button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">×</span></button>
 							<div class="form-group">
 								<div class="radio col-sm-10 input-container" style="padding-top:0">
-									<label><input class="col-sm-4" name="radio_but_1_radio" type="radio">Male</label>
+									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Male</label>
 								</div>
 								<div class="radio col-sm-10 input-container" style="padding-top:0">
-									<label><input class="col-sm-4" name="radio_but_1_radio" type="radio">Female</label>
+									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Female</label>
 								</div>
 							</div>
 						</div>
 
-					  <div class="form-group fcp_file">
-					    <label for="app_attachment" class="col-sm-3 control-label">Attachment</label>
-					    <div class="col-sm-6 input-container">
-					      <input type="file" id="app_attachment" name="fcp-att">
+					  <div class="form-group fcp_file fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					    <label for="app_attachment" class="col-sm-4 control-label">Attachment</label>
+					    <div class="col-sm-5 input-container">
+					      <input type="file" id="app_attachment" name="fcp-att[]">
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group">
-					    <div class="col-sm-offset-3 col-sm-5">
+					  <div class="form-group fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					    <div class="col-sm-offset-4 col-sm-5">
 					      <button type="" class="btn btn-default fcp_submitButton" disabled>Submit</button>
 					    </div>
 					  </div>
@@ -517,7 +544,7 @@ function fcp_application_page()
       					</div>
 						<!-- End of Form Options panel -->
 						<div class="row" style="padding: 20px">
-							<button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button>
+							<button id="save_fcp_form" type="submit" class="btn btn-success">Save Form</button>
 						</div>
 						<?php //$nonce = wp_create_nonce('form-builder-sub'); ?>
 						<input type="hidden" name="fcp" value="">
@@ -549,7 +576,10 @@ function fcp_application_page()
                 </table>
                 </div>
                 <div class="col-sm-5">
-                    <button class="btn btn-default" type="submit" id="delete_selected_forms" disabled>Delete Selected Forms</button>
+                    <button class="btn btn-danger" type="submit" id="delete_selected_forms" disabled>
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						Delete Selected Forms
+					</button>
                 </div>
                 <input type="hidden" name="selected_forms_ids" id="selected_forms_ids">
 
@@ -582,7 +612,10 @@ function fcp_application_page()
 					</table>
 				</div>
 				<div class="col-sm-5">
-					<button class="btn btn-default" type="submit" id="delete_selected_submissions" disabled>Delete Selected Submissions</button>
+					<button class="btn btn-danger" type="submit" id="delete_selected_submissions" disabled>
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						Delete Selected Submissions
+					</button>
 				</div>
 				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
 

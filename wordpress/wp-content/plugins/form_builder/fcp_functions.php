@@ -68,9 +68,11 @@ function fcp_display_created_forms($form_type){
             echo "<tr class='fcp-table-head'>
                 <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
                 ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
-                <td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >Edit</a></td>
-                <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
-            </tr>" ;
+
+				<td><a href='".$_SERVER['REQUEST_URI'].'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+				<span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
+				<td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+			</tr>" ;
             $form_count++;
         }
     }
@@ -176,7 +178,7 @@ function fcp_save_form($form_type){
 
     Global $wpdb;
 
-    $form_settings = array('form-name' => $_POST['form-name']);
+    $form_settings = array('form-name' => stripslashes($_POST['form-name']));
 
     if($_POST['send-to-backend']) // if the user enabled backend notification
     {
@@ -494,6 +496,7 @@ function fcp_save_submission($form_id){
                   }
                   
             }
+            
 
             
             $fcp_file_email = [];
@@ -520,15 +523,19 @@ function fcp_save_submission($form_id){
                     $db_file++;
                   }
 
-                $fcp_file_found = serialize($fcp_file_found);
+                //$fcp_file_found = serialize($fcp_file_found);
 
             }
-            
-            else
+
+            if( !(count($_FILES['send-email']['name'])>0) && !(count($_FILES['fcp-att']['name'])>0))
             {
                 $fcp_file_found = NULL;
             }
-
+            else
+            {
+              	$fcp_file_found = serialize($fcp_file_found);
+            }
+             
             
             if(($flag == 1) && ($flag_email == 1))
             {
@@ -558,6 +565,9 @@ function fcp_save_submission($form_id){
                     $form_settings_query = "SELECT `form_settings` FROM " . $form_table . " WHERE `form_id`=".$form_id;
                     $form_settings = $wpdb->get_col($form_settings_query);
                     $form_settings = unserialize($form_settings[0]);
+
+                    // to set the content type to html
+                    add_filter('wp_mail_content_type',create_function('', 'return "text/html"; '));
 
                     if ($form_settings['backend-notification'] != NULL){
                         $backend_settings = $form_settings['backend-notification'];
@@ -630,6 +640,7 @@ function fcp_submission_content_loop($form_fields)
 
     //$content_fields = (unserialize($submission_row['submission']));
             //var_dump($form_fields);
+            //$sub_temp = '';
             foreach($form_fields as $field_label => $field_values){
                 //echo "<tr>";
                 $field_label = preg_replace($field_label_pattern,"",$field_label);
@@ -693,9 +704,11 @@ function fcp_display_submissions($form_type){
                 <td class='col-sm-1'><input class='submission-select-checkbox' type='checkbox' id='checkbox_submission_id_".$submission_id."' style='margin-right:5px;'>".$submission_count."</td><td>".$form_name."</td>"
                 ."<td><b>{$submission_date}</b></td>
                 <td>{$submission_id}</td>
-                <td><a href='".$_SERVER['REQUEST_URI'].'&submission_content_id='.$submission_id."' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >View</a></td>
-                <td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
-            </tr>" ;
+				<td><a href='".$_SERVER['REQUEST_URI'].'&submission_content_id='.$submission_id."' class='fcp-view-selected-submission' id='fcp_submission_".$submission_id."' >
+				<span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> View</a></td>
+				<td><a href='javascript:void(0);' class='fcp-delete-selected-submission' id='fcp_submission_id_".$submission_id."'>Delete</a></td>
+			</tr>" ;
+
             $submission_count++;
         }
     }
@@ -787,7 +800,7 @@ function fcp_display_submission_content($submission_id){
             <dd><?php echo $submission_row['submission_id'];?></dd>
         </dl>
         <h2 class="col-sm-9">Submission Content :-</h2>
-        <table class="table table-hover">
+        <table class="table table-hover"  id="fcp_submission_table">
             <thead>
             <tr>
                 <th>#</th>

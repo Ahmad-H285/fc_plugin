@@ -11,6 +11,9 @@
  * The following will hold any function delcarations that are used in the below ready function
  */
 
+// Global form message jQuery object to be used whenever you need to access that the object
+// to make changing the selector easier
+var form_message = jQuery("#fcp-form-messages");
 
 // disable submission button function
 
@@ -407,14 +410,12 @@ jQuery(document).ready(function($){
 */
 //Fixing Radio styles
 jQuery("div.radio label").addClass("col-sm-10");
-jQuery("div.radio input").removeClass("col-sm-4");
-jQuery("div.radio input").addClass("col-sm-1");
+
 jQuery("div.radio").removeClass("radio");
 
 //Fixing Checkbox styles
 jQuery("div.checkbox label").addClass("col-sm-10");
-jQuery("div.checkbox input").removeClass("col-sm-4");
-jQuery("div.checkbox input").addClass("col-sm-1");
+
 jQuery("div.checkbox").removeClass("checkbox");
 
 //Fixing Time styles
@@ -437,6 +438,26 @@ jQuery("div.fcp_time select").css("width","70px");
         }
         else {
             $(this).css("background-color","");
+            enableSubmissionButton();
+        }
+    });
+
+    /*
+        Making sure that password confrimation field has the same value as the password field itself
+     */
+    jQuery("form.fcp_form input.pass_conf_input").blur(function(){
+        var password_field = jQuery(this).parent().parent().prev().children("div.input-container").children("input");
+        if((jQuery(this).val()) != password_field.val())
+        {
+            form_message.removeClass("hidden").children("#fcp_message").text("Passowrds do not match");
+            jQuery(this).addClass("fcp-empty-required-field");
+            password_field.addClass("fcp-empty-required-field");
+            disableSubmissionButton();
+        }
+        else {
+            form_message.addClass("hidden");
+            jQuery(this).removeClass("fcp-empty-required-field");
+            password_field.removeClass("fcp-empty-required-field");
             enableSubmissionButton();
         }
     });
