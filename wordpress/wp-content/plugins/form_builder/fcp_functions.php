@@ -223,9 +223,10 @@ function fcp_save_form($form_type){
  */
 
 
-function file_upload($file_name)
+function file_upload($file_name,$att_num)
 
 {
+    // var_dump("Hi There");
     $file_flag = 1;
 
     if(!file_exists("wp-content/plugins/form_builder/attachments"))
@@ -238,79 +239,89 @@ function file_upload($file_name)
     {
         $file_flag =1;
     }
-
-    if($_FILES[$file_name]["name"])
+    // var_dump("Hi There");
+    // var_dump($att_num);
+    $i = 0;
+    while($i<=$att_num)
     {
-
-        $fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
-        $fcp_att_file = $fcp_att_dir.basename($_FILES[$file_name]["name"]);
-        $fcp_att_type = pathinfo($fcp_att_file, PATHINFO_EXTENSION);
-
-        if (file_exists($fcp_att_file))
+        if($_FILES[$file_name]["name"][$i])
         {
-            //$file_err_msg = "This file already exists";
-            ?>
-            <script type="text/javascript">
-            jQuery(document).ready(function(){
-                jQuery("#fcp_message").text("This file already exists");
-                jQuery("#fcp-form-messages").removeClass('hidden'); 
-            });
-            </script>
-            <?php
             
-            
-            $file_flag = 0;
-        }
 
-        else if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
-        {
-            ?>
-            <script type="text/javascript">
-            jQuery(document).ready(function(){
-                jQuery("#fcp_message").text("This file format is not supported");
-                jQuery("#fcp-form-messages").removeClass('hidden'); 
-            });
-            </script>
-            <?php
-            $file_flag = 0;
-        }
+            $fcp_att_dir = "wp-content/plugins/form_builder/attachments/".time();
+            $fcp_att_file = $fcp_att_dir.basename($_FILES[$file_name]["name"][$i]);
+            $fcp_att_type = pathinfo($fcp_att_file, PATHINFO_EXTENSION);
 
-        else if($_FILES[$file_name]["size"] > 20000000)
-        {
-            ?>
-            <script type="text/javascript">
-            jQuery(document).ready(function(){
-                jQuery("#fcp_message").text("The file size is too large");
-                jQuery("#fcp-form-messages").removeClass('hidden'); 
-            });
-            </script>
-            <?php
-            $file_flag = 0;
-        }
-
-        else
-        {
-            if(move_uploaded_file($_FILES[$file_name]["tmp_name"],$fcp_att_file))
+            //$file_exist_count = 4;
+            if (file_exists($fcp_att_file))
             {
-                $file_flag = 1;
+                //$fcp_att_file = $fcp_att_dir."2".basename($_FILES[$file_name]["name"]);
+                //rename("wp-content/plugins/form_builder/attachments/file3.rtf","wp-content/plugins/form_builder/attachments/file11.rtf");
+                //$file_err_msg = "This file already exists";
+                ?>
+                <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery("#fcp_message").text("This file already exists");
+                    jQuery("#fcp-form-messages").removeClass('hidden'); 
+                });
+                </script>
+                <?php
+                
+                $file_flag = 0;
+            }
+
+            if($fcp_att_type != "doc" && $fcp_att_type != "docx" && $fcp_att_type != "pdf" && $fcp_att_type != "rtf" && $fcp_att_type != "pages" && $fcp_att_type != "png" && $fcp_att_type != "jpeg" && $fcp_att_type != "gif" && $fcp_att_type != "ppf" && $fcp_att_type != "pptx" && $fcp_att_type != "txt")
+            {
+                ?>
+                <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery("#fcp_message").text("This file format is not supported");
+                    jQuery("#fcp-form-messages").removeClass('hidden'); 
+                });
+                </script>
+                <?php
+                $file_flag = 0;
+            }
+
+            if($_FILES[$file_name]["size"][$i] > 20000000)
+            {
+                ?>
+                <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery("#fcp_message").text("The file size is too large");
+                    jQuery("#fcp-form-messages").removeClass('hidden'); 
+                });
+                </script>
+                <?php
+                $file_flag = 0;
             }
 
             else
             {
-                //echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
-                ?>
-            <script type="text/javascript">
-            jQuery(document).ready(function(){
-                jQuery("#fcp_message").text("There was a problem uploading the file");
-                jQuery("#fcp-form-messages").removeClass('hidden'); 
-            });
-            </script>
-            <?php
-                $file_flag = 0;
-            }
-        }       
-    }
+                //var_dump("Hi There");
+      
+                if(move_uploaded_file($_FILES[$file_name]["tmp_name"][$i],$fcp_att_file))
+                {
+                     $file_flag = 1;
+                }
 
+                else
+                {
+                    //echo "There was a problem uploading the file ".basename($_FILES['fcp-att']["name"]);
+                    ?>
+                <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery("#fcp_message").text("There was a problem uploading the file");
+                    jQuery("#fcp-form-messages").removeClass('hidden'); 
+                });
+                </script>
+                <?php
+                    $file_flag = 0;
+                }
+            }       
+        }
+        $i++;
+    }
     return $file_flag;
 }
 
@@ -320,15 +331,35 @@ function fcp_save_submission($form_id){
 
     $flag = 0;
     $flag_email = 0;
+    $count_att = -1;
+    $count_att_send = -1;
 
-    if($_FILES['fcp-att']['name'])
+    $count = 0;
+    while($_FILES['fcp-att']['name'][$count] > -1)
     {
-        $flag = file_upload("fcp-att");
+
+        $count_att++;
+        $count++;
     }
 
-    else if($_FILES['send-email'])
+    if($_FILES['fcp-att']['name'][$count_att])
     {
-        $flag_email = file_upload("send-email");    
+        $flag = file_upload("fcp-att",$count_att);
+    }
+    else
+    {
+        $flag = 1;
+    }
+    $count = 0;
+    while($_FILES['send-email']['name'][$count] > -1)
+    {
+        $count_att_send++;
+        $count++; 
+    }
+    
+    if($_FILES['send-email']['name'])
+    {
+        $flag_email = file_upload("send-email",$count_att_send);
     }
 
     if ( isset( $_POST['fcp_submission']) ){
@@ -418,24 +449,73 @@ function fcp_save_submission($form_id){
         $sub_date = date('Y-m-d');//, strtotime(date("H:i:s")));
         $submission_inserted = FALSE; // used to indicate whether the submission was inserted or not
 
-        $fcp_att_dir = "wp-content/plugins/form_builder/attachments/";
+        $fcp_att_dir = "wp-content/plugins/form_builder/attachments/".time();
             
-            if($_FILES['fcp-att']['name'])
+            $fcp_file_found = [];
+
+            if(count($_FILES['fcp-att']['name'])>0)
             {
-                $fcp_file_found = $fcp_att_dir.basename($_FILES['fcp-att']["name"]);
+                $db_file = 0;
+
+                  while($db_file <= $count_att)
+
+                  {
+                    if($_FILES['fcp-att']["name"][$db_file] != "")
+                    {   
+                        $fcp_file_found_att = $fcp_att_dir.basename($_FILES['fcp-att']["name"][$db_file]);
+                        array_push($fcp_file_found, $fcp_file_found_att);
+                    }
+                    else
+                    {
+                        $fcp_file_found_att = NULL;
+                    }
+                    
+                    //$fcp_file_found_att= array($db_file => $fcp_att_dir.basename($_FILES['fcp-att']["name"][$db_file]));
+                    
+                    //$fcp_file_found = compact('fcp_file_found_att');
+
+                    $db_file++;
+                  }
+                  
             }
 
-            else if($_FILES['send-email']['name'])
-            {
-                $fcp_file_found = $fcp_att_dir.basename($_FILES['send-email']["name"]);
-            }
+            
+            $fcp_file_email = [];
 
+            if(count($_FILES['send-email']['name'])>0)
+            {
+                $db_file = 0;
+
+                  while($db_file <= $count_att_send)
+
+                  {
+                    if ($_FILES['send-email']["name"][$db_file] != "") 
+                    {
+                        $fcp_file_found_att = $fcp_att_dir.basename($_FILES['send-email']["name"][$db_file]);
+                        array_push($fcp_file_found, $fcp_file_found_att);
+                        array_push($fcp_file_email, $fcp_file_found_att);
+                    }
+                    else
+                    {
+                        $fcp_file_found_att = NULL;
+                    }
+                    
+
+                    $db_file++;
+                  }
+
+                $fcp_file_found = serialize($fcp_file_found);
+
+            }
+            
             else
             {
                 $fcp_file_found = NULL;
             }
 
-            if($flag == 1)
+            
+
+            if($flag == 1 || $flag_email == 1)
             {
                 $submission_inserted = $wpdb->insert($submission_table,
                     array('submission' => $submission_array,
@@ -482,76 +562,16 @@ function fcp_save_submission($form_id){
                         
                         //var_dump($file_send_email);
                         //if()
+                        if($flag_email == 1)
+                        {
+                            wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
+                            
+                        }
                         
+                        else
+                        {
                             wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n");
-                        
-                        
-                        // now you have an email address and you should send
-                    }
-
-                    if ($form_settings['user-notification'] != NULL){
-                        $user_settings = $form_settings['user-notification'];
-                        $user_from = $user_settings['From'];
-                        $user_subject = $user_settings['Subject'];
-                        $user_body = $user_settings['Body'];
-                        $user_to = $_POST['fcp_user_email_notify'];
-
-                        wp_mail($user_to,$user_subject,$user_body,"From: ".$user_from." <fcpForm>"."\r\n");
-                    }
-
-                }
-            }
-
-            else if($flag_email == 1)
-            {
-
-                $submission_inserted = $wpdb->insert($submission_table,
-                    array('submission' => $submission_array,
-                          'sub_date' => $sub_date,
-                          'form_id' => $form_id,
-                          'form_type'=> $form_type,
-                          'attachment_path'=>$fcp_file_found,
-                          'password'=> $hashed_password));
-
-                $Sub_body = fcp_submission_content_loop(unserialize($submission_array));
-                //echo $Sub_body;
-                
-
-                // Now check if the submission was inserted or not
-                // ( 1 ) display a confrimation message
-                // ( 2 ) refer to form settings for notifications
-                if ( $submission_inserted !== FALSE ){
-                    echo "<script>
-                            jQuery(document).ready(function(){
-                                confirm_submission('Submission Successful');
-                            });
-                    </script>";
-
-                    // retrieving the settings of the form
-                    $form_settings_query = "SELECT `form_settings` FROM " . $form_table . " WHERE `form_id`=".$form_id;
-                    $form_settings = $wpdb->get_col($form_settings_query);
-                    $form_settings = unserialize($form_settings[0]);
-
-                    if ($form_settings['backend-notification'] != NULL){
-                        $backend_settings = $form_settings['backend-notification'];
-                        $backend_to = $backend_settings['To'];
-                        $backend_from = $backend_settings['From'];
-                        $backend_subject = $backend_settings['Subject'];
-                        $backend_body = $backend_settings['Body'];
-
-                        if ( !is_email($backend_to)){
-                            // It is a wordpress user ID
-                            $wordpress_user = get_user_by('id',$backend_to);
-                            $backend_to =  $wordpress_user->user_email;
                         }
-                        $submission_email = unserialize($submission_array);
-                        //var_dump($submission_email);
-
-                        
-                        //var_dump($file_send_email);
-                        //if()
-                       
-                            wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_att_dir.basename($_FILES['send-email']["name"]));  
                         
                         // now you have an email address and you should send
                     }
@@ -568,6 +588,8 @@ function fcp_save_submission($form_id){
 
                 }
             }
+
+
 
 
     }
@@ -786,9 +808,20 @@ function fcp_display_submission_content($submission_id){
             }
             if(!empty($submission_row['attachment_path']))
             {
-                echo "<td>{$field_counter}</td> ";
-                echo "<td>Attachment</td> ";
-                echo "<td>"."<a href='".get_site_url()."/".$submission_row['attachment_path']."' download>File</a>"."</td> ";
+                $att_path = unserialize($submission_row['attachment_path']);
+                $file_count = 1;
+                foreach ($att_path as $path => $value) 
+                {
+                    echo "<tr>";
+                    echo "<td>{$field_counter}</td> ";
+                    echo "<td>Attachment ".$file_count."</td> ";
+
+                    echo "<td>"."<a href='".get_site_url()."/".$value."' download>File ".$file_count."</a>"."</td> ";
+                    echo '</tr>';
+                    $field_counter++;
+                    $file_count++;
+                }
+                
             }
             ?>
             </tbody>
