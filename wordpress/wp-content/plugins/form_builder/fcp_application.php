@@ -7,18 +7,7 @@ function fcp_submissions_page()
 
 }
 
-function fcp_contact_page()
-{
-	fcp_stylesheets();
-	?>
-
-	<h1>Contact Form</h1>
-
-	<?php
-
-}
-
-function fcp_survey_page()
+function fcp_contsub_page()
 {
 
 }
@@ -632,36 +621,3 @@ function fcp_application_page()
 
 }
 
-
-
-
-
-function fcp_registration_page()
-{
-
-}
-
-function fcp_booking_page()
-{
-
-}
-
-function fcp_contsub_page()
-{
-
-}
-
-function fcp_newsletter_page()
-{
-
-}
-
-function fcp_event_page()
-{
-
-}
-
-function fcp_custom_page()
-{
-
-}

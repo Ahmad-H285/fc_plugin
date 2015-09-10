@@ -3,7 +3,7 @@
 Plugin Name: Cape East Form Builder
 Plugin URI: http://www.facebook.com
 Description: This plugin builds forms
-Author: Watashi
+Author: H/N
 Version: 1.0
 Author URI: http://www.youtube.com
 */
@@ -144,7 +144,14 @@ function form_builder_shortcode($atts){
 
 function fcp_admin_menu()
 {
-	require_once(plugin_dir_path(__FILE__).'forms_UI.php');
+	require_once(plugin_dir_path(__FILE__).'fcp_application.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_contact.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_registration.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_booking.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_newsletter.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_event.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_survey.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_custom.php');
 
 	add_menu_page('Form Builder','Form Builder','manage_options','fcp-general','fcp_general_page');
 	add_submenu_page('fcp-general','Add New Form','Add New Form','manage_options','fcp-general','fcp_general_page');

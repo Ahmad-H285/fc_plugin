@@ -589,8 +589,8 @@ function fcp_save_submission($form_id){
                         //if()
                         if($flag_email == 1)
                         {
-                            wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
-                            
+                            //wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
+                            wp_mail($backend_to,$backend_subject,$backend_body."<br>"."<br>".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
                         }
                         
                         else
@@ -670,10 +670,12 @@ function fcp_submission_content_loop($form_fields)
                 $field_counter++;
                 //echo "</tr>";
 
-                $sub_temp.= $field_label. " : " . $value_temp."\r\n";
+                //$sub_temp.= $field_label. " : " . $value_temp."\r\n";
+                $sub_temp.= "<tr style='border:1px solid black;'>"."<td style='border-right:1px solid black; border-bottom:1px solid black;'>" . $field_label . "</td>" . "<td style='border-bottom:1px solid black;'>" . $value_temp ."</td>"."<tr>";
                 //$sub_temp = $value_temp; 
                 //echo $field_label;
             }
+            $sub_temp = "<table style='border:1px solid black;'>" . $sub_temp . "</table>";
             return $sub_temp;
 }
 
