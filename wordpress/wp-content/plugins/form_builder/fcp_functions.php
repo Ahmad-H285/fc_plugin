@@ -590,12 +590,12 @@ function fcp_save_submission($form_id){
                         if($flag_email == 1)
                         {
                             //wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
-                            wp_mail($backend_to,$backend_subject,$backend_body."<br>"."<br>".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
+                            wp_mail($backend_to,$backend_subject,$backend_body."<br>".$Sub_body,"From: ".$backend_from." <fcpForm>"."<br>",$fcp_file_email);
                         }
                         
                         else
                         {
-                            wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n");
+                            wp_mail($backend_to,$backend_subject,$backend_body."<br>".$Sub_body,"From: ".$backend_from." <fcpForm>"."<br>");
                         }
                         
                         // now you have an email address and you should send
@@ -608,7 +608,7 @@ function fcp_save_submission($form_id){
                         $user_body = $user_settings['Body'];
                         $user_to = $_POST['fcp_user_email_notify'];
 
-                        wp_mail($user_to,$user_subject,$user_body."\r\n"."\r\n".$Sub_body,"From: ".$user_from." <fcpForm>"."\r\n");
+                        wp_mail($user_to,$user_subject,$user_body."<br>".$Sub_body,"From: ".$user_from." <fcpForm>"."<br>");
                     }
 
                 }
