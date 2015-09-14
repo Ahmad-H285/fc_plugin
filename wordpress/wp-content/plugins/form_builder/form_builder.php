@@ -12,9 +12,17 @@ Author URI: http://www.youtube.com
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
 wp_enqueue_script('jquery');
-wp_enqueue_style('bootstrap.min.css','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
-wp_enqueue_script('bootstrap.min.js','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
+wp_register_style('fcp_bootstrap_styles','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+wp_register_script('fcp_bootstrap_scripts','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',array('jquery'));
+wp_enqueue_style('fcp_bootstrap_styles');
+wp_enqueue_script('fcp_bootstrap_scripts');
 wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
+
+
+if (is_admin()){
+	wp_dequeue_script('fcp_bootstrap_scripts');
+	wp_dequeue_style('fcp_bootstrap_styles');
+}
 /*
  * Some constant to denote the application type
  */
@@ -180,6 +188,7 @@ function fcp_edit_redirect()
 
 function fcp_general_page()
 {
+	fcp_get_bootstrap();
 	?>
 
 	<h1>Add New Form</h1>

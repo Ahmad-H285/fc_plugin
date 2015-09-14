@@ -865,3 +865,11 @@ function fcp_display_submission_content($submission_id){
 
 
 }
+
+/**
+ * this function enqueues bootstrap styles and js
+ */
+function fcp_get_bootstrap(){
+    wp_enqueue_style('fcp_bootstrap_styles');
+    wp_enqueue_script('fcp_bootstrap_scripts');
+}
