@@ -353,41 +353,15 @@ function fcp_contact_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_select fcp-drag-sort">
-						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
-					    <label for="app_opt" class="col-sm-4 control-label">Application Options</label>
-					    <div class="col-sm-5  input-container">
-					      <select class="form-control fcp-select-menu-field" id="app_opt"><option>List Item 1</option></select>
-					    </div>
-					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
-					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
-					  </div>
-
-
-						<div class="radio_field fcp-drag-sort" id="radio_button">
+						<div class="form-group fcp_textarea fcp-drag-sort">
 							<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
-							<label class="radio_label col-sm-9" for="radio_button">Gender</label>
-							<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a>
-							<button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">×</span></button>
-							<div class="form-group">
-								<div class="radio col-sm-10 input-container" style="padding-top:0">
-									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Male</label>
-								</div>
-								<div class="radio col-sm-10 input-container" style="padding-top:0">
-									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Female</label>
-								</div>
+							<label for="textarea_field" class="col-sm-4 control-label">Message</label>
+							<div class="col-sm-6 input-container">
+								<textarea rows="4" cols="50" class="form-control" style="resize: none" id="textarea_field"></textarea>
 							</div>
+							<button type="button" class="close" arial-label="Close"><span aria-hidden="true">×</span></button>
+							<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 						</div>
-
-					  <div class="form-group fcp_file fcp-drag-sort">
-						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
-					    <label for="app_attachment" class="col-sm-4 control-label">Attachment</label>
-					    <div class="col-sm-5 input-container">
-					      <input type="file" id="app_attachment" name="fcp-att[]">
-					    </div>
-					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
-					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
-					  </div>
 
 					  <div class="form-group fcp-drag-sort">
 						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>

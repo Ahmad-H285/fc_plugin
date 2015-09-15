@@ -1548,3 +1548,9 @@ jQuery(document).ready(function($){
 
 	});
 });
+
+// Events form settings
+
+jQuery(document).ready(function(){
+	jQuery("input#event_form_deadline").datepicker();
+});

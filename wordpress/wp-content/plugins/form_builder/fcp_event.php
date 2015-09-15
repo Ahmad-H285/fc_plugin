@@ -225,6 +225,47 @@ function fcp_event_page()
 
 
 	      						</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingThree">
+						<h4 class="panel-title">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Event Settings</a>
+						</h4>
+					</div>
+
+					<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							<div class="text-center">
+								<div class="form-group">
+									<label for="event_form_max_attendees" class="col-sm-6 control-label">Maximum Number of Attendees</label>
+									<div class="col-sm-4">
+										<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1" value="<?php echo $fcp_edit_settings['event_form_max_attendees']; ?>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="event_form_capacity_message" class="col-sm-5 control-label">Out of Capacity Message</label>
+									<div class="col-sm-5">
+										<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"><?php echo $fcp_edit_settings['capacity_message']; ?></textarea>
+									</div>
+								</div>
+								<hr>
+								<div class="form-group">
+									<label for="event_form_deadline" class="col-sm-6 control-label">Deadling For Event Submission</label>
+									<div class="col-sm-4">
+										<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" value="<?php echo $fcp_edit_settings['event_form_deadline'];?>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadling Message</label>
+									<div class="col-sm-5">
+										<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"><?php echo $fcp_edit_settings['deadline_message']; ?></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
 	      					</div>
 	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-success">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
 							<input type="hidden" name="fcp_edit" value="">
@@ -518,6 +559,47 @@ function fcp_event_page()
 
 
       						</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingThree">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Event Settings</a>
+									</h4>
+								</div>
+
+								<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+									<div class="panel-body">
+										<div class="text-center">
+											<div class="form-group">
+												<label for="event_form_max_attendees" class="col-sm-6 control-label">Maximum Number of Attendees</label>
+												<div class="col-sm-4">
+													<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="event_form_capacity_message" class="col-sm-5 control-label">Out of Capacity Message</label>
+												<div class="col-sm-5">
+													<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"></textarea>
+												</div>
+											</div>
+											<hr>
+											<div class="form-group">
+												<label for="event_form_deadline" class="col-sm-6 control-label">Deadling For Event Submission</label>
+												<div class="col-sm-4">
+													<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadling Message</label>
+												<div class="col-sm-5">
+													<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
       					</div>
 						<!-- End of Form Options panel -->
 						<div class="row" style="padding: 20px">

@@ -81,7 +81,7 @@ register_activation_hook(__FILE__,'fcp_plugin_activation');
 
 /**
  * @param $atts
- * @return string represents the form itself when found
+ * @return string represents the form itself when found or NULL if save form was terminated
  */
 function form_builder_shortcode($atts){
 
@@ -104,12 +104,43 @@ function form_builder_shortcode($atts){
 	$passed_form_name = trim (str_replace("fcp_" . $form_id, "", $attributes['form']));
 
 
-	$table_name = $wpdb->prefix."fcp_formbuilder";
-    $query =  "SELECT `form_body` FROM `".$table_name."` WHERE `form_id`=".$form_id;
+	$forms_table = $wpdb->prefix."fcp_formbuilder";
+    $query =  "SELECT `form_body` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
     $form = $wpdb->get_col($query); // getting the form
 
-	$query = "SELECT `form_settings` FROM `".$table_name."` WHERE `form_id`=".$form_id;
+	$query = "SELECT `form_settings` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
 	$settings = $wpdb->get_col($query); // getting the form settings
+
+	$query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
+	$form_type = $wpdb->get_col($query);
+	$form_type =  $form_type[0];
+
+	$submissions_table = $wpdb->prefix."fcp_submissions";
+
+	// now check for event form settings and set appropriate flags
+	$deadline_flag = false;
+	$attendees_max_flag = false;
+
+	if ($form_type == EVENT_FORM_FCP){
+
+		$query = "SELECT COUNT(*) FROM `".$submissions_table."` WHERE form_id=".$form_id;
+		$number_of_submitted_attendees = $wpdb->get_var($query);
+
+		$current_date = date('m/d/Y');
+		$event_deadline = unserialize($settings[0])['event_form_deadline'];
+		$deadline = date_diff(date_create($current_date),date_create($event_deadline));
+		$deadline = $deadline->format("%R%a"); // deadline with -/+ depending on the difference between the two dates
+
+		$event_attendess = unserialize($settings[0])['event_form_max_attendees'];
+
+		if ($number_of_submitted_attendees == $event_attendess){
+			$attendees_max_flag = true;
+		}
+
+		if ($deadline < 0){
+			$deadline_flag = true;
+		}
+	}
 
 	$form_name = trim (unserialize($settings[0])['form-name']);
 
@@ -120,21 +151,42 @@ function form_builder_shortcode($atts){
             if (wp_verify_nonce($nonce,$form_name.$form_id)){
 
                 if ( isset( $_POST['fcp_submission_state'] ) && $_POST['fcp_submission_state'] == "True" ){
-                    fcp_save_submission($form_id);
+                    $condition = fcp_save_submission($form_id);
+					if ($condition == NULL){
+						return "Form is currently unavailable";
+					}
                 }
 
             }
-			return "<form method='POST' action='' class='form-horizontal fcp_form' id='".$form_name.$form_id."' enctype='multipart/form-data'>"
-            .html_entity_decode($form[0]).
-            "<div class ='col-sm-12 hidden' id='fcp-form-messages'>
+			if (!$attendees_max_flag && !$deadline_flag) {
+				return "<form method='POST' action='' class='form-horizontal fcp_form' id='" . $form_name . $form_id . "' enctype='multipart/form-data'>"
+				. html_entity_decode($form[0]) .
+				"<div class ='col-sm-12 hidden' id='fcp-form-messages'>
                 <div class='col-sm-3'>
                 </div>
                 <div class='col-sm-6 bg-warning' id='fcp_message' style='border-radius: 10px;font-weight: bold;'>
                 </div>
                 <div class='col-sm-3'>
                 </div>
-            </div>".
-            "<input type='hidden' name='fcp_submission_state'><input type='hidden' name='fcp_submission'></form>";
+            </div>" .
+				"<input type='hidden' name='fcp_submission_state'><input type='hidden' name='fcp_submission'></form>";
+			}
+			else {
+				$capacity_message = "";
+				$deadline_message = "";
+				if ($attendees_max_flag){
+					$capacity_message = "Event capacity reached!<br>Better luck next time.";
+					$message = unserialize($settings[0])['capacity_message'];
+					$capacity_message = !empty($message) ? $message : $capacity_message  ;
+				}
+				if ( $deadline_flag ){
+					$deadline_message = "Event deadline reached!<br>Better luck next time";
+					$message = unserialize($settings[0])['deadline_message'];
+					$deadline_message = !empty($message) ? $message : $deadline_message;
+				}
+
+				echo $capacity_message."<br>".$deadline_message;
+			}
 
 		}
 		else {

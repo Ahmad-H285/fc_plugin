@@ -119,6 +119,17 @@ function fcp_update_form($form_type_update)
                         $form_settings["user-notification"] = NULL;
                     }
 
+                    if ( isset( $_POST['event_form_max_attendees'] ) ){
+                        $form_settings['event_form_max_attendees'] = $_POST['event_form_max_attendees'];
+                        $form_settings['capacity_message'] =
+                            isset($_POST['event_form_capacity_message'])? $_POST['event_form_capacity_message'] : "";
+                    }
+
+                    if ( isset( $_POST['event_form_deadline'] ) ){
+                        $form_settings['event_form_deadline'] = $_POST['event_form_deadline'];
+                        $form_settings['deadline_message'] =
+                            isset($_POST['event_form_deadline_message'])? $_POST['event_form_deadline_message'] : "";
+                    }
                     $form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
                     Global $wpdb;
@@ -209,6 +220,18 @@ function fcp_save_form($form_type){
         $form_settings["user-notification"] = NULL;
     }
 
+    if ( isset( $_POST['event_form_max_attendees'] ) ){
+        $form_settings['event_form_max_attendees'] = $_POST['event_form_max_attendees'];
+        $form_settings['capacity_message'] =
+            isset($_POST['event_form_capacity_message'])? $_POST['event_form_capacity_message'] : "";
+    }
+
+    if ( isset( $_POST['event_form_deadline'] ) ){
+        $form_settings['event_form_deadline'] = $_POST['event_form_deadline'];
+        $form_settings['deadline_message'] =
+            isset($_POST['event_form_deadline_message'])? $_POST['event_form_deadline_message'] : "";
+    }
+
     $form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
     //var_dump( $_POST['fcp']);
@@ -217,12 +240,6 @@ function fcp_save_form($form_type){
 
 
 
-/**
- * @param $form_id : will hold the id of the form submitted
- * The function builds an associative array with keys representing the field names, and the values represent an array
- * of the values. This is because there is an odd case when storing checkboxes there might be more than one value.
- *
- */
 
 
 function file_upload($file_name,$att_num)
@@ -336,6 +353,73 @@ function file_upload($file_name,$att_num)
     return $file_flag;
 }
 
+/**
+ * @param $form_id : represent the id of an event form
+ * @return bool : true when conditions of event form occure and false otherwise
+ */
+
+function fcp_event_form_conditions_occured($form_id){
+
+    Global $wpdb;
+    $forms_table = $wpdb->prefix."fcp_formbuilder";
+    $query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
+    $form_type = $wpdb->get_col($query);
+    if ($form_type[0] == EVENT_FORM_FCP){
+
+        $submissions_table = $wpdb->prefix."fcp_submissions";
+
+        $query = "SELECT COUNT(*) FROM `".$submissions_table."` WHERE form_id=".$form_id;
+        $number_of_submitted_attendees = $wpdb->get_var($query);
+
+        $query = "SELECT `form_settings` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
+        $settings = $wpdb->get_col($query); // getting the form settings
+        $current_date = date('m/d/Y');
+        $event_deadline = unserialize($settings[0])['event_form_deadline'];
+        $deadline = date_diff(date_create($current_date),date_create($event_deadline));
+        $deadline = $deadline->format("%R%a"); // deadline with -/+ depending on the difference between the two dates
+
+        $event_attendess = unserialize($settings[0])['event_form_max_attendees'];
+
+        $attendees_max_flag = false;
+        $deadline_flag = false;
+        if ($number_of_submitted_attendees == $event_attendess){
+            $attendees_max_flag = true;
+        }
+
+        if ($deadline < 0){
+            $deadline_flag = true;
+        }
+
+        $capacity_message = "";
+        $deadline_message = "";
+        if ($attendees_max_flag){
+            $capacity_message = "Event capacity reached!<br>Better luck next time.";
+            $message = unserialize($settings[0])['capacity_message'];
+            $capacity_message = !empty($message) ? $message : $capacity_message  ;
+        }
+        if ( $deadline_flag ){
+            $deadline_message = "Event deadline reached!<br>Better luck next time";
+            $message = unserialize($settings[0])['deadline_message'];
+            $deadline_message = !empty($message) ? $message : $deadline_message;
+        }
+
+        if ($deadline_flag || $attendees_max_flag) {
+            echo $capacity_message . "<br>" . $deadline_message;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+/**
+ * @param $form_id : will hold the id of the form submitted
+ * @return bool : the function returns NULL if event form conditions were true
+ * The function builds an associative array with keys representing the field names, and the values represent an array
+ * of the values. This is because there is an odd case when storing checkboxes there might be more than one value.
+ *
+ */
 function fcp_save_submission($form_id){
 
     Global $wpdb;
@@ -344,6 +428,12 @@ function fcp_save_submission($form_id){
     $flag_email = 0;
     $count_att = -1;
     $count_att_send = -1;
+
+    //assistive check to determine if the max number of submissions reach or not for event form
+    $condition = fcp_event_form_conditions_occured( $form_id );
+    if ( $condition == true ){
+        return NULL;
+    }
 
     $count = 0;
     while($_FILES['fcp-att']['name'][$count] > -1)
