@@ -14,9 +14,10 @@ function fcp_scripts()
     <?php
 }
 
-function fcp_fields_panel()
+function fcp_fields_panel($pass_button = NULL)
 {
-    ?>
+    if($pass_button != NULL)
+    	{?>
     <div class="fcp_panel col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 360px; position: absolute">
         <h4><strong>Available Fields</strong></h4>
     </div>
@@ -34,7 +35,29 @@ function fcp_fields_panel()
         <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
 
     </div>
-    <?php
+    <?php }
+    else
+    {
+    	?>
+    	<div class="fcp_panel col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 360px; position: absolute">
+        <h4><strong>Available Fields</strong></h4>
+    	</div>
+    	<div class="col-md-3 col-md-push-4" id="fields-panel" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: 410px; position: absolute">
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Numeric</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Date Picker</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Time Picker</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Select Menu</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Checkbox</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Radio Button</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">File</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Email</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
+
+        </div>
+
+        <?php
+    }
 }
 
 function fcp_fields_options()
@@ -864,6 +887,31 @@ function fcp_display_submission_content($submission_id){
 
 
 
+}
+
+function export_csv($form_type)
+{
+	if($_POST['export_csv'] == "true")
+	{
+		//echo 'success';
+
+		Global $wpdb;
+
+		$sub_table = $wpdb->prefix."fcp_submissions";
+		$submissions = $wpdb -> get_results("SELECT `submission` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+
+		$exp_data = unserialize($submissions[0]['submission']);
+		
+		foreach ($exp_data as $sub_data => $label) {
+			
+			foreach ($label as $field_label => $field_value) {
+				
+				echo "\"".$field_value."\"".",";
+
+			}
+
+		}
+	}
 }
 
 /**

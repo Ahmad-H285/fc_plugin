@@ -588,19 +588,27 @@ function fcp_newsletter_page()
 						</tbody>
 					</table>
 				</div>
-				<div class="col-sm-5">
+				<div class="col-sm-7">
 					<button class="btn btn-danger" type="submit" id="delete_selected_submissions" disabled>
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 						Delete Selected Submissions
 					</button>
 				</div>
+				<div class="col-sm-5">
+					<button class="btn btn-info" type="submit" id="import_sub_csv">
+						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+						Export Submissions Data To CSV
+					</button>
+				</div>
 				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
+				<input type="hidden" name="export_csv" id="selected_submissions_ids">
 
 			</form>
 		</div>
 	</div>
 </div>
 			<?php
+			export_csv(NEWSLETTER_FORM_FCP);
 }
 		if($_GET['id'])
 		{

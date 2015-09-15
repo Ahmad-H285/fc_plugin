@@ -21,6 +21,11 @@ var required_mark = '<span class="required-field-mark">*</span>';
 /*********************** Global Variables End ***********************/
 
 jQuery(document).ready(function(){
+	jQuery("button#import_sub_csv").click(function(){
+		jQuery("input[name='export_csv']").val("true");
+		console.log(jQuery("input[name='export_csv']").val());
+	});
+	
 	jQuery("div#wpcontent").css("background-color","white");
 	fcp_radio_deleteField();
 	fcp_check_deleteField();
