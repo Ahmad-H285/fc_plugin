@@ -900,18 +900,55 @@ function export_csv($form_type)
 		$sub_table = $wpdb->prefix."fcp_submissions";
 		$submissions = $wpdb -> get_results("SELECT `submission` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
 
-		$exp_data = unserialize($submissions[0]['submission']);
+		//$exp_data = unserialize($submissions[0]['submission']);
+
+		//var_dump(unserialize($submissions[1]['submission']));
+		$csv = NULL;
+		$csv_sub = NULL;
 		
-		foreach ($exp_data as $sub_data => $label) {
+		foreach ($submissions as $sub_array => $sub_num) {
 			
-			foreach ($label as $field_label => $field_value) {
+			$exp_data = unserialize($sub_num['submission']);
+			$csv = NULL;
+
+			foreach ($exp_data as $sub_data => $label) {
+
+				foreach ($label as $field_label => $field_value) {
 				
-				echo "\"".$field_value."\"".",";
+				$csv .= "\"".$field_value."\"".",";
+
+				}
 
 			}
+			
+			$csv = chop($csv,",")."\n";
+
+			$csv_sub .= $csv;
 
 		}
+		//echo $csv_sub;
+		if(!file_exists("../wp-content/plugins/form_builder/news_csv"))
+    	{
+        	mkdir("../wp-content/plugins/form_builder/news_csv", 0700);
+
+        	$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+			fwrite($csv_file, $csv_sub);
+			fclose($csv_file);
+
+			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
+    	}
+
+		else
+		{
+			$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+			fwrite($csv_file, $csv_sub);
+			fclose($csv_file);
+
+			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
+		}
+
 	}
+
 }
 
 /**
