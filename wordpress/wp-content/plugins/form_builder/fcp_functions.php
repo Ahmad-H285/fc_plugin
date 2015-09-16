@@ -696,7 +696,7 @@ function fcp_save_submission($form_id){
                         $user_from = $user_settings['From'];
                         $user_subject = $user_settings['Subject'];
                         $user_body = $user_settings['Body'];
-                        $user_to = $_POST['fcp_user_email_notify'];
+                        $user_to = $_POST['fcp_user_email'];
 
                         wp_mail($user_to,$user_subject,$user_body."<br>".$Sub_body,"From: ".$user_from." <fcpForm>"."<br>");
                     }

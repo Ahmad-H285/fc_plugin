@@ -1270,6 +1270,16 @@ function toggleEmail_notificationFields(event){
 	else {
 		fcp_email_not_opt = jQuery(this).parents("div#email_options").next("div.fcp_email_not_opt");
 		fcp_email_not_opt.slideUp(500);
+        // select the first option in the menu of email fields
+        var user_notification_email_menu = jQuery("#fcp_user_email_to_notification");
+        var user_event_email_menu = jQuery("#fcp_event_form_required_email");
+        if (user_event_email_menu.val() != user_notification_email_menu.val()) {
+            user_notification_email_menu.children("option:first").attr("selected", "true");
+            user_notification_email_menu.change(); // to force update the email field
+        }
+        else {
+            user_notification_email_menu.children("option:first").attr("selected", "true");
+        }
 	}
 	userNotificationEmailFields();
 }
@@ -1495,24 +1505,50 @@ function userNotificationEmailFields(){
 jQuery(document).ready(function(){
 	//userNotificationEmailFields();
 	var email_fields_menu = jQuery("select#fcp_user_email_to_notification");
+    var event_user_email_menu = jQuery("#fcp_event_form_required_email");
+    var user_email = jQuery("div.form-sketch [name='fcp_user_email']");
 	// to update the fields just before the user clicks the menu
 	email_fields_menu.on("mouseover",userNotificationEmailFields);
 
 	email_fields_menu.change(function(event){
 		var selected_field_id = jQuery(this).val();
 		var email_fields = jQuery("div.form-sketch input[type='email']");
-		if (selected_field_id != 0){
-			jQuery.each(email_fields,function(index,field){
-				if (jQuery(field).attr("id") == selected_field_id){
-					jQuery(field).attr("name","fcp_user_email_notify");
-				}
-				else{
-					jQuery(field).removeAttr("name");
-				}
-			});
+		if (selected_field_id != 0){ // email field was selected
+            if (event_user_email_menu.val() != 0) {
+                if (jQuery(this).val() == event_user_email_menu.val()) {
+                    jQuery.each(email_fields, function (index, field) {
+                        if (jQuery(field).attr("id") == selected_field_id) {
+                            jQuery(field).attr("name", "fcp_user_email");
+                        }
+                        else {
+                            jQuery(field).removeAttr("name");
+                        }
+                    });
+                }
+                else {
+                    jQuery(this).children("option:first").attr("selected", "true");
+                    alert("You can only select the same field as the one in event option");
+                }
+            }
+            else { // event user email was not selected so any field can be chosen
+                jQuery.each(email_fields, function (index, field) {
+                    if (jQuery(field).attr("id") == selected_field_id) {
+                        jQuery(field).attr("name", "fcp_user_email");
+                    }
+                    else {
+                        jQuery(field).removeAttr("name");
+                    }
+                });
+            }
 		}
-		else{ // remove all the name attribute from all fields
-			email_fields.removeAttr("name");
+		else{ // no email field is selected
+
+            if (event_user_email_menu.val() != user_email.attr("id")){
+                // should not remove the name attribute
+            }
+            else{
+                user_email.removeAttr("name");
+            }
 		}
 	});
 
@@ -1551,6 +1587,85 @@ jQuery(document).ready(function($){
 
 // Events form settings
 
+/*
+    The following function retrieves and updates the email fields menu for the event form settings
+ */
+function get_event_form_email_fields(){
+
+    var email_fields = jQuery("div.form-sketch input[type='email']");
+    var email_field_label;
+    var event_select_email_menu = jQuery(this);
+    var previously_selected_field_id = event_select_email_menu.val();
+
+    event_select_email_menu.children("option").remove();
+    var option = '<option value="0" selected="selected">Select an email field</option>';
+    jQuery.each(email_fields,function(index,field){
+        field = jQuery(field);
+        var field_id = field.attr("id");
+        email_field_label = field.parents("div.form-group").find("label").text();
+        email_field_label = email_field_label.replace("*","");
+        option += '<option value="'+field_id+'">'+email_field_label+'</option>';
+    });
+    event_select_email_menu.append(option);
+
+    event_select_email_menu.children("option[value='"+previously_selected_field_id+"']").attr("selected","true");
+}
+
+/*
+    The following function updates the name attribute of the email fields according to their selection from the menu
+ */
+
+function update_event_form_email_field_name(){
+
+    var email_fields = jQuery("div.form-sketch input[type='email']");
+    var user_notification_menu = jQuery("#fcp_user_email_to_notification");
+    var selected_field = jQuery(this).val();
+    var user_email_field = jQuery("div.form-sketch input[name='fcp_user_email']");
+    if (jQuery(this).val() != 0){ // an email field was selected
+        if (user_notification_menu.val() != 0) {
+            if (jQuery(this).val() == user_notification_menu.val()) {
+                // both settings require the same field
+                jQuery.each(email_fields, function (index, field) {
+                    var field_id = jQuery(field).attr("id");
+                    if (selected_field == field_id) {
+                        jQuery(field).attr("name", "fcp_user_email");
+                    }
+                    else {
+                        jQuery(field).removeAttr("name");
+                    }
+                });
+            }
+            else {
+                jQuery(this).children("option:first").attr("selected", "true");
+                alert("You can only select the same field as the one in user notification option");
+            }
+        }
+        else {// user notification was empty so any field can be chosen
+            jQuery.each(email_fields, function (index, field) {
+                var field_id = jQuery(field).attr("id");
+                if (selected_field == field_id) {
+                    jQuery(field).attr("name", "fcp_user_email");
+                }
+                else {
+                    jQuery(field).removeAttr("name");
+                }
+            });
+        }
+    }
+    else{ // no email field is selected
+        if (user_notification_menu.val() == user_email_field.attr("id")){
+            // Notification setting is bound to the same field
+            // should not remove the name
+        }
+        else {
+            // notification setting is not requiring the same field
+            user_email_field.removeAttr("name");
+        }
+    }
+
+}
 jQuery(document).ready(function(){
-	jQuery("input#event_form_deadline").datepicker();
+    jQuery("input#event_form_deadline").datepicker();
+    jQuery("select#fcp_event_form_required_email").mouseover(get_event_form_email_fields)
+        .change(update_event_form_email_field_name);
 });

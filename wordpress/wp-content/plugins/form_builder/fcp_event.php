@@ -46,7 +46,7 @@ function fcp_event_page()
 
 		if($fcp_settings_backend != NULL)
 		{?>
-			<script>jQuery(document).ready(function(){
+			<script xmlns="http://www.w3.org/1999/html">jQuery(document).ready(function(){
 				jQuery("div#headingOne").one('click',function(){
 					jQuery("input.fcp_notification[name='send-to-backend']").prop("checked","true");
 					jQuery("div#back-not").css("display","block");
@@ -260,6 +260,7 @@ function fcp_event_page()
 										<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"><?php echo $fcp_edit_settings['deadline_message']; ?></textarea>
 									</div>
 								</div>
+								<hr>
 							</div>
 						</div>
 					</div>
@@ -394,15 +395,6 @@ function fcp_event_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
-					  <div class="form-group fcp_select fcp-drag-sort">
-						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
-					    <label for="app_opt" class="col-sm-4 control-label">Application Options</label>
-					    <div class="col-sm-5  input-container">
-					      <select class="form-control fcp-select-menu-field" id="app_opt"><option>List Item 1</option></select>
-					    </div>
-					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
-					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
-					  </div>
 
 
 						<div class="radio_field fcp-drag-sort" id="radio_button">
@@ -420,16 +412,7 @@ function fcp_event_page()
 							</div>
 						</div>
 
-					  <div class="form-group fcp_file fcp-drag-sort">
-						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
-					    <label for="app_attachment" class="col-sm-4 control-label">Attachment</label>
-					    <div class="col-sm-5 input-container">
-					      <input type="file" id="app_attachment" name="fcp-att[]">
-					    </div>
-					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
-					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
-					  </div>
-
+					  
 					  <div class="form-group fcp-drag-sort">
 						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <div class="col-sm-offset-4 col-sm-5">
@@ -576,7 +559,7 @@ function fcp_event_page()
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="event_form_capacity_message" class="col-sm-5 control-label">Out of Capacity Message</label>
+												<label for="event_form_capacity_message" class="col-sm-5 control-label">Capacity Reached Message</label>
 												<div class="col-sm-5">
 													<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"></textarea>
 												</div>
@@ -585,13 +568,22 @@ function fcp_event_page()
 											<div class="form-group">
 												<label for="event_form_deadline" class="col-sm-6 control-label">Deadling For Event Submission</label>
 												<div class="col-sm-4">
-													<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text">
+													<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" placeholder="Date">
 												</div>
 											</div>
 											<div class="form-group">
 												<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadling Message</label>
 												<div class="col-sm-5">
 													<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"></textarea>
+												</div>
+											</div>
+											<hr>
+											<div class="form-group">
+												<label for="fcp_event_form_required_email" class="col-sm-5 control-label">Require email for submission</label>
+												<div class="col-sm-5">
+													<select name="" id="fcp_event_form_required_email" class="form-control">
+														<option value="0" selected="selected">Select an email field</option>
+													</select>
 												</div>
 											</div>
 										</div>
