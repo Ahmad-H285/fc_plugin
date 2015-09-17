@@ -76,7 +76,7 @@ function fcp_registration_page()
 			$user_body = $fcp_settings_user['Body'];
 		}
 
-		fcp_fields_panel();
+		fcp_fields_panel("Hi");
 		fcp_fields_options();
 
 
@@ -294,7 +294,7 @@ function fcp_registration_page()
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane" id="AddNewForm">
 	<?php
-	fcp_fields_panel();
+	fcp_fields_panel(true);
 	fcp_fields_options();
 
 

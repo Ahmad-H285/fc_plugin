@@ -14,9 +14,10 @@ function fcp_scripts()
     <?php
 }
 
-function fcp_fields_panel()
+function fcp_fields_panel($pass_button = NULL)
 {
-    ?>
+    if($pass_button != NULL)
+    	{?>
     <div class="fcp_panel col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 360px; position: absolute">
         <h4><strong>Available Fields</strong></h4>
     </div>
@@ -34,7 +35,29 @@ function fcp_fields_panel()
         <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
 
     </div>
-    <?php
+    <?php }
+    else
+    {
+    	?>
+    	<div class="fcp_panel col-md-3 text-center col-md-push-4" style="margin-left: 350px; padding: 5px; border-top: 1px solid grey; border-right: 1px solid grey; border-left: 1px solid grey; margin-top: 360px; position: absolute">
+        <h4><strong>Available Fields</strong></h4>
+    	</div>
+    	<div class="col-md-3 col-md-push-4" id="fields-panel" style="margin-left: 350px; padding: 5px; border: 1px solid grey; background-color: #D2D2D2; margin-top: 410px; position: absolute">
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Numeric</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Date Picker</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Time Picker</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Select Menu</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Checkbox</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Radio Button</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">File</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Email</button>
+        <button type="button" class="btn btn-primary" style="margin: 3px" onclick="">Text Area</button>
+
+        </div>
+
+        <?php
+    }
 }
 
 function fcp_fields_options()
@@ -1003,6 +1026,95 @@ function fcp_display_submission_content($submission_id){
     <?php
 
 
+
+}
+
+function export_csv($form_type)
+{
+	if($_POST['export_csv'] == "true")
+	{
+		//echo 'success';
+
+		Global $wpdb;
+
+		$sub_table = $wpdb->prefix."fcp_submissions";
+		$form_table = $wpdb->prefix."fcp_formbuilder";
+		$submissions = $wpdb -> get_results("SELECT `submission`, `form_id` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."' AND `form_id`= '".$_POST['news-form-name']."'" ,ARRAY_A);
+		$form_settings = $wpdb -> get_results("SELECT `form_settings`, `form_id` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+
+		$csv = NULL;
+		$csv_sub = NULL;
+		$field_label_pattern = "/_fcp_[0-9]/";
+
+
+		foreach ($submissions as $sub_array => $sub_num) {
+			
+			$exp_data = unserialize($sub_num['submission']);
+			$exp_id = $sub_num['form_id'];
+			//var_dump($exp_id);
+			$csv = NULL;
+			$csv_label = NULL;
+
+			//print_r($exp_data);
+
+			foreach ($exp_data as $sub_data => $label) {
+
+				$sub_data = preg_replace($field_label_pattern,"",$sub_data);
+				$csv_label .= "\"".$sub_data."\"".",";
+				if(sizeof($label) > 1)
+				{
+					$label_flag = 1;
+				}
+				$csv .= "\"";
+				foreach ($label as $field_label => $field_value) {
+					
+
+					if($label_flag == 1)
+					{
+						$csv .= $field_value." - ";
+					}
+
+					else
+					{
+						$csv .= $field_value;
+					}
+
+				}
+
+				$csv =chop($csv," - ")."\"".",";
+				$label_flag = 0;
+
+			}
+			$csv_label = chop($csv_label, ",")."\n";
+
+			$csv = chop($csv, ",")."\n"; 
+
+			$csv_sub .= $csv;
+
+		}
+
+		if(!file_exists("../wp-content/plugins/form_builder/news_csv"))
+    	{
+        	mkdir("../wp-content/plugins/form_builder/news_csv", 0700);
+
+        	$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+			fwrite($csv_file, $csv_sub);
+			fclose($csv_file);
+
+			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
+    	}
+
+		else
+		{
+			$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+			fwrite($csv_file, $csv_label);
+			fwrite($csv_file, $csv_sub);
+			fclose($csv_file);
+
+			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
+		}
+
+	}
 
 }
 
