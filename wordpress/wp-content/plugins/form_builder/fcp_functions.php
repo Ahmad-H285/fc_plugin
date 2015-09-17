@@ -130,6 +130,12 @@ function fcp_update_form($form_type_update)
                         $form_settings['deadline_message'] =
                             isset($_POST['event_form_deadline_message'])? $_POST['event_form_deadline_message'] : "";
                     }
+
+                    if ( isset( $_POST['event_user_email_field_menu']) ){
+                        $form_settings['event_user_email'] =
+                            $_POST['event_user_email_field_menu'] !== "0" ? $_POST['event_user_email_field_menu'] : "";
+                    }
+
                     $form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
 
                     Global $wpdb;
@@ -230,6 +236,11 @@ function fcp_save_form($form_type){
         $form_settings['event_form_deadline'] = $_POST['event_form_deadline'];
         $form_settings['deadline_message'] =
             isset($_POST['event_form_deadline_message'])? $_POST['event_form_deadline_message'] : "";
+    }
+
+    if ( isset( $_POST['event_user_email_field_menu']) ){
+        $form_settings['event_user_email'] =
+            $_POST['event_user_email_field_menu'] !== "0" ? $_POST['event_user_email_field_menu'] : "";
     }
 
     $form_settings = serialize($form_settings); // serialize the array to be able to insert it into the database
@@ -358,7 +369,7 @@ function file_upload($file_name,$att_num)
  * @return bool : true when conditions of event form occure and false otherwise
  */
 
-function fcp_event_form_conditions_occured($form_id){
+function fcp_event_form_capcity_deadline_check($form_id){
 
     Global $wpdb;
     $forms_table = $wpdb->prefix."fcp_formbuilder";
@@ -414,10 +425,43 @@ function fcp_event_form_conditions_occured($form_id){
 }
 
 /**
- * @param $form_id : will hold the id of the form submitted
- * @return bool : the function returns NULL if event form conditions were true
+ * The function check if the user submitted the form previously using his email address.
+ * @param $form_id
+ * @return bool : true if the user submitted the form before using the same email, false otherwise.
+ *
+ */
+
+function fcp_event_user_email_check( $form_id ){
+    Global $wpdb;
+    $forms_table = $wpdb->prefix."fcp_formbuilder";
+    $submissions_table = $wpdb->prefix."fcp_submissions";
+    $query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
+    $form_type = $wpdb->get_col($query);
+    if ($form_type[0] == EVENT_FORM_FCP){
+
+        $user_email = $_POST['fcp_user_email'];
+
+        $query = "SELECT `submission` FROM `{$submissions_table}` WHERE `form_id`={$form_id}";
+        $results = $wpdb->get_results($query,ARRAY_A);
+        foreach( $results as $result ){
+            $submission = unserialize($result['submission']);
+            foreach($submission as $sub_data){
+                if ($sub_data[0] == $user_email){
+                    return true;
+                }
+            }
+        }
+
+    }
+    return false;
+}
+
+/**
  * The function builds an associative array with keys representing the field names, and the values represent an array
  * of the values. This is because there is an odd case when storing checkboxes there might be more than one value.
+ * @param $form_id : will hold the id of the form submitted
+ * @return bool : the function returns NULL if event form conditions were true
+ * @return string : the text representing a form was already submitted
  *
  */
 function fcp_save_submission($form_id){
@@ -430,9 +474,15 @@ function fcp_save_submission($form_id){
     $count_att_send = -1;
 
     //assistive check to determine if the max number of submissions reach or not for event form
-    $condition = fcp_event_form_conditions_occured( $form_id );
-    if ( $condition == true ){
-        return NULL;
+    $event_capacity_deadline_occured = fcp_event_form_capcity_deadline_check( $form_id );
+    if ( $event_capacity_deadline_occured == true ){
+        return true;
+    }
+
+    $event_user_already_submitted = fcp_event_user_email_check( $form_id );
+    if ( $event_user_already_submitted == true ) {
+
+        return EVENT_ALREADY_SUBMITTED_FCP;
     }
 
     $count = 0;

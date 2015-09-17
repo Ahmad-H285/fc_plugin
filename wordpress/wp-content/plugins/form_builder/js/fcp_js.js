@@ -1669,3 +1669,17 @@ jQuery(document).ready(function(){
     jQuery("select#fcp_event_form_required_email").mouseover(get_event_form_email_fields)
         .change(update_event_form_email_field_name);
 });
+
+
+/*
+	The following function is called in event forms
+	it is used to select the email field which the user has to fill to submit the event form
+ */
+
+function select_user_email_field(field_id){
+	if (field_id !== "") {
+		jQuery(document).ready(function () {
+			jQuery("#fcp_event_form_required_email").mouseover().children("option[value='" + field_id + "']").attr("selected", "true");
+		});
+	}
+}

@@ -43,6 +43,7 @@ function fcp_event_page()
 		$fcp_edit_settings = unserialize($edit_form[0]['form_settings']);
 		$fcp_settings_backend = $fcp_edit_settings['backend-notification'];
 		$fcp_settings_user = $fcp_edit_settings['user-notification'];
+		$fcp_settings_event_user_email = $fcp_edit_settings['event_user_email'];
 
 		if($fcp_settings_backend != NULL)
 		{?>
@@ -261,6 +262,15 @@ function fcp_event_page()
 									</div>
 								</div>
 								<hr>
+								<div class="form-group">
+									<label for="fcp_event_form_required_email" class="col-sm-5 control-label">Require email for submission</label>
+									<div class="col-sm-5">
+										<select name="event_user_email_field_menu" id="fcp_event_form_required_email" class="form-control">
+											<option value="0" selected="selected">Select an email field</option>
+										</select>
+
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -277,13 +287,24 @@ function fcp_event_page()
 			//var_dump((string)unserialize($edit_form['form_settings'])['form-name']);
 			?> -->
 			<script>
-			var select_option_value = <?php echo $back_to;?>;
+			var select_option_value ="<?php echo $back_to;?>";
+			var event_user_email_field = "";
+			<?php
+						// check event user email to highlight it in the menu
+						if ( !empty($fcp_settings_event_user_email) ) {
+						?>
+			 event_user_email_field = "<?php echo $fcp_settings_event_user_email;?>";
+			<?php
+        }
+    ?>
 
 			jQuery("select#backend_users_list option[value='"+select_option_value+"'").prop("selected","true");
 			</script>
 			<script>
 				jQuery(document).ready(function(){
 
+
+					select_user_email_field(event_user_email_field);
 					  jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.radio_field label.radio_label");
 					  jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.check_field label.check_label");
 					  jQuery('<button type="button" class="pass_close close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>').insertAfter("div.fcp_pass div.input-container")
@@ -412,7 +433,7 @@ function fcp_event_page()
 							</div>
 						</div>
 
-					  
+
 					  <div class="form-group fcp-drag-sort">
 						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <div class="col-sm-offset-4 col-sm-5">
@@ -581,7 +602,7 @@ function fcp_event_page()
 											<div class="form-group">
 												<label for="fcp_event_form_required_email" class="col-sm-5 control-label">Require email for submission</label>
 												<div class="col-sm-5">
-													<select name="" id="fcp_event_form_required_email" class="form-control">
+													<select name="event_user_email_field_menu" id="fcp_event_form_required_email" class="form-control">
 														<option value="0" selected="selected">Select an email field</option>
 													</select>
 												</div>

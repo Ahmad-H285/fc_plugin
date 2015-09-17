@@ -35,6 +35,9 @@ define("BOOKING_FORM_FCP","Booking Form");
 define("NEWSLETTER_FORM_FCP","Newsletter Form");
 define("EVENT_FORM_FCP","Event Form");
 define("CUSTOM_FORM_FCP","Custom Form");
+define("EVENT_ALREADY_SUBMITTED_FCP","You can only submit once for this event");
+define("EVENT_CAPACITY_REACHED_FCP","Event capacity reached");
+define("EVENT_DEADLINE_REACHED_FCP","Event deadline reached");
 
 function fcp_plugin_activation()
 {
@@ -152,9 +155,12 @@ function form_builder_shortcode($atts){
 
                 if ( isset( $_POST['fcp_submission_state'] ) && $_POST['fcp_submission_state'] == "True" ){
                     $condition = fcp_save_submission($form_id);
-					if ($condition == NULL){
+					if ($condition === true){
 						return "Form is currently unavailable";
 					}
+                    else if ($condition === EVENT_ALREADY_SUBMITTED_FCP){
+                        return $condition;
+                    }
                 }
 
             }
