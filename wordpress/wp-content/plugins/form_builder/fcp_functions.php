@@ -898,35 +898,61 @@ function export_csv($form_type)
 		Global $wpdb;
 
 		$sub_table = $wpdb->prefix."fcp_submissions";
-		$submissions = $wpdb -> get_results("SELECT `submission` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+		$form_table = $wpdb->prefix."fcp_formbuilder";
+		$submissions = $wpdb -> get_results("SELECT `submission`, `form_id` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."' AND `form_id`= '".$_POST['news-form-name']."'" ,ARRAY_A);
+		$form_settings = $wpdb -> get_results("SELECT `form_settings`, `form_id` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
 
-		//$exp_data = unserialize($submissions[0]['submission']);
-
-		//var_dump(unserialize($submissions[1]['submission']));
 		$csv = NULL;
 		$csv_sub = NULL;
-		
+		$field_label_pattern = "/_fcp_[0-9]/";
+
+
 		foreach ($submissions as $sub_array => $sub_num) {
 			
 			$exp_data = unserialize($sub_num['submission']);
+			$exp_id = $sub_num['form_id'];
+			//var_dump($exp_id);
 			$csv = NULL;
+			$csv_label = NULL;
+
+			//print_r($exp_data);
 
 			foreach ($exp_data as $sub_data => $label) {
 
+				$sub_data = preg_replace($field_label_pattern,"",$sub_data);
+				$csv_label .= "\"".$sub_data."\"".",";
+				if(sizeof($label) > 1)
+				{
+					$label_flag = 1;
+				}
+				$csv .= "\"";
 				foreach ($label as $field_label => $field_value) {
-				
-				$csv .= "\"".$field_value."\"".",";
+					
+
+					if($label_flag == 1)
+					{
+						$csv .= $field_value." - ";
+					}
+
+					else
+					{
+						$csv .= $field_value;
+					}
 
 				}
 
+				$csv =chop($csv," - ")."\"".",";
+				$label_flag = 0;
+
 			}
-			
-			$csv = chop($csv,",")."\n";
+			$csv_label = chop($csv_label, ",")."\n";
+
+			$csv = chop($csv, ",")."\n"; 
 
 			$csv_sub .= $csv;
 
 		}
-		//echo $csv_sub;
+
 		if(!file_exists("../wp-content/plugins/form_builder/news_csv"))
     	{
         	mkdir("../wp-content/plugins/form_builder/news_csv", 0700);
@@ -941,6 +967,7 @@ function export_csv($form_type)
 		else
 		{
 			$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+			fwrite($csv_file, $csv_label);
 			fwrite($csv_file, $csv_sub);
 			fclose($csv_file);
 

@@ -12,6 +12,11 @@ function fcp_newsletter_page()
     wp_enqueue_script('jquery-effects-blind');
     $nonce = wp_create_nonce('form-builder-sub');
 
+    Global $wpdb;
+
+		$form_table = $wpdb->prefix."fcp_formbuilder";
+		$form_settings = $wpdb -> get_results("SELECT `form_settings`, `form_id` FROM `{$form_table}` WHERE `form_type`= '".NEWSLETTER_FORM_FCP."'",ARRAY_A);
+
     if (wp_verify_nonce($nonce,'form-builder-sub')) {
 
         // check if there are forms to delete
@@ -551,17 +556,28 @@ function fcp_newsletter_page()
 						</tbody>
 					</table>
 				</div>
-				<div class="col-sm-7">
+				<div class="col-sm-4">
 					<button class="btn btn-danger" type="submit" id="delete_selected_submissions" disabled>
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 						Delete Selected Submissions
 					</button>
 				</div>
-				<div class="col-sm-5">
-					<button class="btn btn-info" type="submit" id="import_sub_csv">
+				<div class="col-sm-8">
+					<button class="btn btn-info col-sm-7" type="submit" id="import_sub_csv">
 						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
 						Export Submissions Data To CSV
 					</button>
+					<select class="col-sm-4 col-sm-offset-1" name="news-form-name">
+
+						<?php foreach ($form_settings as $settings => $name) {
+							$set_res = unserialize($name['form_settings'])['form-name'];
+							$news_id = $name['form_id'];
+							?><option value="<?php echo $news_id;?>"><?php echo $set_res ;?></option>
+						<?php
+						}
+						?>
+
+					</select>
 				</div>
 				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
 				<input type="hidden" name="export_csv" id="selected_submissions_ids">
@@ -583,5 +599,5 @@ function fcp_newsletter_page()
 		});
 		</script>
 		<?php
-
+		
 }
