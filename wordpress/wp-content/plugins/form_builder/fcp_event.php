@@ -2,6 +2,10 @@
 
 function fcp_event_page()
 {
+	Global $wpdb;
+	$form_table = $wpdb->prefix."fcp_formbuilder";
+	$form_settings = $wpdb -> get_results("SELECT `form_settings`, `form_id` FROM `{$form_table}` WHERE `form_type`= '".EVENT_FORM_FCP."'",ARRAY_A);
+
 	fcp_get_bootstrap();
 	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js',
 		array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog','jquery-ui-draggable','jquery-ui-sortable'));
@@ -683,20 +687,37 @@ function fcp_event_page()
 						</tbody>
 					</table>
 				</div>
-				<div class="col-sm-5">
+				<div class="col-sm-4">
 					<button class="btn btn-danger" type="submit" id="delete_selected_submissions" disabled>
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 						Delete Selected Submissions
 					</button>
 				</div>
-				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
+				<div class="col-sm-8">
+					<button class="btn btn-info col-sm-7" type="submit" id="import_sub_csv">
+						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+						Export Submissions Data To CSV
+					</button>
+					<select class="col-sm-4 col-sm-offset-1" name="news-form-name">
+						<?php foreach ($form_settings as $settings => $name) {
+							$set_res = unserialize($name['form_settings'])['form-name'];
+							$news_id = $name['form_id'];
+							?><option value="<?php echo $news_id;?>"><?php echo $set_res ;?></option>
+							<?php
+						}
+						?>
 
+					</select>
+				</div>
+				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
+				<input type="hidden" name="export_csv" id="selected_submissions_ids">
 			</form>
 		</div>
 	</div>
 </div>
 			<?php
 }
+		export_csv(EVENT_FORM_FCP);
 		if($_GET['id'])
 		{
 			fcp_update_form(EVENT_FORM_FCP);
