@@ -88,3 +88,8 @@ table#fcp_submission_table{
 	cursor: move;
 	color: lightslategrey;
 }
+
+
+div.checkbox-radio-alignment-temp {
+    margin-left: 27px !important;
+}

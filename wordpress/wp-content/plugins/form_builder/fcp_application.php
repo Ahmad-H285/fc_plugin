@@ -379,11 +379,11 @@ function fcp_application_page()
 
 
 						<div class="radio_field fcp-drag-sort" id="radio_button">
-							<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+							<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true" style="margin-left: -15px;"></span>
 							<label class="radio_label col-sm-9" for="radio_button">Gender</label>
-							<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a>
+							<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a>
 							<button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">×</span></button>
-							<div class="form-group">
+							<div class="form-group checkbox-radio-alignment-temp">
 								<div class="radio col-sm-10 input-container" style="padding-top:0">
 									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Male</label>
 								</div>

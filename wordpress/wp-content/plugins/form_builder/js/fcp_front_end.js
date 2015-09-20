@@ -477,3 +477,10 @@ function confirm_submission(message){
         jQuery("div.fcp_submission_confirmation").fadeOut(1000);
     },3500);
 }
+
+
+// minor modification for checkbox and radio styles
+
+jQuery(document).ready(function(){
+    jQuery("div.form-group.checkbox-radio-alignment-temp").removeClass("checkbox-radio-alignment-temp");
+});
