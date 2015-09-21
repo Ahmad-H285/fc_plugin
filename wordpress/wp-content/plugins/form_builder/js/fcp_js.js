@@ -678,14 +678,14 @@ function editFieldOptions(title,type,field,inputID){
 
 		jQuery("button#saveButton").one("click",function(){
 
-			 var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+			 var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '');
 
 				if(slug_val)
 				{
 					jQuery("input#"+inputID).addClass(slug_val);
 				}
 
-			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 			//field_id = field_id.replace(/\s+/g, '');
 			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
 
@@ -694,7 +694,7 @@ function editFieldOptions(title,type,field,inputID){
 				while(jQuery("input[id='"+field_id+"']").length>0)
 				{
 					field_id_num++;
-					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 					//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
 					//field_Id_NoSpaces = field_Id_NoSpaces.replace(/\s+/g, ''); // removing the spaces from the id
 					// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
