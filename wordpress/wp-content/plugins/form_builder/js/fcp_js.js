@@ -252,7 +252,7 @@ var fcp_checkbox_field = '<div class="check_field fcp-drag-sort" id="check_box_'
 var fcp_radiobutton_field = '<div class="radio_field fcp-drag-sort" id="radio_but_'+radio_field_instance+'"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true" style="margin-left: -15px;"></span><label class="radio_label col-sm-9" for="radio_but_'+radio_field_instance+'">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group checkbox-radio-alignment-temp"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="fcp-check-radio">Radio</label></div></div></div>';
 
 //EMAIL
-var fcp_email_field = '<div class="form-group fcp_email fcp-drag-sort"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span><label for="Email-field'+email_field_instance+'" class="col-sm-4 control-label">Email</label><div class="col-sm-5 input-container"><input type="email" class="form-control fcp-no-special" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+var fcp_email_field = '<div class="form-group fcp_email fcp-drag-sort"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span><label for="Email-field'+email_field_instance+'" class="col-sm-4 control-label">Email</label><div class="col-sm-5 input-container"><input type="email" class="form-control fcp-no-special" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 //PASSWORD
 var fcp_password_field = '<div class="form-group fcp_pass fcp-drag-sort"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span><label for="Password-field'+password_field_instance+'" class="col-sm-4 control-label">Password</label><div class="col-sm-5 input-container"><input type="password" name="fcp_password" class="form-control" id="Password-field'+password_field_instance+'" placeholder="Password"></div><button type="button" class="pass_close close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
@@ -411,7 +411,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		inputType = "email";
 		email_field_instance +=1;
 
-		fcp_email_field = '<div class="form-group fcp_email fcp-drag-sort"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span><label for="Email-field'+email_field_instance+'" class="col-sm-4 control-label">Email</label><div class="col-sm-5 input-container"><input type="email" class="form-control fcp-no-special" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email;&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
+		fcp_email_field = '<div class="form-group fcp_email fcp-drag-sort"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span><label for="Email-field'+email_field_instance+'" class="col-sm-4 control-label">Email</label><div class="col-sm-5 input-container"><input type="email" class="form-control fcp-no-special" id="Email-field'+email_field_instance+'" placeholder="Email"></div><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>';
 
 	}
 
@@ -844,14 +844,14 @@ function editFieldOptions(title,type,field,inputID){
 
 		jQuery("button#saveButton").one("click",function(){
 
-			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '');
 
 				if(slug_val)
 				{
 					jQuery("select#"+inputID).addClass(slug_val);
 				}
 
-			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 			//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // to remove spaces before checking on the id (case issue time/datepicker)
 
 
@@ -860,7 +860,7 @@ function editFieldOptions(title,type,field,inputID){
 				while(jQuery("select[id='"+field_id+"']").length>0)
 				{
 					field_id_num++;
-					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 					//field_Id_NoSpaces = field_id.replace(/\s+/g, ''); // removing the spaces from the id
 					// removed the spaces after reading the spaces again since each time reading the valu means we get spaces all over again
 				}
@@ -935,7 +935,7 @@ function editFieldOptions(title,type,field,inputID){
 
 			jQuery("div#"+inputID+" div.form-group div.radio").remove();
 
-			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 
 
 
@@ -959,7 +959,7 @@ function editFieldOptions(title,type,field,inputID){
 			}
 
 
-			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '');
 
 				if(slug_val)
 				{
@@ -972,7 +972,7 @@ function editFieldOptions(title,type,field,inputID){
 				while(jQuery("div[id='"+field_id+"']").length>0)
 				{
 					field_id_num++;
-					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 				}
 
 				jQuery("div#"+inputID).attr("id",field_id);
@@ -1036,7 +1036,7 @@ function editFieldOptions(title,type,field,inputID){
 			}
 
 
-			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '');
 
 				if(slug_val)
 				{
@@ -1044,7 +1044,7 @@ function editFieldOptions(title,type,field,inputID){
 				}
 
 
-			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 
 
 			if(field_id.split('_app')[0] != jQuery("div#"+inputID).attr("id").split('_app')[0])
@@ -1052,7 +1052,7 @@ function editFieldOptions(title,type,field,inputID){
 				while(jQuery("div[id='"+field_id+"']").length>0)
 				{
 					field_id_num++;
-					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 				}
 
 				jQuery("div#"+inputID).attr("id",field_id);
@@ -1087,14 +1087,14 @@ function editFieldOptions(title,type,field,inputID){
 
 			text_areaRow = jQuery("input#text_area_height").val();
 			text_areaMaxLength = jQuery("input#text_area_max").val();
-			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_');
+			var slug_val = jQuery("input#slug_option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '');
 
 				if(slug_val)
 				{
 					jQuery("textarea#"+inputID).addClass(slug_val);
 				}
 
-			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+			var field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 
 
 			if(field_id.split('_app')[0] != jQuery("textarea#"+inputID).attr("id").split('_app')[0])
@@ -1102,7 +1102,7 @@ function editFieldOptions(title,type,field,inputID){
 				while(jQuery("textarea[id='"+field_id+"']").length>0)
 				{
 					field_id_num++;
-					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_')+"_app_"+field_id_num;
+					field_id = jQuery("input#field-name-option").val().replace(/\s+/g, '_').replace(/[^a-z0-9\s]/gi, '')+"_app_"+field_id_num;
 				}
 
 				jQuery("textarea#"+inputID).attr("id",field_id);
