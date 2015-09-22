@@ -469,7 +469,7 @@ function fcp_event_user_email_check( $form_id ){
         foreach( $results as $result ){
             $submission = unserialize($result['submission']);
             foreach($submission as $sub_data){
-                if ($sub_data[0] == $user_email){
+                if ($sub_data[0] == $user_email && !empty($sub_data[0])){
                     return true;
                 }
             }

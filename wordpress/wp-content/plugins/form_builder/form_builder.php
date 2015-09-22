@@ -135,8 +135,7 @@ function form_builder_shortcode($atts){
 		$deadline = $deadline->format("%R%a"); // deadline with -/+ depending on the difference between the two dates
 
 		$event_attendess = unserialize($settings[0])['event_form_max_attendees'];
-
-		if ($number_of_submitted_attendees == $event_attendess){
+		if ($number_of_submitted_attendees >= $event_attendess){
 			$attendees_max_flag = true;
 		}
 
@@ -178,20 +177,19 @@ function form_builder_shortcode($atts){
 				"<input type='hidden' name='fcp_submission_state'><input type='hidden' name='fcp_submission'></form>";
 			}
 			else {
-				$capacity_message = "";
-				$deadline_message = "";
+                $event_message = "";
 				if ($attendees_max_flag){
 					$capacity_message = "Event capacity reached!<br>Better luck next time.";
 					$message = unserialize($settings[0])['capacity_message'];
-					$capacity_message = !empty($message) ? $message : $capacity_message  ;
+					$event_message = !empty($message) ? $message : $capacity_message  ;
 				}
 				if ( $deadline_flag ){
 					$deadline_message = "Event deadline reached!<br>Better luck next time";
 					$message = unserialize($settings[0])['deadline_message'];
-					$deadline_message = !empty($message) ? $message : $deadline_message;
+					$event_message = !empty($message) ? $message : $deadline_message;
 				}
 
-				echo $capacity_message."<br>".$deadline_message;
+				echo $event_message;
 			}
 
 		}

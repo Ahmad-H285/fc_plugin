@@ -1520,7 +1520,7 @@ jQuery(document).ready(function(){
 		var email_fields = jQuery("div.form-sketch input[type='email']");
 		if (selected_field_id != 0){ // email field was selected
             if (event_user_email_menu.val() != 0) {
-                if (jQuery(this).val() == event_user_email_menu.val()) {
+                if (jQuery(this).val() == event_user_email_menu.val() && event_user_email_menu.length == 1) {
                     jQuery.each(email_fields, function (index, field) {
                         if (jQuery(field).attr("id") == selected_field_id) {
                             jQuery(field).attr("name", "fcp_user_email");
@@ -1530,9 +1530,27 @@ jQuery(document).ready(function(){
                         }
                     });
                 }
-                else {
+                else if (event_user_email_menu.length == 1) {
                     jQuery(this).children("option:first").attr("selected", "true");
-                    alert("You can only select the same field as the one in event option");
+                    var message = '<div id="fcp_settings_message" title="Attention">' +
+						'You can only select the same field as the one in event option</div>';
+					jQuery(message).appendTo("body").dialog({
+						buttons:[{
+							text: "OK",
+							click: function(){
+								jQuery(this).dialog("close");
+							}
+						}],
+						draggable: false,
+						resizable: false,
+						close: function(){
+							jQuery("#fcp_settings_message").dialog("destroy").remove();
+						},
+						open: function(){
+							jQuery(".ui-dialog-titlebar-close").hide();
+						},
+						modal: true
+					});
                 }
             }
             else { // event user email was not selected so any field can be chosen
@@ -1656,6 +1674,25 @@ function update_event_form_email_field_name(){
                 }
             });
         }
+
+		// inform the user that he might need to make the field required
+		var message = '<div id="fcp_user_instruction" title="Attention">You might want to make the email field you selected required' +
+			' to force users to fill them before submitting the form</div>';
+		jQuery(message).appendTo("body").dialog({
+			buttons: [{
+				text: "Ok",
+				click: function(){
+					jQuery(this).dialog("close").dialog("destroy");
+					jQuery("div#fcp_user_instruction").remove();
+				}
+			}],
+			draggable: false,
+			resizable: false,
+			modal: true,
+			open: function(event,ui){
+				jQuery(".ui-dialog-titlebar-close").hide();
+			}
+		});
     }
     else{ // no email field is selected
         if (user_notification_menu.val() == user_email_field.attr("id")){
