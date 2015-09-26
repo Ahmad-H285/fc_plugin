@@ -66,6 +66,8 @@ function fcp_booking_page()
 				jQuery("div#headingTwo").one('click',function(){
 					jQuery("input.fcp_notification[name='send-to-user']").prop("checked","true");
 					jQuery("div#user-not").css("display","block");
+					var email_field_id = jQuery("input[name='fcp_user_email']").attr("id");
+					jQuery("#fcp_user_email_to_notification").mouseover().attr("value",email_field_id);
 					});
 
 				});
