@@ -1518,6 +1518,8 @@ jQuery(document).ready(function(){
 	email_fields_menu.change(function(event){
 		var selected_field_id = jQuery(this).val();
 		var email_fields = jQuery("div.form-sketch input[type='email']");
+		var event_user_email_menu = jQuery("#fcp_event_form_required_email");
+		var user_email = jQuery("div.form-sketch [name='fcp_user_email']");
 		if (selected_field_id != 0){ // email field was selected
             if (event_user_email_menu.val() != 0) {
                 if (jQuery(this).val() == event_user_email_menu.val() && event_user_email_menu.length == 1) {
@@ -1552,6 +1554,17 @@ jQuery(document).ready(function(){
 						modal: true
 					});
                 }
+				else if ( event_user_email_menu.length < 1 ){
+					// the present form is not an event form
+					jQuery.each(email_fields, function (index, field) {
+						if (jQuery(field).attr("id") == selected_field_id) {
+							jQuery(field).attr("name", "fcp_user_email");
+						}
+						else {
+							jQuery(field).removeAttr("name");
+						}
+					});
+				}
             }
             else { // event user email was not selected so any field can be chosen
                 jQuery.each(email_fields, function (index, field) {
@@ -1565,8 +1578,7 @@ jQuery(document).ready(function(){
             }
 		}
 		else{ // no email field is selected
-
-            if (event_user_email_menu.val() != user_email.attr("id")){
+            if (event_user_email_menu.val() != jQuery(this).val() && event_user_email_menu.length == 1 && event_user_email_menu.val() != 0){
                 // should not remove the name attribute
             }
             else{
