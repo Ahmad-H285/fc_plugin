@@ -753,7 +753,7 @@ function fcp_save_submission($form_id){
                         if($flag_email == 1)
                         {
                             //wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
-                            wp_mail($backend_to,$backend_subject,$backend_body."<br>".$Sub_body,"From: ".$backend_from." <fcpForm>",$fcp_file_email);
+                            wp_mail($backend_to,$backend_subject,$backend_body."<br><br>".$Sub_body,"From: ".$backend_from." <fcpForm>",$fcp_file_email);
                         }
                         
                         else
