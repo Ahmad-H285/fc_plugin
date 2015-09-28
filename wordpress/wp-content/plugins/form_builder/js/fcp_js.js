@@ -1518,6 +1518,8 @@ jQuery(document).ready(function(){
 	email_fields_menu.change(function(event){
 		var selected_field_id = jQuery(this).val();
 		var email_fields = jQuery("div.form-sketch input[type='email']");
+		var event_user_email_menu = jQuery("#fcp_event_form_required_email");
+		var user_email = jQuery("div.form-sketch [name='fcp_user_email']");
 		if (selected_field_id != 0){ // email field was selected
             if (event_user_email_menu.val() != 0) {
                 if (jQuery(this).val() == event_user_email_menu.val() && event_user_email_menu.length == 1) {
@@ -1552,6 +1554,17 @@ jQuery(document).ready(function(){
 						modal: true
 					});
                 }
+				else if ( event_user_email_menu.length < 1 ){
+					// the present form is not an event form
+					jQuery.each(email_fields, function (index, field) {
+						if (jQuery(field).attr("id") == selected_field_id) {
+							jQuery(field).attr("name", "fcp_user_email");
+						}
+						else {
+							jQuery(field).removeAttr("name");
+						}
+					});
+				}
             }
             else { // event user email was not selected so any field can be chosen
                 jQuery.each(email_fields, function (index, field) {
@@ -1565,8 +1578,7 @@ jQuery(document).ready(function(){
             }
 		}
 		else{ // no email field is selected
-
-            if (event_user_email_menu.val() != user_email.attr("id")){
+            if (event_user_email_menu.val() != jQuery(this).val() && event_user_email_menu.length == 1 && event_user_email_menu.val() != 0){
                 // should not remove the name attribute
             }
             else{
@@ -1659,8 +1671,26 @@ function update_event_form_email_field_name(){
                 });
             }
             else {
-                jQuery(this).children("option:first").attr("selected", "true");
-                alert("You can only select the same field as the one in user notification option");
+				jQuery(this).children("option:first").attr("selected", "true");
+				var message = '<div id="fcp_settings_message" title="Attention">' +
+					'You can only select the same field as the one in event option</div>';
+				jQuery(message).appendTo("body").dialog({
+					buttons:[{
+						text: "OK",
+						click: function(){
+							jQuery(this).dialog("close");
+						}
+					}],
+					draggable: false,
+					resizable: false,
+					close: function(){
+						jQuery("#fcp_settings_message").dialog("destroy").remove();
+					},
+					open: function(){
+						jQuery(".ui-dialog-titlebar-close").hide();
+					},
+					modal: true
+				});
             }
         }
         else {// user notification was empty so any field can be chosen
@@ -1675,24 +1705,26 @@ function update_event_form_email_field_name(){
             });
         }
 
-		// inform the user that he might need to make the field required
-		var message = '<div id="fcp_user_instruction" title="Attention">You might want to make the email field you selected required' +
-			' to force users to fill them before submitting the form</div>';
-		jQuery(message).appendTo("body").dialog({
-			buttons: [{
-				text: "Ok",
-				click: function(){
-					jQuery(this).dialog("close").dialog("destroy");
-					jQuery("div#fcp_user_instruction").remove();
+		if ( jQuery(this).val() != 0 ) {
+			// inform the user that he might need to make the field required
+			var message = '<div id="fcp_user_instruction" title="Attention">You might want to make the email field you selected required' +
+				' to force users to fill them before submitting the form</div>';
+			jQuery(message).appendTo("body").dialog({
+				buttons: [{
+					text: "Ok",
+					click: function () {
+						jQuery(this).dialog("close").dialog("destroy");
+						jQuery("div#fcp_user_instruction").remove();
+					}
+				}],
+				draggable: false,
+				resizable: false,
+				modal: true,
+				open: function (event, ui) {
+					jQuery(".ui-dialog-titlebar-close").hide();
 				}
-			}],
-			draggable: false,
-			resizable: false,
-			modal: true,
-			open: function(event,ui){
-				jQuery(".ui-dialog-titlebar-close").hide();
-			}
-		});
+			});
+		}
     }
     else{ // no email field is selected
         if (user_notification_menu.val() == user_email_field.attr("id")){
