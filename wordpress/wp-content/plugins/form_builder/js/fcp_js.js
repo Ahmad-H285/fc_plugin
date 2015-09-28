@@ -17,7 +17,7 @@ var list_item_count = 1;
 // object to contain the options that are changed live and can be returned to what they were
 var options = {};
 // required field mark
-var required_mark = '<span class="required-field-mark">*</span>';
+var required_mark = '<span class="required-field-mark glyphicon glyphicon-asterisk" aria-hidden="true"></span>';
 /*********************** Global Variables End ***********************/
 
 jQuery(document).ready(function(){
@@ -1463,18 +1463,7 @@ jQuery(document).ready(function(){
 });
 
 
-// This part removes all of the '*' from the field labels when view submission content and replaces it with (required)
 
-jQuery(document).ready(function(){
-	var labels = jQuery(".fcp-submission-field-label");
-
-	jQuery.each(labels,function(index,label){
-		var field_label = jQuery(label).text();
-		field_label = field_label.replace("*"," (required)");
-		jQuery(label).text(field_label);
-	});
-
-});
 
 
 /**
