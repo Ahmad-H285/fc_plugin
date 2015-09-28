@@ -1098,6 +1098,7 @@ function export_csv($form_type)
         	mkdir("../wp-content/plugins/form_builder/news_csv", 0700);
 
         	$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+			fwrite($csv_file, $csv_label);
 			fwrite($csv_file, $csv_sub);
 			fclose($csv_file);
 

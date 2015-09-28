@@ -219,13 +219,13 @@ function fcp_admin_menu()
 
 	add_menu_page('Form Builder','Form Builder','manage_options','fcp-general','fcp_general_page');
 	add_submenu_page('fcp-general','Add New Form','Add New Form','manage_options','fcp-general','fcp_general_page');
-	add_submenu_page('fcp-general','Submissions','Submissions','manage_options','fcp-submissions','fcp_submissions_page');
+	//add_submenu_page('fcp-general','Submissions','Submissions','manage_options','fcp-submissions','fcp_submissions_page');
 	add_submenu_page('fcp-general','Contact Form','Contact Form','manage_options','fcp-contact-form','fcp_contact_page');
 	add_submenu_page('fcp-general','Survey Form','Survey Form','manage_options','fcp-servey-form','fcp_survey_page');
 	add_submenu_page('fcp-general','Application Form','Application Form','manage_options','fcp-application-form','fcp_application_page');
-	add_submenu_page('fcp-general','Registration Form','Registration Form','manage_options','fcp-registration-from','fcp_registration_page');
+	//add_submenu_page('fcp-general','Registration Form','Registration Form','manage_options','fcp-registration-from','fcp_registration_page');
 	add_submenu_page('fcp-general','Booking Form','Booking Form','manage_options','fcp-booking-form','fcp_booking_page');
-	add_submenu_page('fcp-general','Content Submission Form','Content Submission Form','manage_options','fcp-content-form','fcp_contsub_page');
+	//add_submenu_page('fcp-general','Content Submission Form','Content Submission Form','manage_options','fcp-content-form','fcp_contsub_page');
 	add_submenu_page('fcp-general','Newsletter Form','Newsletter Form','manage_options','fcp-newsletter-form','fcp_newsletter_page');
 	add_submenu_page('fcp-general','Event Form','Event Form','manage_options','fcp-event-form','fcp_event_page');
 	add_submenu_page('fcp-general','Custom Form','Custom Form','manage_options','fcp-custom-form','fcp_custom_page');
