@@ -83,6 +83,18 @@ function fcp_event_page()
 			$user_body = $fcp_settings_user['Body'];
 		}
 
+		if ( $fcp_edit_settings['event_form_max_attendees'] == "unlimited" ){
+			$fcp_edit_settings['event_form_max_attendees'] = "";
+			?>
+			<script>jQuery(document).ready(function(){jQuery("#fcp_attendee_limit").attr("checked","true");});</script>
+			<?php
+		}
+		else {
+			?>
+			<script>jQuery(document).ready(function(){jQuery("#fcp_attendee_limit").removeAttr("checked");});</script>
+			<?php
+		}
+
 		fcp_fields_panel();
 		fcp_fields_options();
 
@@ -242,6 +254,11 @@ function fcp_event_page()
 					<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
 						<div class="panel-body">
 							<div class="text-center">
+								<div class="form-group checkbox-radio-alignment-temp">
+									<div class="checkbox col-sm-5" style="padding-top:0">
+										<label><input class="col-sm-4" id="fcp_attendee_limit" name="fcp_event_attendee_unlimited" type="checkbox">Unlimited Attendees</label>
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="event_form_max_attendees" class="col-sm-6 control-label">Maximum Number of Attendees</label>
 									<div class="col-sm-4">
@@ -254,6 +271,16 @@ function fcp_event_page()
 										<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"><?php echo $fcp_edit_settings['capacity_message']; ?></textarea>
 									</div>
 								</div>
+								<!-- adapting to the status of the checkbos of unlimted attendees -->
+								<script> jQuery(document).ready(function(event){
+										var checkbox = jQuery("#fcp_attendee_limit");
+										var attendees_number_input = jQuery("#event_form_max_attendees");
+										var capacity_message_input = jQuery("#event_form_capacity_message");
+										if ( checkbox.prop("checked") == true ) {
+											attendees_number_input.attr("disabled","true").val("");
+											capacity_message_input.attr("disabled","true").val("");
+										}
+									});</script>
 								<hr>
 								<div class="form-group">
 									<label for="event_form_deadline" class="col-sm-6 control-label">Deadling For Event Submission</label>
@@ -581,16 +608,21 @@ function fcp_event_page()
 								<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
 									<div class="panel-body">
 										<div class="text-center">
+											<div class="form-group checkbox-radio-alignment-temp">
+												<div class="checkbox col-sm-5" style="padding-top:0">
+													<label><input class="col-sm-4" id="fcp_attendee_limit" name="fcp_event_attendee_unlimited" type="checkbox" checked>Unlimited Attendees</label>
+												</div>
+											</div>
 											<div class="form-group">
 												<label for="event_form_max_attendees" class="col-sm-6 control-label">Maximum Number of Attendees</label>
 												<div class="col-sm-4">
-													<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1">
+													<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1" disabled>
 												</div>
 											</div>
 											<div class="form-group">
 												<label for="event_form_capacity_message" class="col-sm-5 control-label">Capacity Reached Message</label>
 												<div class="col-sm-5">
-													<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"></textarea>
+													<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message" disabled></textarea>
 												</div>
 											</div>
 											<hr>

@@ -135,7 +135,7 @@ function form_builder_shortcode($atts){
 		$deadline = $deadline->format("%R%a"); // deadline with -/+ depending on the difference between the two dates
 
 		$event_attendess = unserialize($settings[0])['event_form_max_attendees'];
-		if ($number_of_submitted_attendees >= $event_attendess){
+		if ($number_of_submitted_attendees >= $event_attendess && $event_attendess != "unlimited"){
 			$attendees_max_flag = true;
 		}
 

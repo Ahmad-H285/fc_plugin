@@ -1752,3 +1752,24 @@ function select_user_email_field(field_id){
 jQuery(document).ready(function(){
 	jQuery("div.radio_field, div.check_field").find("div.form-group").addClass("checkbox-radio-alignment-temp");
 });
+
+
+/*
+    Event form attendees settings handler
+    This function handles enabling the fields of attendees limit according to the state of the checkbox
+ */
+
+jQuery(document).ready(function(){
+    jQuery("#fcp_attendee_limit").change(function(event){
+        var attendees_number_input = jQuery("#event_form_max_attendees");
+        var capacity_message_input = jQuery("#event_form_capacity_message");
+        if ( jQuery(this).prop("checked") == true ) { // user wants unlimited attendees
+            attendees_number_input.attr("disabled","true").val("");
+            capacity_message_input.attr("disabled","true").val("");
+        }
+        else { // user wants limited attendees
+            attendees_number_input.removeAttr("disabled");
+            capacity_message_input.removeAttr("disabled");
+        }
+    });
+});

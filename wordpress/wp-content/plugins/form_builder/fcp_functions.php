@@ -142,10 +142,15 @@ function fcp_update_form($form_type_update)
                         $form_settings["user-notification"] = NULL;
                     }
 
-                    if ( isset( $_POST['event_form_max_attendees'] ) ){
-                        $form_settings['event_form_max_attendees'] = $_POST['event_form_max_attendees'];
-                        $form_settings['capacity_message'] =
-                            isset($_POST['event_form_capacity_message'])? $_POST['event_form_capacity_message'] : "";
+                    if ( isset($_POST['fcp_event_attendee_unlimited']) && $_POST['fcp_event_attendee_unlimited'] === "on"  ) {
+                        $form_settings['event_form_max_attendees'] = "unlimited";
+                    }
+                    else {
+                        if ( isset($_POST['event_form_max_attendees']) ) {
+                            $form_settings['event_form_max_attendees'] = $_POST['event_form_max_attendees'];
+                            $form_settings['capacity_message'] =
+                                isset($_POST['event_form_capacity_message']) ? $_POST['event_form_capacity_message'] : "";
+                        }
                     }
 
                     if ( isset( $_POST['event_form_deadline'] ) ){
@@ -249,10 +254,15 @@ function fcp_save_form($form_type){
         $form_settings["user-notification"] = NULL;
     }
 
-    if ( isset( $_POST['event_form_max_attendees'] ) ){
-        $form_settings['event_form_max_attendees'] = $_POST['event_form_max_attendees'];
-        $form_settings['capacity_message'] =
-            isset($_POST['event_form_capacity_message'])? $_POST['event_form_capacity_message'] : "";
+    if ( isset($_POST['fcp_event_attendee_unlimited']) && $_POST['fcp_event_attendee_unlimited'] === "on"  ) {
+        $form_settings['event_form_max_attendees'] = "unlimited";
+    }
+    else {
+        if ( isset($_POST['event_form_max_attendees']) ) {
+            $form_settings['event_form_max_attendees'] = $_POST['event_form_max_attendees'];
+            $form_settings['capacity_message'] =
+                isset($_POST['event_form_capacity_message']) ? $_POST['event_form_capacity_message'] : "";
+        }
     }
 
     if ( isset( $_POST['event_form_deadline'] ) ){
