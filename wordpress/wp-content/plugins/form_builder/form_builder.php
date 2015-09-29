@@ -221,7 +221,7 @@ function fcp_admin_menu()
 	add_submenu_page('fcp-general','Add New Form','Add New Form','manage_options','fcp-general','fcp_general_page');
 	//add_submenu_page('fcp-general','Submissions','Submissions','manage_options','fcp-submissions','fcp_submissions_page');
 	add_submenu_page('fcp-general','Contact Form','Contact Form','manage_options','fcp-contact-form','fcp_contact_page');
-	add_submenu_page('fcp-general','Survey Form','Survey Form','manage_options','fcp-servey-form','fcp_survey_page');
+	//add_submenu_page('fcp-general','Survey Form','Survey Form','manage_options','fcp-servey-form','fcp_survey_page');
 	add_submenu_page('fcp-general','Application Form','Application Form','manage_options','fcp-application-form','fcp_application_page');
 	//add_submenu_page('fcp-general','Registration Form','Registration Form','manage_options','fcp-registration-from','fcp_registration_page');
 	add_submenu_page('fcp-general','Booking Form','Booking Form','manage_options','fcp-booking-form','fcp_booking_page');
@@ -261,20 +261,22 @@ function fcp_general_page()
     </div>
     <div id="collapseOne" class="panel-collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
-      	<div class="text-center">
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-contact-form');?>'">Contact Form</button>
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-servey-form');?>'">Survey Form</button>
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-content-form');?>'">Content Submission Form</button>
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-registration-from');?>'">Registration Form</button>
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-booking-form');?>'">Booking Form</button>
+      	
+        <div class="text-center">
+          <button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-newsletter-form');?>'">Newsletter Form</button>
+          <button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-event-form');?>'">Event Form</button>
+          <button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-custom-form');?>'">Custom Form</button>
+          <button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-application-form');?>'">Application Form</button>
         </div>
 
         <div class="text-center">
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-newsletter-form');?>'">Newsletter Form</button>
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-event-form');?>'">Event Form</button>
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-custom-form');?>'">Custom Form</button>
-        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-application-form');?>'">Application Form</button>
+        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-contact-form');?>'">Contact Form</button>
+        	<!--<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-servey-form');?>'">Survey Form</button>-->
+        	<!--<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-content-form');?>'">Content Submission Form</button>-->
+        	<!--<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-registration-from');?>'">Registration Form</button>-->
+        	<button type="button" class="btn btn-default" style="margin: 20px" onclick="location.href='<?php echo admin_url('admin.php?page=fcp-booking-form');?>'">Booking Form</button>
         </div>
+
       </div>
     </div>
   </div>
