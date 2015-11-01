@@ -20,3 +20,6 @@ wordpress/wp-content/themes/*
 wordpress/wp-content/index.php
 wordpress/wp-content/plugins/akismet
 .project
+wordpress/wp-content/plugins/sitepress-multilingual-cms/
+wordpress/wp-content/plugins/wp-fsqm-pro/
+wordpress/wp-content/plugins/wpml-string-translation/
