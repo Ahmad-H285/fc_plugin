@@ -196,7 +196,7 @@ function checkbox_fields_parse(){
     The use of the '$' is permitted here as well
  */
 jQuery(document).ready(function($){
-    $("div.radio_field").addClass("col-sm-offset-2");
+    $("div.radio_field").addClass("col-sm-offset-3");
     // first enable the button and make it type submit
     var form_button = $("form.fcp_form button").attr("disabled",false).attr("type","submit");
 

@@ -1,0 +1,15 @@
+.ar_option p{
+	margin-bottom: 2px;
+}
+
+.ar_option{
+	margin-bottom: 30px;
+}
+
+.ar_list, .ar_list li{
+	clear: both
+}
+
+.ar_list li .ar-count{
+	float: right;
+}
