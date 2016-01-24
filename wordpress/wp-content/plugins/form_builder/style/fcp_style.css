@@ -1,6 +1,6 @@
 div#edit_field_title{
 	margin-top: 655px;
-	margin-left: 350px; 
+	margin-left: 50px; 
 	padding: 5px; 
 	border-top: 1px solid grey; 
 	border-right: 1px solid grey; 
@@ -10,7 +10,7 @@ div#edit_field_title{
 
 div#edit_field_content{
 	margin-top: 705px;
-	margin-left: 350px; 
+	margin-left: 50px; 
 	padding: 5px; 
 	border: 1px solid grey; 
 	background-color: #D2D2D2; 

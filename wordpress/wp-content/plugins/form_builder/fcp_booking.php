@@ -355,9 +355,19 @@ function fcp_booking_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
+					  <div class="form-group fcp_text fcp-drag-sort">
+						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					     <label for="app_first_name" class="col-sm-4 control-label ">Phone Number</label>
+					     <div class="col-sm-5 input-container">
+					      <input name="first_name" type="Numeric" class="form-control fcp-no-special" id="app_first_name" placeholder="Phone Number">
+						 </div>
+						 <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+						 <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
+					  </div>
+
 					  <div class="form-group fcp_select fcp-drag-sort">
 						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
-					    <label for="app_opt" class="col-sm-4 control-label">Application Options</label>
+					    <label for="app_opt" class="col-sm-4 control-label">Booking Type</label>
 					    <div class="col-sm-5  input-container">
 					      <select class="form-control fcp-select-menu-field" id="app_opt"><option>List Item 1</option></select>
 					    </div>
@@ -365,8 +375,34 @@ function fcp_booking_page()
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
 					  </div>
 
+					  <div class="form-group fcp_date fcp-drag-sort">
+					  	<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					  	<label for="Date-field0" class="col-sm-4 control-label">Booking Date</label>
+					  	<div class="col-sm-5 input-container">
+					  		<input class="form-control fcp-no-special hasDatepicker" id="Date-field0" placeholder="DD/MM/YY" type="text">
+					  	</div>
+					  	<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
+					  </div>
 
-						<div class="radio_field fcp-drag-sort" id="radio_button">
+					  <div class="form-group fcp_time fcp-drag-sort">
+					  	<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
+					  	<label for="Time-field0" class="col-sm-4 control-label">Booking Time</label>
+					  	<div class="col-sm-5 input-container">
+					  		<input class="form-control col-sm-3" min="0" id="Time-field0" placeholder="hrs" max="12" style="width: 70px" type="number">
+					  		<label class="col-sm-1 control-label"> : </label>
+					  		<input class="form-control col-sm-3" min="0" id="Time-field0" placeholder="mins" max="59" style="width: 70px" type="number">
+					  		<select class="form-control col-sm-2" style="width:50px; margin-left:15px">
+					  			<option>AM</option>
+					  			<option>PM</option>
+							</select>
+					  	</div>
+					  	<button type="button" class="close" arial-label="Close">
+					  		<span aria-hidden="true">×</span>
+					  	</button>
+					  	<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
+					  </div>
+						
+						<!-- <div class="radio_field fcp-drag-sort" id="radio_button">
 							<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 							<label class="radio_label col-sm-9" for="radio_button">Gender</label>
 							<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a>
@@ -379,9 +415,9 @@ function fcp_booking_page()
 									<label><input class="fcp-check-radio" name="radio_but_1_radio" type="radio">Female</label>
 								</div>
 							</div>
-						</div>
+						</div> -->
 
-					  <div class="form-group fcp_file fcp-drag-sort">
+					  <!-- <div class="form-group fcp_file fcp-drag-sort">
 						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
 					    <label for="app_attachment" class="col-sm-4 control-label">Attachment</label>
 					    <div class="col-sm-5 input-container">
@@ -389,7 +425,7 @@ function fcp_booking_page()
 					    </div>
 					    <button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button>
 					    <a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>
-					  </div>
+					  </div> -->
 
 					  <div class="form-group fcp-drag-sort">
 						  <span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>
