@@ -33,7 +33,7 @@ function fcp_registration_page()
 
 
 
-	if($_GET['id'])
+	if(isset($_GET['id']))
 	{
 		fcp_update_form(REGISTRATION_FORM_FCP);
 		
@@ -143,21 +143,21 @@ function fcp_registration_page()
 													<div class="form-group">
 														<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
 														<div class="col-sm-6">
-															<input name="backend-from" class="form-control" id="fcp_email_from" placeholder="From" type="Text" value="<?php echo$back_from; ?>">
+															<input name="backend-from" class="form-control" id="fcp_email_from" placeholder="From" type="Text" value="<?php if(isset($back_from)){ echo$back_from; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
 														<div class="col-sm-6">
-															<input name="backend-subject" class="form-control" id="fcp_email_subject" placeholder="Subject" type="text" value="<?php echo $back_sub;?>">
+															<input name="backend-subject" class="form-control" id="fcp_email_subject" placeholder="Subject" type="text" value="<?php if(isset($back_sub)){ echo $back_sub; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
 														<div class="col-sm-6">
-															<textarea name="backend-body" rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"><?php echo $back_body;?></textarea>
+															<textarea name="backend-body" rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"><?php if(isset($back_body)){ echo $back_body; } ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -200,21 +200,21 @@ function fcp_registration_page()
 													<div class="form-group">
 														<label for="fcp_user_email_from" class="col-sm-3 control-label">From</label>
 														<div class="col-sm-6">
-															<input name="user-from" class="form-control" id="fcp_user_email_from" placeholder="From" type="Text" value="<?php echo $user_from; ?>">
+															<input name="user-from" class="form-control" id="fcp_user_email_from" placeholder="From" type="Text" value="<?php if(isset($user_from)){ echo $user_from; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_user_email_subject" class="col-sm-3 control-label">Subject</label>
 														<div class="col-sm-6">
-															<input name="user-subject" class="form-control" id="fcp_user_email_subject" placeholder="Subject" type="text" value="<?php echo $user_sub; ?>">
+															<input name="user-subject" class="form-control" id="fcp_user_email_subject" placeholder="Subject" type="text" value="<?php if(isset($user_sub)){ echo $user_sub; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_user_email_body" class="col-sm-3 control-label">Body</label>
 														<div class="col-sm-6">
-															<textarea rows="10" cols="50" name="user-body" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"><?php echo $user_body; ?></textarea>
+															<textarea rows="10" cols="50" name="user-body" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"><?php if(isset($user_body)){ echo $user_body; } ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -602,7 +602,7 @@ function fcp_registration_page()
 </div>
 			<?php
 }
-		if($_GET['id'])
+		if(isset($_GET['id']))
 		{
 			fcp_update_form(REGISTRATION_FORM_FCP);
 		}

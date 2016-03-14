@@ -37,7 +37,7 @@ function fcp_event_page()
 
 
 
-	if($_GET['id'])
+	if(isset($_GET['id']))
 	{
 		fcp_update_form(EVENT_FORM_FCP);
 		
@@ -59,6 +59,7 @@ function fcp_event_page()
 				});
 			</script>
 			<?php
+			
 			$back_to = $fcp_settings_backend['To'];
 			$back_from = $fcp_settings_backend['From'];
 			$back_sub = $fcp_settings_backend['Subject'];
@@ -82,19 +83,20 @@ function fcp_event_page()
 			$user_sub = $fcp_settings_user['Subject'];
 			$user_body = $fcp_settings_user['Body'];
 		}
-
-		if ( $fcp_edit_settings['event_form_max_attendees'] == "unlimited" ){
-			$fcp_edit_settings['event_form_max_attendees'] = "";
-			?>
-			<script>jQuery(document).ready(function(){jQuery("#fcp_attendee_limit").attr("checked","true");});</script>
-			<?php
+		if(isset($fcp_edit_settings['event_form_max_attendees']))
+		{
+			if ( $fcp_edit_settings['event_form_max_attendees'] == "unlimited" ){
+				$fcp_edit_settings['event_form_max_attendees'] = "";
+				?>
+				<script>jQuery(document).ready(function(){jQuery("#fcp_attendee_limit").attr("checked","true");});</script>
+				<?php
+			}
+			else {
+				?>
+				<script>jQuery(document).ready(function(){jQuery("#fcp_attendee_limit").removeAttr("checked");});</script>
+				<?php
+			}
 		}
-		else {
-			?>
-			<script>jQuery(document).ready(function(){jQuery("#fcp_attendee_limit").removeAttr("checked");});</script>
-			<?php
-		}
-
 		fcp_fields_panel();
 		fcp_fields_options();
 
@@ -149,7 +151,8 @@ function fcp_event_page()
 													<div class="form-group">
 														<label for="backend_users_list" class="col-sm-3 control-label">Backend Users</label>
 														<div class="col-sm-6">
-															<?php wp_dropdown_users( array("name" => "backend_users_list")); ?>												</div>
+															<?php wp_dropdown_users( array("name" => "backend_users_list")); ?>	
+														</div>
 													</div>
 
 													<div style="display: none;" class="form-group" id="send_to_non_wordpress_user">
@@ -162,21 +165,21 @@ function fcp_event_page()
 													<div class="form-group">
 														<label for="fcp_email_from" class="col-sm-3 control-label">From</label>
 														<div class="col-sm-6">
-															<input name="backend-from" class="form-control" id="fcp_email_from" placeholder="From" type="Text" value="<?php echo$back_from; ?>">
+															<input name="backend-from" class="form-control" id="fcp_email_from" placeholder="From" type="Text" value="<?php if(isset($back_from)){ echo$back_from; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_email_subject" class="col-sm-3 control-label">Subject</label>
 														<div class="col-sm-6">
-															<input name="backend-subject" class="form-control" id="fcp_email_subject" placeholder="Subject" type="text" value="<?php echo $back_sub;?>">
+															<input name="backend-subject" class="form-control" id="fcp_email_subject" placeholder="Subject" type="text" value="<?php if(isset($back_sub)){ echo $back_sub; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_email_body" class="col-sm-3 control-label">Body</label>
 														<div class="col-sm-6">
-															<textarea name="backend-body" rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"><?php echo $back_body;?></textarea>
+															<textarea name="backend-body" rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"><?php if(isset($back_body)){ echo $back_body; } ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -219,21 +222,21 @@ function fcp_event_page()
 													<div class="form-group">
 														<label for="fcp_user_email_from" class="col-sm-3 control-label">From</label>
 														<div class="col-sm-6">
-															<input name="user-from" class="form-control" id="fcp_user_email_from" placeholder="From" type="Text" value="<?php echo $user_from; ?>">
+															<input name="user-from" class="form-control" id="fcp_user_email_from" placeholder="From" type="Text" value="<?php if(isset($user_from)){ echo $user_from; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_user_email_subject" class="col-sm-3 control-label">Subject</label>
 														<div class="col-sm-6">
-															<input name="user-subject" class="form-control" id="fcp_user_email_subject" placeholder="Subject" type="text" value="<?php echo $user_sub; ?>">
+															<input name="user-subject" class="form-control" id="fcp_user_email_subject" placeholder="Subject" type="text" value="<?php if(isset($user_sub)){ echo $user_sub; } ?>">
 														</div>
 													</div>
 
 													<div class="form-group">
 														<label for="fcp_user_email_body" class="col-sm-3 control-label">Body</label>
 														<div class="col-sm-6">
-															<textarea rows="10" cols="50" name="user-body" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"><?php echo $user_body; ?></textarea>
+															<textarea rows="10" cols="50" name="user-body" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"><?php if(isset($user_body)){ echo $user_body; } ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -262,13 +265,13 @@ function fcp_event_page()
 								<div class="form-group">
 									<label for="event_form_max_attendees" class="col-sm-6 control-label">Maximum Number of Attendees</label>
 									<div class="col-sm-4">
-										<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1" value="<?php echo $fcp_edit_settings['event_form_max_attendees']; ?>">
+										<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1" value="<?php if(isset($fcp_edit_settings['event_form_max_attendees'])) { echo $fcp_edit_settings['event_form_max_attendees']; } ?>">
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="event_form_capacity_message" class="col-sm-5 control-label">Out of Capacity Message</label>
 									<div class="col-sm-5">
-										<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"><?php echo $fcp_edit_settings['capacity_message']; ?></textarea>
+										<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"><?php if(isset($fcp_edit_settings['capacity_message'])) { echo $fcp_edit_settings['capacity_message']; } ?></textarea>
 									</div>
 								</div>
 								<!-- adapting to the status of the checkbos of unlimted attendees -->
@@ -285,13 +288,13 @@ function fcp_event_page()
 								<div class="form-group">
 									<label for="event_form_deadline" class="col-sm-6 control-label">Deadling For Event Submission</label>
 									<div class="col-sm-4">
-										<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" value="<?php echo $fcp_edit_settings['event_form_deadline'];?>">
+										<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" value="<?php if(isset($fcp_edit_settings['event_form_deadline'])) { echo $fcp_edit_settings['event_form_deadline']; } ?>">
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadling Message</label>
 									<div class="col-sm-5">
-										<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"><?php echo $fcp_edit_settings['deadline_message']; ?></textarea>
+										<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"><?php if(isset($fcp_edit_settings['deadline_message'])) { echo $fcp_edit_settings['deadline_message']; } ?></textarea>
 									</div>
 								</div>
 								<hr>
@@ -319,27 +322,24 @@ function fcp_event_page()
 			echo $form_body_wrap.$return_form_body.'</div>'.$form_settings_wrap.'<div class="row" style="padding: 20px"><button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button></div></div>';
 			//var_dump((string)unserialize($edit_form['form_settings'])['form-name']);
 			?> -->
+			
 			<script>
-			var select_option_value ="<?php echo $back_to;?>";
-			var event_user_email_field = "";
-			<?php
-						// check event user email to highlight it in the menu
-						if ( !empty($fcp_settings_event_user_email) ) {
-						?>
-			 event_user_email_field = "<?php echo $fcp_settings_event_user_email;?>";
-			<?php
-        }
-    ?>
-
-			jQuery("select#backend_users_list option[value='"+select_option_value+"'").prop("selected","true");
+			
+	    		var select_option_value;
+	    		select_option_value = "<?php echo $back_to; ?>";
+				jQuery("select#backend_users_list option[value='"+select_option_value+"'").prop("selected","true");
+			
 			</script>
 			<script>
+
 				jQuery(document).ready(function(){
-
-
-					select_user_email_field(event_user_email_field);
-					jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.radio_field label.radio_label");
-					jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.check_field label.check_label");
+					  
+					  var event_user_email_field = "<?php echo $fcp_settings_event_user_email;?>";
+					  
+					  select_user_email_field(event_user_email_field);
+					  
+					  jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.radio_field label.radio_label");
+					  jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.check_field label.check_label");
 					  jQuery('<button type="button" class="pass_close close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;password&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>').insertAfter("div.fcp_pass div.input-container")
 					  jQuery("div.form-sketch div.fcp_select").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;select&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;select&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a></div>');
 					  jQuery("div.form-sketch div.fcp_text").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;text&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
@@ -349,11 +349,15 @@ function fcp_event_page()
 					  jQuery("div.form-sketch div.fcp_email").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_textarea").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_file").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
-					var drag_icon = '<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>';
-					jQuery(".fcp-drag-sort").prepend(drag_icon);
+					  
+					  var drag_icon = '<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>';
+					  
+					  jQuery(".fcp-drag-sort").prepend(drag_icon);
 
-					jQuery("div.radio_field, div.check_field").find("span.fcp_drag_icon").css("margin-left","-15px");
+					  jQuery("div.radio_field, div.check_field").find("span.fcp_drag_icon").css("margin-left","-15px");
+				
 				});
+
 			</script>
 
 		<?php
@@ -754,7 +758,7 @@ function fcp_event_page()
 			<?php
 }
 		export_csv(EVENT_FORM_FCP);
-		if($_GET['id'])
+		if(isset($_GET['id']))
 		{
 			fcp_update_form(EVENT_FORM_FCP);
 		}

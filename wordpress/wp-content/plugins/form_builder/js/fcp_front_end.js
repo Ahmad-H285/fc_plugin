@@ -479,9 +479,51 @@ function confirm_submission(message){
     },3500);
 }
 
+function textfieldPlaceholderReplace()
+{
+    var textField = jQuery("div.fcp_text");
+    jQuery.each(textField, function(index,textInput){
+        
+        var textLabel = jQuery(textInput).children("label").text();
+        jQuery(textInput).children("div.input-container").children("input").attr("placeholder",textLabel);
+    
+    });
+}
+
+function emailfieldPlaceholderReplace()
+{
+    var emailField = jQuery("div.fcp_email");
+    jQuery.each(emailField, function(index,emailInput){
+        
+        var emailLabel = jQuery(emailInput).children("label").text();
+        jQuery(emailInput).children("div.input-container").children("input").attr("placeholder",emailLabel);
+    
+    });
+}
+
+function textareaPlaceholderReplace()
+{
+    var textareaField = jQuery("div.fcp_textarea");
+    jQuery.each(textareaField, function(index,textareaInput){
+        
+        var textareaLabel = jQuery(textareaInput).children("label").text();
+        jQuery(textareaInput).children("div.input-container").children("textarea").attr("placeholder",textareaLabel);
+    
+    });
+}
+
 
 // minor modification for checkbox and radio styles
 
 jQuery(document).ready(function(){
+
+    textfieldPlaceholderReplace();
+    emailfieldPlaceholderReplace();
+    textareaPlaceholderReplace();
+    
+    jQuery("div.check_field").addClass("col-sm-offset-3");
+    jQuery("div.fcp_file .input-container").children("input").css("padding-top","8px");
+    jQuery("div.fcp-drag-sort").css("width","");
     jQuery("div.form-group.checkbox-radio-alignment-temp").removeClass("checkbox-radio-alignment-temp");
+
 });

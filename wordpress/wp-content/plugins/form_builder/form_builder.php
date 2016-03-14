@@ -7,22 +7,45 @@ Author: H/N
 Version: 1.0
 Author URI: http://www.youtube.com
 */
-
-
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
-wp_enqueue_script('jquery');
-wp_register_style('fcp_bootstrap_styles','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
-wp_register_script('fcp_bootstrap_scripts','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',array('jquery'));
-wp_enqueue_style('fcp_bootstrap_styles');
-wp_enqueue_script('fcp_bootstrap_scripts');
-wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
+ // wp_enqueue_script('jquery');
+ // wp_register_style('fcp_bootstrap_styles','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+ // wp_register_script('fcp_bootstrap_scripts','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',array('jquery'));
+ // wp_enqueue_style('fcp_bootstrap_styles','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+ // wp_enqueue_script('fcp_bootstrap_scripts','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',array('jquery'));
+ // wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
 
+
+function fcp_styles_reg()
+{
+	wp_enqueue_style('fcp_bootstrap_styles','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+	//wp_enqueue_style('fcp_bootstrap_styles',plugin_dir_url(__FILE__).'style/bootstrap.min.css');
+	wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
+}
+
+
+
+function fcp_scripts_reg()
+{
+	wp_enqueue_script('jquery');
+	//wp_enqueue_style('fcp_bootstrap_styles','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+ 	wp_enqueue_script('fcp_bootstrap_scripts','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',array('jquery'));
+	
+}
+
+add_action('admin_enqueue_scripts','fcp_styles_reg');
+add_action('admin_enqueue_scripts','fcp_scripts_reg');
+
+add_action('wp_enqueue_scripts','fcp_styles_reg');
+add_action('wp_enqueue_scripts','fcp_scripts_reg');
 
 if (is_admin()){
-	wp_dequeue_script('fcp_bootstrap_scripts');
-	wp_dequeue_style('fcp_bootstrap_styles');
+	//wp_dequeue_script('fcp_bootstrap_scripts');
+	//wp_dequeue_style('fcp_bootstrap_styles');
 }
+
+
 /*
  * Some constant to denote the application type
  */
@@ -116,7 +139,11 @@ function form_builder_shortcode($atts){
 
 	$query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
 	$form_type = $wpdb->get_col($query);
-	$form_type =  $form_type[0];
+	
+	if(isset($form_type[0]))
+	{
+		$form_type =  $form_type[0];
+	}
 
 	$submissions_table = $wpdb->prefix."fcp_submissions";
 
@@ -144,7 +171,10 @@ function form_builder_shortcode($atts){
 		}
 	}
 
-	$form_name = trim (unserialize($settings[0])['form-name']);
+	if(isset($settings[0]))
+	{
+		$form_name = trim (unserialize($settings[0])['form-name']);
+	}
 
 	if ( !empty($form) ){
 
@@ -208,7 +238,7 @@ function form_builder_shortcode($atts){
 
 function fcp_admin_menu()
 {
-	require_once(plugin_dir_path(__FILE__).'fcp_application.php');
+  require_once(plugin_dir_path(__FILE__).'fcp_application.php');
   require_once(plugin_dir_path(__FILE__).'fcp_contact.php');
   require_once(plugin_dir_path(__FILE__).'fcp_registration.php');
   require_once(plugin_dir_path(__FILE__).'fcp_booking.php');
@@ -296,5 +326,5 @@ function fcp_general_page()
   </div>
 </div>
 	<?php
-
 }
+?>

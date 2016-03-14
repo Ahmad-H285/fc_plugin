@@ -109,11 +109,11 @@ function fcp_update_form($form_type_update)
 {
     //if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
 
-                if ($_POST['fcp_edit']){
+                if (isset($_POST['fcp_edit'])){
 
                     $form_settings = array('form-name' => $_POST['form-name']);
 
-                    if($_POST['send-to-backend']) // if the user enabled backend notification
+                    if(isset($_POST['send-to-backend'])) // if the user enabled backend notification
                     {
                         if ($_POST['backend_users_list'] == "Other ...") // to check if the user wanted to email a non WordPress user
                         {
@@ -131,7 +131,7 @@ function fcp_update_form($form_type_update)
                         $form_settings["backend-notification"] = NULL;
                     }
 
-                    if($_POST['send-to-user'])
+                    if(isset($_POST['send-to-user']))
                     {
                         $user_notification_settings = array('From' => $_POST['user-from'], 'Subject' => $_POST['user-subject'], 'Body' => $_POST['user-body']);
                         $form_settings["user-notification"] = $user_notification_settings;
@@ -225,7 +225,7 @@ function fcp_save_form($form_type){
 
     $form_settings = array('form-name' => stripslashes($_POST['form-name']));
 
-    if($_POST['send-to-backend']) // if the user enabled backend notification
+    if(isset($_POST['send-to-backend'])) // if the user enabled backend notification
     {
         if ($_POST['backend_users_list'] == "Other ...") // to check if the user wanted to email a non WordPress user
         {
@@ -243,7 +243,7 @@ function fcp_save_form($form_type){
         $form_settings["backend-notification"] = NULL;
     }
 
-    if($_POST['send-to-user'])
+    if(isset($_POST['send-to-user']))
     {
         $user_notification_settings = array('From' => $_POST['user-from'], 'Subject' => $_POST['user-subject'], 'Body' => $_POST['user-body']);
         $form_settings["user-notification"] = $user_notification_settings;
@@ -466,26 +466,32 @@ function fcp_event_form_capcity_deadline_check($form_id){
 
 function fcp_event_user_email_check( $form_id ){
     Global $wpdb;
-    $forms_table = $wpdb->prefix."fcp_formbuilder";
-    $submissions_table = $wpdb->prefix."fcp_submissions";
-    $query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
-    $form_type = $wpdb->get_col($query);
-    if ($form_type[0] == EVENT_FORM_FCP){
 
-        $user_email = $_POST['fcp_user_email'];
+    if(isset($_POST['fcp_user_email']))
+    {
 
-        $query = "SELECT `submission` FROM `{$submissions_table}` WHERE `form_id`={$form_id}";
-        $results = $wpdb->get_results($query,ARRAY_A);
-        foreach( $results as $result ){
-            $submission = unserialize($result['submission']);
-            foreach($submission as $sub_data){
-                if ($sub_data[0] == $user_email && !empty($sub_data[0])){
-                    return true;
+        $forms_table = $wpdb->prefix."fcp_formbuilder";
+        $submissions_table = $wpdb->prefix."fcp_submissions";
+        $query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
+        $form_type = $wpdb->get_col($query);
+        if ($form_type[0] == EVENT_FORM_FCP){
+            
+                $user_email = $_POST['fcp_user_email'];
+
+                $query = "SELECT `submission` FROM `{$submissions_table}` WHERE `form_id`={$form_id}";
+                $results = $wpdb->get_results($query,ARRAY_A);
+                foreach( $results as $result ){
+                    $submission = unserialize($result['submission']);
+                    foreach($submission as $sub_data){
+                        if ($sub_data[0] == $user_email && !empty($sub_data[0])){
+                            return true;
+                        }
+                    }
                 }
-            }
-        }
 
+        }
     }
+    
     return false;
 }
 
@@ -519,39 +525,59 @@ function fcp_save_submission($form_id){
     }
 
     $count = 0;
-    while($_FILES['fcp-att']['name'][$count] > -1)
+
+    if(isset($_FILES['fcp-att']))
     {
+        while($_FILES['fcp-att']['name'][$count] > -1)
+        {
 
-        $count_att++;
-        $count++;
+            $count_att++;
+            $count++;
+
+            if(!isset($_FILES['fcp-att']['name'][$count]))
+            {
+                break;
+            }
+        }
+    
+        if($_FILES['fcp-att']['name'])
+        {
+            $flag = file_upload("fcp-att",$count_att);
+        }
     }
-
-    if($_FILES['fcp-att']['name'])
-    {
-        $flag = file_upload("fcp-att",$count_att);
-    }
-
     else
     {
         $flag = 1;
     }
 
     $count = 0;
-    while($_FILES['send-email']['name'][$count] > -1)
+    if(isset($_FILES['send-email']))
     {
-        $count_att_send++;
-        $count++; 
-    }
+        while($_FILES['send-email']['name'][$count] > -1)
+        {
+            $count_att_send++;
+            if(isset($_FILES['send-email']['name'][$count+1]))
+            {
+                $count++; 
+            }
+            else
+            {
+                break;
+            }
+        }
+      
     
-    if($_FILES['send-email']['name'])
-    {
-        $flag_email = file_upload("send-email",$count_att_send);
+        if($_FILES['send-email']['name'])
+        {
+            $flag_email = file_upload("send-email",$count_att_send);
+        }
     }
-
     else
     {
         $flag_email = 1;
     }
+
+    //}
 
     if ( isset( $_POST['fcp_submission']) ){
         $form_fields = json_decode(stripslashes($_POST['fcp_submission']));
@@ -644,72 +670,80 @@ function fcp_save_submission($form_id){
             
             $fcp_file_found = [];
 
-            if(count($_FILES['fcp-att']['name'])>0)
+            if(isset($_FILES['fcp-att']))
             {
-                $db_file = 0;
+                if(count($_FILES['fcp-att']['name'])>0)
+                {
+                    $db_file = 0;
 
-                  while($db_file <= $count_att)
+                      while($db_file <= $count_att)
 
-                  {
-                    if($_FILES['fcp-att']["name"][$db_file] != "")
-                    {   
-                        $fcp_file_found_att = $fcp_att_dir.basename($_FILES['fcp-att']["name"][$db_file]);
-                        array_push($fcp_file_found, $fcp_file_found_att);
-                    }
-                    else
-                    {
-                        $fcp_file_found_att = NULL;
-                    }
-                    
-                    //$fcp_file_found_att= array($db_file => $fcp_att_dir.basename($_FILES['fcp-att']["name"][$db_file]));
-                    
-                    //$fcp_file_found = compact('fcp_file_found_att');
+                      {
+                        if($_FILES['fcp-att']["name"][$db_file] != "")
+                        {   
+                            $fcp_file_found_att = $fcp_att_dir.basename($_FILES['fcp-att']["name"][$db_file]);
+                            array_push($fcp_file_found, $fcp_file_found_att);
+                        }
+                        else
+                        {
+                            $fcp_file_found_att = NULL;
+                        }
+                        
+                        //$fcp_file_found_att= array($db_file => $fcp_att_dir.basename($_FILES['fcp-att']["name"][$db_file]));
+                        
+                        //$fcp_file_found = compact('fcp_file_found_att');
 
-                    $db_file++;
-                  }
-                  
+                        $db_file++;
+                      }
+                      
+                }
             }
-            
 
             
             $fcp_file_email = [];
 
-            if(count($_FILES['send-email']['name'])>0)
+            if(isset($_FILES['send-email']))
             {
-                $db_file = 0;
 
-                  while($db_file <= $count_att_send)
+                if(count($_FILES['send-email']['name'])>0)
+                {
+                    $db_file = 0;
 
-                  {
-                    if ($_FILES['send-email']["name"][$db_file] != "") 
-                    {
-                        $fcp_file_found_att = $fcp_att_dir.basename($_FILES['send-email']["name"][$db_file]);
-                        array_push($fcp_file_found, $fcp_file_found_att);
-                        array_push($fcp_file_email, $fcp_file_found_att);
-                    }
-                    else
-                    {
-                        $fcp_file_found_att = NULL;
-                    }
-                    
+                      while($db_file <= $count_att_send)
 
-                    $db_file++;
-                  }
+                      {
+                        if ($_FILES['send-email']["name"][$db_file] != "") 
+                        {
+                            $fcp_file_found_att = $fcp_att_dir.basename($_FILES['send-email']["name"][$db_file]);
+                            array_push($fcp_file_found, $fcp_file_found_att);
+                            array_push($fcp_file_email, $fcp_file_found_att);
+                        }
+                        else
+                        {
+                            $fcp_file_found_att = NULL;
+                        }
+                        
 
-                //$fcp_file_found = serialize($fcp_file_found);
+                        $db_file++;
+                      }
+
+                    //$fcp_file_found = serialize($fcp_file_found);
+
+                }
+
+
+                if( !(count($_FILES['send-email']['name'])>0) && !(count($_FILES['fcp-att']['name'])>0))
+                {
+                    $fcp_file_found = NULL;
+                }
 
             }
-
-            if( !(count($_FILES['send-email']['name'])>0) && !(count($_FILES['fcp-att']['name'])>0))
-            {
-                $fcp_file_found = NULL;
-            }
-            else
-            {
-              	$fcp_file_found = serialize($fcp_file_found);
-            }
-             
             
+            $fcp_file_found = serialize($fcp_file_found);
+                
+             
+            //}
+
             if(($flag == 1) && ($flag_email == 1))
             {
                 $submission_inserted = $wpdb->insert($submission_table,
@@ -750,6 +784,7 @@ function fcp_save_submission($form_id){
                         $backend_body = $backend_settings['Body'];
 
                         if ( !is_email($backend_to)){
+
                             // It is a wordpress user ID
                             $wordpress_user = get_user_by('id',$backend_to);
                             $backend_to =  $wordpress_user->user_email;
@@ -760,15 +795,17 @@ function fcp_save_submission($form_id){
                         
                         //var_dump($file_send_email);
                         //if()
+                        $header = 'From: '.$backend_from.' <no-reply@info.com>' . "\r\n";
+
                         if($flag_email == 1)
                         {
                             //wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
-                            wp_mail($backend_to,$backend_subject,$backend_body."<br><br>".$Sub_body,"From: ".$backend_from." <fcpForm>",$fcp_file_email);
+                            wp_mail($backend_to,$backend_subject,$backend_body."<br><br>".$Sub_body, $header, $fcp_file_email);
                         }
                         
                         else
                         {
-                            wp_mail($backend_to,$backend_subject,$backend_body."<br>".$Sub_body,"From: ".$backend_from." <fcpForm>");
+                            wp_mail($backend_to,$backend_subject,$backend_body."<br>".$Sub_body, $header);
                         }
                         
                         // now you have an email address and you should send
@@ -779,9 +816,26 @@ function fcp_save_submission($form_id){
                         $user_from = $user_settings['From'];
                         $user_subject = $user_settings['Subject'];
                         $user_body = $user_settings['Body'];
-                        $user_to = $_POST['fcp_user_email'];
+                        if(isset($_POST['fcp_user_email']))
+                        {
+                            $user_to = $_POST['fcp_user_email'];
+                        }
+                        else
+                        {
+                            $user_to = null;
+                        }
 
-                        wp_mail($user_to,$user_subject,$user_body."<br>".$Sub_body,"From: ".$user_from." <fcpForm>");
+                        if(isset($backend_to))
+                        {
+                            $header = 'From: '.$user_from.' <'. $backend_to .'>' . "\r\n";
+                        }
+
+                        else
+                        {
+                            $header = 'From: '.$user_from.' <no-reply@info.com>' . "\r\n";   
+                        }
+
+                        wp_mail($user_to,$user_subject,$user_body."<br>".$Sub_body, $header);
                     }
 
                 }
@@ -810,6 +864,7 @@ function fcp_submission_content_loop($form_fields)
     $password_pattern = "/(\(_fcp_pass)\)/";
 
     $field_counter = 1;
+    $sub_temp = '';
 
     //$content_fields = (unserialize($submission_row['submission']));
             //var_dump($form_fields);
@@ -910,16 +965,24 @@ function fcp_delete_submissions($submissions_ids){
      * The following loop creates array elements after scanning for dashes. It takes the elements between the
      * dashes and adds them to a new array element
      */
-    for($i=0;$i<sizeof($submissions_ids); $i++){
+    for($i=0; $i<sizeof($submissions_ids); $i++){
         if ($submissions_ids[$i] == "-"){
             if ($i > 0){
                 $index++;
             }
             $i++;
-            $array_of_ids[$index] = $submissions_ids[$i];
+
+            // if(isset($array_of_ids[$index]))
+            // {
+                $array_of_ids[$index] = $submissions_ids[$i];
+            //}
         }
         else {
-            $array_of_ids[$index] .= $submissions_ids[$i];
+
+            if(isset($array_of_ids[$index]))
+            {
+                $array_of_ids[$index] .= $submissions_ids[$i];
+            }
         }
 
     }
@@ -1041,91 +1104,97 @@ function fcp_display_submission_content($submission_id){
 
 function export_csv($form_type)
 {
-	if($_POST['export_csv'] == "true")
-	{
-		//echo 'success';
+    if(isset($_POST['export_csv']))
+    {
 
-		Global $wpdb;
-
-		$sub_table = $wpdb->prefix."fcp_submissions";
-		$form_table = $wpdb->prefix."fcp_formbuilder";
-		$submissions = $wpdb -> get_results("SELECT `submission`, `form_id` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."' AND `form_id`= '".$_POST['news-form-name']."'" ,ARRAY_A);
-		$form_settings = $wpdb -> get_results("SELECT `form_settings`, `form_id` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
-
-		$csv = NULL;
-		$csv_sub = NULL;
-		$field_label_pattern = "/_fcp_[0-9]/";
-
-
-		foreach ($submissions as $sub_array => $sub_num) {
-			
-			$exp_data = unserialize($sub_num['submission']);
-			$exp_id = $sub_num['form_id'];
-			//var_dump($exp_id);
-			$csv = NULL;
-			$csv_label = NULL;
-
-			//print_r($exp_data);
-
-			foreach ($exp_data as $sub_data => $label) {
-
-				$sub_data = preg_replace($field_label_pattern,"",$sub_data);
-				$csv_label .= "\"".$sub_data."\"".",";
-				if(sizeof($label) > 1)
-				{
-					$label_flag = 1;
-				}
-				$csv .= "\"";
-				foreach ($label as $field_label => $field_value) {
-					
-
-					if($label_flag == 1)
-					{
-						$csv .= $field_value." - ";
-					}
-
-					else
-					{
-						$csv .= $field_value;
-					}
-
-				}
-
-				$csv =chop($csv," - ")."\"".",";
-				$label_flag = 0;
-
-			}
-			$csv_label = chop($csv_label, ",")."\n";
-
-			$csv = chop($csv, ",")."\n"; 
-
-			$csv_sub .= $csv;
-
-		}
-		
-		if(!file_exists("../wp-content/plugins/form_builder/news_csv"))
+    	if($_POST['export_csv'] == "true")
     	{
-        	mkdir("../wp-content/plugins/form_builder/news_csv", 0700);
+    		//echo 'success';
 
-        	$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
-			fwrite($csv_file, $csv_label);
-			fwrite($csv_file, $csv_sub);
-			fclose($csv_file);
+    		Global $wpdb;
 
-			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
+    		$sub_table = $wpdb->prefix."fcp_submissions";
+    		$form_table = $wpdb->prefix."fcp_formbuilder";
+    		$submissions = $wpdb -> get_results("SELECT `submission`, `form_id` FROM `{$sub_table}` WHERE `form_type`= '".$form_type."' AND `form_id`= '".$_POST['news-form-name']."'" ,ARRAY_A);
+    		$form_settings = $wpdb -> get_results("SELECT `form_settings`, `form_id` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+
+    		$csv = NULL;
+    		$csv_sub = NULL;
+    		$field_label_pattern = "/_fcp_[0-9]/";
+
+
+    		foreach ($submissions as $sub_array => $sub_num) {
+    			
+    			$exp_data = unserialize($sub_num['submission']);
+    			$exp_id = $sub_num['form_id'];
+    			//var_dump($exp_id);
+    			$csv = NULL;
+    			$csv_label = NULL;
+
+    			//print_r($exp_data);
+
+    			foreach ($exp_data as $sub_data => $label) {
+
+    				$sub_data = preg_replace($field_label_pattern,"",$sub_data);
+    				$csv_label .= "\"".$sub_data."\"".",";
+    				if(sizeof($label) > 0)
+    				{
+    					$label_flag = 1;
+    				}
+    				$csv .= "\"";
+    				foreach ($label as $field_label => $field_value) {
+    					
+                        if(isset($label_flag))
+                        {
+        					if($label_flag == 1)
+        					{
+        						$csv .= $field_value." - ";
+        					}
+
+        					else
+        					{
+        						$csv .= $field_value;
+        					}
+                        }
+
+    				}
+
+    				$csv =chop($csv," - ")."\"".",";
+    				$label_flag = 0;
+
+    			}
+    			$csv_label = chop($csv_label, ",")."\n";
+
+    			$csv = chop($csv, ",")."\n"; 
+
+    			$csv_sub .= $csv;
+
+    		}
+    		
+    		if(!file_exists("../wp-content/plugins/form_builder/news_csv"))
+        	{
+            	mkdir("../wp-content/plugins/form_builder/news_csv", 0700);
+
+            	$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+    			fwrite($csv_file, $csv_label);
+    			fwrite($csv_file, $csv_sub);
+    			fclose($csv_file);
+
+    			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
+        	}
+
+    		else
+    		{
+    			$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
+    			fwrite($csv_file, $csv_label);
+    			fwrite($csv_file, $csv_sub);
+    			fclose($csv_file);
+
+    			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
+    		}
+
     	}
-
-		else
-		{
-			$csv_file = fopen("../wp-content/plugins/form_builder/news_csv/sub_csv.csv", "w");
-			fwrite($csv_file, $csv_label);
-			fwrite($csv_file, $csv_sub);
-			fclose($csv_file);
-
-			echo "<script>jQuery(document).ready(function(){location.href='".get_site_url()."/wp-content/plugins/form_builder/news_csv/sub_csv.csv'})</script>";
-		}
-
-	}
+    }
 
 }
 
