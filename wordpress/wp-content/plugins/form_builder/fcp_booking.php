@@ -43,6 +43,7 @@ function fcp_booking_page()
 		$fcp_edit_settings = unserialize($edit_form[0]['form_settings']);
 		$fcp_settings_backend = $fcp_edit_settings['backend-notification'];
 		$fcp_settings_user = $fcp_edit_settings['user-notification'];
+		$fcp_settings_booking_user_email = $fcp_edit_settings['event_user_email'];
 
 		if($fcp_settings_backend != NULL)
 		{?>
@@ -227,6 +228,72 @@ function fcp_booking_page()
 
 
 	      						</div>
+	      						<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingThree">
+						<h4 class="panel-title">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Booking Settings</a>
+						</h4>
+					</div>
+
+					<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							<div class="text-center">
+								<div class="form-group checkbox-radio-alignment-temp">
+									<div class="checkbox col-sm-5" style="padding-top:0">
+										<label><input class="col-sm-4" id="fcp_attendee_limit" name="fcp_event_attendee_unlimited" type="checkbox">Unlimited Bookings</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="event_form_max_attendees" class="col-sm-6 control-label">Maximum Number of Bookings</label>
+									<div class="col-sm-4">
+										<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1" value="<?php if(isset($fcp_edit_settings['event_form_max_attendees'])) { echo $fcp_edit_settings['event_form_max_attendees']; } ?>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="event_form_capacity_message" class="col-sm-5 control-label">Out Of Capacity Message</label>
+									<div class="col-sm-5">
+										<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"><?php if(isset($fcp_edit_settings['capacity_message'])) { echo $fcp_edit_settings['capacity_message']; } ?></textarea>
+									</div>
+								</div>
+								<!-- adapting to the status of the checkbos of unlimted attendees -->
+								<script> jQuery(document).ready(function(event){
+										var checkbox = jQuery("#fcp_attendee_limit");
+										var attendees_number_input = jQuery("#event_form_max_attendees");
+										var capacity_message_input = jQuery("#event_form_capacity_message");
+										if ( checkbox.prop("checked") == true ) {
+											attendees_number_input.attr("disabled","true").val("");
+											capacity_message_input.attr("disabled","true").val("");
+										}
+									});</script>
+								<hr>
+								<div class="form-group">
+									<label for="event_form_deadline" class="col-sm-6 control-label">Deadline For Booking Submission</label>
+									<div class="col-sm-4">
+										<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" value="<?php if(isset($fcp_edit_settings['event_form_deadline'])) { echo $fcp_edit_settings['event_form_deadline']; } ?>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadling Message</label>
+									<div class="col-sm-5">
+										<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"><?php if(isset($fcp_edit_settings['deadline_message'])) { echo $fcp_edit_settings['deadline_message']; } ?></textarea>
+									</div>
+								</div>
+								<hr>
+								<div class="form-group">
+									<label for="fcp_event_form_required_email" class="col-sm-5 control-label">Require email for submission</label>
+									<div class="col-sm-5">
+										<select name="event_user_email_field_menu" id="fcp_event_form_required_email" class="form-control">
+											<option value="0" selected="selected">Select an email field</option>
+										</select>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			
+
+				</div>
 	      					</div>
 	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-success">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
 							<input type="hidden" name="fcp_edit" value="">
@@ -237,12 +304,18 @@ function fcp_booking_page()
 			//var_dump((string)unserialize($edit_form['form_settings'])['form-name']);
 			?> -->
 			<script>
-			var select_option_value = <?php echo $back_to;?>;
 
-			jQuery("select#backend_users_list option[value='"+select_option_value+"'").prop("selected","true");
+				var select_option_value;
+	    		select_option_value = "<?php echo $back_to; ?>";
+				jQuery("select#backend_users_list option[value='"+select_option_value+"'").prop("selected","true");
+			
 			</script>
 			<script>
 				jQuery(document).ready(function(){
+
+					  var booking_user_email_field = "<?php echo $fcp_settings_booking_user_email;?>";
+					  
+					  select_user_email_field(booking_user_email_field);
 
 					  jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.radio_field label.radio_label");
 					  jQuery('<a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;checkbox&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 10px;">Edit</a><button type="button" class="close check_close" arial-label=“Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button>').insertAfter("div.check_field label.check_label");
@@ -252,11 +325,12 @@ function fcp_booking_page()
 					  jQuery("div.form-sketch div.fcp_numeric").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;number&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_date").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;date&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_time").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;time&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
-					jQuery("div.form-sketch div.fcp_email").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
+					  jQuery("div.form-sketch div.fcp_email").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;email&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_textarea").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;textarea&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;textarea&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
 					  jQuery("div.form-sketch div.fcp_file").append('<button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).siblings(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;file&quot;,jQuery(this).parent(),jQuery(this).siblings(&quot;.input-container&quot;).children(&quot;input&quot;).attr(&quot;id&quot;));" class="col-sm-1">Edit</a>');
-					var drag_icon = '<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>';
-					jQuery(".fcp-drag-sort").prepend(drag_icon);
+					
+					  var drag_icon = '<span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true"></span>';	
+					  jQuery(".fcp-drag-sort").prepend(drag_icon);
 				});
 			</script>
 
@@ -556,6 +630,61 @@ function fcp_booking_page()
 
 
       						</div>
+      						<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingThree">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Booking Settings</a>
+									</h4>
+								</div>
+
+								<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+									<div class="panel-body">
+										<div class="text-center">
+											<div class="form-group checkbox-radio-alignment-temp">
+												<div class="checkbox col-sm-5" style="padding-top:0">
+													<label><input class="col-sm-4" id="fcp_attendee_limit" name="fcp_event_attendee_unlimited" type="checkbox" checked>Unlimited Bookings</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="event_form_max_attendees" class="col-sm-6 control-label">Maximum Number of Bookings</label>
+												<div class="col-sm-4">
+													<input name="event_form_max_attendees" class="form-control" id="event_form_max_attendees" type="number" min="1" disabled>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="event_form_capacity_message" class="col-sm-5 control-label">Out Of Capacity Message</label>
+												<div class="col-sm-5">
+													<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message" disabled></textarea>
+												</div>
+											</div>
+											<hr>
+											<div class="form-group">
+												<label for="event_form_deadline" class="col-sm-6 control-label">Deadline For Booking Submission</label>
+												<div class="col-sm-4">
+													<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" placeholder="Date">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadline Message</label>
+												<div class="col-sm-5">
+													<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"></textarea>
+												</div>
+											</div>
+											<hr>
+											<div class="form-group">
+												<label for="fcp_event_form_required_email" class="col-sm-5 control-label">Require email for submission</label>
+												<div class="col-sm-5">
+													<select name="event_user_email_field_menu" id="fcp_event_form_required_email" class="form-control">
+														<option value="0" selected="selected">Select an email field</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
       					</div>
 						<!-- End of Form Options panel -->
 						<div class="row" style="padding: 20px">

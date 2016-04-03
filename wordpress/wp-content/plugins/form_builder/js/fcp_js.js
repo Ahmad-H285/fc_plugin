@@ -271,7 +271,7 @@ var fcp_fileSelect_field = '<div class="form-group fcp_file fcp-drag-sort"><span
 */
 
 //Slug Field
-var fcp_slug_field = '<div class="form-group" id="custom-slug"><label class="col-sm-6 control-label" for="slug_option">Custom Class: </label><input id="slug_option" type="text" maxlength="25" placeholder="Custom Class" class="col-sm-5"></div>';
+var fcp_slug_field = '<div class="form-group" id="custom-slug" style="margin-top: 5%;"><label class="col-sm-6 control-label" for="slug_option">Custom Class: </label><input id="slug_option" type="text" maxlength="25" placeholder="Custom Class" class="col-sm-5"></div>';
 //FIELD NAME ( FOR ALL FIELDS)
 var name_field_options = '<div class="form-group"><label class="col-sm-5 control-label" for="field-name-option">Field Name: </label><input id="field-name-option" type="text" maxlength="25" placeholder="Field Name" class="col-sm-6"></div>';
 
@@ -290,8 +290,8 @@ field_options.number = '<div class="form-group"><label class="col-sm-3 control-l
 //RADIO OPTION
 var radio_add_options = '<div class = "radiobutton col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
-var radio_add_button = '<button type="button" name="radio" class="radio_add">Add option</button>';
-field_options.radio = '<button type="button" name="radio" class="radio_add">Add option</button>';
+var radio_add_button = '<button type="button" name="radio" class="radio_add" style="margin-left: 69%;">Add option</button>';
+field_options.radio = '<button type="button" name="radio" class="radio_add" style="margin-left: 69%;">Add option</button>';
 
 //CHECKBOX OPTIONS
 var check_add_options = '<div class = "checkbox col-sm-10 input-container" id="checkbox_add"><input type="text" class="col-sm-8 field-option-add" name="check"><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
@@ -300,8 +300,8 @@ var check_add_options = '<div class = "checkbox col-sm-10 input-container" id="c
 
 //var check_add_field = '<div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="check">Checkbox</label><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
-var check_add_button = '<button type="button" name="check" class="check_add">Add option</button>';
-field_options.checkbox = '<button type="button" name="check" class="check_add">Add option</button>';
+var check_add_button = '<button type="button" name="check" class="check_add" style="margin-left: 69%;">Add option</button>';
+field_options.checkbox = '<button type="button" name="check" class="check_add" style="margin-left: 69%;">Add option</button>';
 
 //PASSWORD OPTIONS
 field_options.password = '<div id="form-pass" class="form-group"><div class="check_field" id="pass_vis_opt"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="pass_vis">Password Visibility</label></div></div><div class="check_field" id="pass_conf_opt"><div class = "checkbox col-sm-10 input-container" style="padding-top:0"><label><input type="checkbox" class="col-sm-4" name="pass_conf">Password Confirmation</label></div></div></div>';
@@ -320,7 +320,7 @@ field_options.time = '<div class="radio_field"><label class="radio_label col-sm-
 field_options.textarea = '<div class="form-group"><label class="col-sm-5 control-label">Character Length</label><input type="number" min="0" id="text_area_max" class="col-sm-3"></div><div class="form-group"><label class="col-sm-5 control-label">Height</label><input type="number" min="0" id="text_area_height" class="col-sm-3"></div>';
 
 // SELECT MENU
-field_options.select = '<button type="button" id="select_menu_option_addButton" name="select-option" class="">Add Item</button><div id="select_list_options" class="col-sm-12"><p id="list_options_title">List Items: </p></div>';
+field_options.select = '<p id="list_options_title">List Items: </p><button type="button" id="select_menu_option_addButton" name="select-option" class="" style="margin-left: 75%;">Add Item</button><div id="select_list_options" class="col-sm-12"></div>';
 
 //FILE OPTIONS
 field_options.file = '<div class="checkbox email_send col-sm-10"><label><input class="col-sm-4" name="send-email-option" id="email-option" type="checkbox"><span id="email-option">Send attachment to admin email</span></label></div>';
@@ -403,7 +403,7 @@ jQuery("div#fields-panel button.btn-primary").click(function(){
 		inputType = "radio";
 
 		radio_field_instance += 1;
-		fcp_radiobutton_field = '<div class="radio_field fcp-drag-sort" id="radio_but_'+radio_field_instance+'"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true" style="margin-left: -15px;"></span><label class="radio_label col-sm-10" for="radio_but_'+radio_field_instance+'">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group checkbox-radio-alignment-temp"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="fcp-check-radio">Radio</label></div></div></div>';
+		fcp_radiobutton_field = '<div class="radio_field fcp-drag-sort" id="radio_but_'+radio_field_instance+'"><span class="col-sm-1 glyphicon glyphicon-sort fcp_drag_icon" aria-hidden="true" style="margin-left: -15px;"></span><label class="radio_label col-sm-9" for="radio_but_'+radio_field_instance+'">Radio Button</label><a href="javascript:void(0);" onclick="editFieldOptions(jQuery(this).prev(&quot;label&quot;).text().replace(&quot;*&quot;,&quot;&quot;),&quot;radio&quot;,jQuery(this).parent(),jQuery(this).parent().attr(&quot;id&quot;));" class="col-sm-1" style="margin-left: 26px;">Edit</a><button type="button" class="close radio_close" arial-label="Close" style="margin-right: -14px;"><span aria-hidden="true">&times;</span></button><div class="form-group checkbox-radio-alignment-temp"><div class = "radio col-sm-10 input-container" style="padding-top:0"><label><input name="radio" type="radio" class="fcp-check-radio">Radio</label></div></div></div>';
 	}
 
 	else if(jQuery(this).text()== 'Email'){
@@ -830,7 +830,7 @@ function editFieldOptions(title,type,field,inputID){
 		// Find all of the added options and list them all
 		jQuery("select#" + inputID + " option").each(function(index,value){
 			var opt_input = '<div class="list-item-parent parent-number'+list_item_count+'"><label for="list_item'+list_item_count+'" class="col-sm-4">Item '+list_item_count+'</label><input maxlength="50" placeholder="List Item" id="list_item'+list_item_count+'" class="col-sm-6 select-opt-input" type="text"><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-			jQuery("div#select_list_options").append(opt_input);
+			jQuery("button#select_menu_option_addButton").before(opt_input);
 			jQuery("input.select-opt-input:last").val(jQuery(this).text());
 			jQuery(" div.parent-number"+list_item_count+" button.close").off("click").click(removeListItem);
 			list_item_count++;
@@ -893,10 +893,6 @@ function editFieldOptions(title,type,field,inputID){
 
 	else if (type == "radio"){
 
-		// jQuery(radio_add_button).appendTo("div#fieldOptions");
-		// jQuery(".radio_add").click(function() {
-		// 	jQuery("div.radio:last").after(radio_add_options);
-		// });
 		jQuery(radio_add_button).appendTo("div#fieldOptions");
 
 		jQuery(fcp_slug_field).appendTo("div#fieldOptions"); // to add the slug field
@@ -904,7 +900,7 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery("input#field-name-option").val(field_name_trim);
 
 		jQuery(".radio_add").click(function() {
-			jQuery("div#custom-slug").before(radio_add_options);
+			jQuery(".radio_add").before(radio_add_options);
 			fcp_deleteField();
 		});
 
@@ -915,12 +911,12 @@ function editFieldOptions(title,type,field,inputID){
 		{
 			if(jQuery(jQuery("div#"+inputID+" div.form-group div.radio label input").get(radio_n)).attr("checked") == "checked")
 			{
-				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2" checked>Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2" checked>Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore(".radio_add");
 			}
 			//console.log(radio_label_prev);
 			else
 			{
-				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
+				jQuery('<div class = "radio col-sm-12 input-container" id="radiobut_add"><input type="text" class="col-sm-8 field-option-add" name="radio"><div class = "radio col-sm-3 input-container" style="padding-top:0"><label><input name="radio_default" type="radio" class="col-sm-2">Default</label></div><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore(".radio_add");
 			}
 
 			jQuery(jQuery("div#fieldOptions div.input-container input.field-option-add").get(radio_n)).val(radio_label_prev);
@@ -1000,7 +996,7 @@ function editFieldOptions(title,type,field,inputID){
 		jQuery("input#field-name-option").val(field_name_trim);
 
 		jQuery(".check_add").click(function() {
-			jQuery("div#custom-slug").before(check_add_options);
+			jQuery(".check_add").before(check_add_options);
 			fcp_deleteField();
 		});
 
@@ -1010,7 +1006,7 @@ function editFieldOptions(title,type,field,inputID){
 		while(check_form_prev)
 		{
 			//console.log(check_label_prev);
-			jQuery('<div class = "checkbox col-sm-10 input-container" id="checkbox_add"><input type="text" class="col-sm-8 field-option-add" name="check"><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore("div#custom-slug");
+			jQuery('<div class = "checkbox col-sm-10 input-container" id="checkbox_add"><input type="text" class="col-sm-8 field-option-add" name="check"><button type="button" class="field_options close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>').insertBefore(".check_add");
 
 			jQuery(jQuery("div#fieldOptions div.input-container input.field-option-add").get(check_n)).val(check_label_prev);
 
@@ -1199,7 +1195,7 @@ function select_menu_option_handler(event){
 		list_item_count = jQuery("div.list-item-parent").length + 1;
 	}
 	var option_input = '<div class="list-item-parent parent-number'+list_item_count+'"><label for="list_item'+list_item_count+'" class="col-sm-4">Item '+list_item_count+'</label><input maxlength="50" placeholder="List Item" id="list_item'+list_item_count+'" class="col-sm-6 select-opt-input" type="text"><button type="button" class="close" arial-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-	jQuery("div#select_list_options").append(option_input);
+	jQuery("button#select_menu_option_addButton").before(option_input);
 	jQuery(" div.parent-number"+list_item_count+" button.close").click(removeListItem);
 	list_item_count++;
 
@@ -1325,10 +1321,12 @@ jQuery(document).ready(function(){
 
         if ( number_of_checked_boxes >= 2 ){
             jQuery("#delete_selected_forms").removeAttr("disabled");
+            jQuery(".delete-selected-forms").removeAttr("disabled");
             return;
         }
         else if ( number_of_checked_boxes < 2 ){
             jQuery("#delete_selected_forms").attr("disabled",true);
+            jQuery(".delete-selected-forms").attr("disabled",true);
         }
 
     });

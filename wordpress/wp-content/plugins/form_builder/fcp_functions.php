@@ -100,7 +100,154 @@ function fcp_display_created_forms($form_type){
         }
     }
     else {
-        echo "<tr><td id='no_forms_to_display'>No forms to display. Start creating now</td></tr>";
+        echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-general')."'>Start creating now</a></tr>";
+    }
+
+}
+
+function fcp_manage_created_forms($form_type){
+
+    Global $wpdb;
+
+  $form_table = $wpdb->prefix."fcp_formbuilder";
+  $app_created_forms = $wpdb -> get_results("SELECT `form_id`, `form_settings` FROM `{$form_table}` WHERE `form_type`= '".$form_type."'",ARRAY_A);
+
+    if($form_type == APPLICATION_FORM_FCP){
+
+        if (!empty($app_created_forms)){
+            $form_count = 1;
+            foreach ($app_created_forms as $form) {
+                $form_name = unserialize($form['form_settings'])['form-name'];
+                $form_id = $form['form_id'];
+                echo "<tr class='fcp-table-head'>
+                    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
+                    ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
+
+                    <td><a href='".admin_url('admin.php?page=fcp-application-form').'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+                    <span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
+                    <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+                </tr>" ;
+                $form_count++;
+            }
+        }
+        else {
+            echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-application-form')."'>Start creating now</a></td></tr>";
+        }
+    }
+
+    else if($form_type == CONTACT_FORM_FCP){
+
+        if (!empty($app_created_forms)){
+            $form_count = 1;
+            foreach ($app_created_forms as $form) {
+                $form_name = unserialize($form['form_settings'])['form-name'];
+                $form_id = $form['form_id'];
+                echo "<tr class='fcp-table-head'>
+                    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
+                    ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
+
+                    <td><a href='".admin_url('admin.php?page=fcp-contact-form').'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+                    <span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
+                    <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+                </tr>" ;
+                $form_count++;
+            }
+        }
+        else {
+            echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-contact-form')."'>Start creating now</a></td></tr>";
+        }
+    }
+
+    else if($form_type == BOOKING_FORM_FCP){
+
+        if (!empty($app_created_forms)){
+            $form_count = 1;
+            foreach ($app_created_forms as $form) {
+                $form_name = unserialize($form['form_settings'])['form-name'];
+                $form_id = $form['form_id'];
+                echo "<tr class='fcp-table-head'>
+                    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
+                    ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
+
+                    <td><a href='".admin_url('admin.php?page=fcp-booking-form').'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+                    <span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
+                    <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+                </tr>" ;
+                $form_count++;
+            }
+        }
+        else {
+            echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-booking-form')."'>Start creating now</a></td></tr>";
+        }
+    }
+
+    else if($form_type == NEWSLETTER_FORM_FCP){
+
+        if (!empty($app_created_forms)){
+            $form_count = 1;
+            foreach ($app_created_forms as $form) {
+                $form_name = unserialize($form['form_settings'])['form-name'];
+                $form_id = $form['form_id'];
+                echo "<tr class='fcp-table-head'>
+                    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
+                    ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
+
+                    <td><a href='".admin_url('admin.php?page=fcp-newsletter-form').'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+                    <span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
+                    <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+                </tr>" ;
+                $form_count++;
+            }
+        }
+        else {
+            echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-newsletter-form')."'>Start creating now</a></td></tr>";
+        }
+    }
+
+    else if($form_type == EVENT_FORM_FCP){
+
+        if (!empty($app_created_forms)){
+            $form_count = 1;
+            foreach ($app_created_forms as $form) {
+                $form_name = unserialize($form['form_settings'])['form-name'];
+                $form_id = $form['form_id'];
+                echo "<tr class='fcp-table-head'>
+                    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
+                    ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
+
+                    <td><a href='".admin_url('admin.php?page=fcp-event-form').'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+                    <span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
+                    <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+                </tr>" ;
+                $form_count++;
+            }
+        }
+        else {
+            echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-event-form')."'>Start creating now</a></td></tr>";
+        }
+    }
+
+    else if($form_type == CUSTOM_FORM_FCP){
+
+        if (!empty($app_created_forms)){
+            $form_count = 1;
+            foreach ($app_created_forms as $form) {
+                $form_name = unserialize($form['form_settings'])['form-name'];
+                $form_id = $form['form_id'];
+                echo "<tr class='fcp-table-head'>
+                    <td class='col-sm-1'><input class='form-select-checkbox' type='checkbox' id='checkbox_form_id_".$form_id."' style='margin-right:5px;'>".$form_count."</td class='col-sm-1'><td>".$form_name."</td>"
+                    ."<td>[form-builder form=\"".$form_name." fcp_".$form_id."\"]</td>
+
+                    <td><a href='".admin_url('admin.php?page=fcp-custom-form').'&id='.$form_id."' class='fcp-edit-selected-form' id='fcp_form_".$form_id."' >
+                    <span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit</a></td>
+                    <td><a href='javascript:void(0);' class='fcp-delete-selected-form' id='fcp_form_id_".$form_id."'>Delete</a></td>
+                </tr>" ;
+                $form_count++;
+            }
+        }
+        else {
+            echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-custom-form')."'>Start creating now</a></td></tr>";
+        }
     }
 
 }
@@ -408,7 +555,7 @@ function fcp_event_form_capcity_deadline_check($form_id){
     $forms_table = $wpdb->prefix."fcp_formbuilder";
     $query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
     $form_type = $wpdb->get_col($query);
-    if ($form_type[0] == EVENT_FORM_FCP){
+    if ($form_type[0] == EVENT_FORM_FCP || $form_type[0] == BOOKING_FORM_FCP){
 
         $submissions_table = $wpdb->prefix."fcp_submissions";
 
@@ -474,7 +621,7 @@ function fcp_event_user_email_check( $form_id ){
         $submissions_table = $wpdb->prefix."fcp_submissions";
         $query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
         $form_type = $wpdb->get_col($query);
-        if ($form_type[0] == EVENT_FORM_FCP){
+        if ($form_type[0] == EVENT_FORM_FCP || $form_type[0] == BOOKING_FORM_FCP){
             
                 $user_email = $_POST['fcp_user_email'];
 

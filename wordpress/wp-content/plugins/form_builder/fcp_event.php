@@ -269,7 +269,7 @@ function fcp_event_page()
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="event_form_capacity_message" class="col-sm-5 control-label">Out of Capacity Message</label>
+									<label for="event_form_capacity_message" class="col-sm-5 control-label">Out Of Capacity Message</label>
 									<div class="col-sm-5">
 										<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message"><?php if(isset($fcp_edit_settings['capacity_message'])) { echo $fcp_edit_settings['capacity_message']; } ?></textarea>
 									</div>
@@ -286,13 +286,13 @@ function fcp_event_page()
 									});</script>
 								<hr>
 								<div class="form-group">
-									<label for="event_form_deadline" class="col-sm-6 control-label">Deadling For Event Submission</label>
+									<label for="event_form_deadline" class="col-sm-6 control-label">Deadline For Event Submission</label>
 									<div class="col-sm-4">
 										<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" value="<?php if(isset($fcp_edit_settings['event_form_deadline'])) { echo $fcp_edit_settings['event_form_deadline']; } ?>">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadling Message</label>
+									<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadline Message</label>
 									<div class="col-sm-5">
 										<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"><?php if(isset($fcp_edit_settings['deadline_message'])) { echo $fcp_edit_settings['deadline_message']; } ?></textarea>
 									</div>
@@ -624,20 +624,20 @@ function fcp_event_page()
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="event_form_capacity_message" class="col-sm-5 control-label">Capacity Reached Message</label>
+												<label for="event_form_capacity_message" class="col-sm-5 control-label">Out Of Capacity Message</label>
 												<div class="col-sm-5">
 													<textarea style="resize: none" name="event_form_capacity_message" class="form-control" id="event_form_capacity_message" disabled></textarea>
 												</div>
 											</div>
 											<hr>
 											<div class="form-group">
-												<label for="event_form_deadline" class="col-sm-6 control-label">Deadling For Event Submission</label>
+												<label for="event_form_deadline" class="col-sm-6 control-label">Deadline For Event Submission</label>
 												<div class="col-sm-4">
 													<input name="event_form_deadline" class="form-control" id="event_form_deadline" type="text" placeholder="Date">
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadling Message</label>
+												<label for="event_form_deadline_message" class="col-sm-5 control-label">Deadline Message</label>
 												<div class="col-sm-5">
 													<textarea style="resize: none" name="event_form_deadline_message" class="form-control" id="event_form_deadline_message"></textarea>
 												</div>
