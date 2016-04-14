@@ -621,10 +621,16 @@ function fcp_event_user_email_check( $form_id ){
         $submissions_table = $wpdb->prefix."fcp_submissions";
         $query = "SELECT `form_type` FROM `".$forms_table."` WHERE `form_id`=".$form_id;
         $form_type = $wpdb->get_col($query);
-        if ($form_type[0] == EVENT_FORM_FCP || $form_type[0] == BOOKING_FORM_FCP){
-            
-                $user_email = $_POST['fcp_user_email'];
+        
+        $form_settings_query = "SELECT `form_settings` FROM " . $forms_table . " WHERE `form_id`=".$form_id;
+        $form_settings = $wpdb->get_col($form_settings_query);
+        $form_settings = unserialize($form_settings[0]);
 
+        if ($form_type[0] == EVENT_FORM_FCP || $form_type[0] == BOOKING_FORM_FCP){
+            if($form_settings['event_user_email'] != ""){
+
+                $user_email = $_POST['fcp_user_email'];
+            
                 $query = "SELECT `submission` FROM `{$submissions_table}` WHERE `form_id`={$form_id}";
                 $results = $wpdb->get_results($query,ARRAY_A);
                 foreach( $results as $result ){
@@ -635,6 +641,7 @@ function fcp_event_user_email_check( $form_id ){
                         }
                     }
                 }
+            }
 
         }
     }
