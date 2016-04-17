@@ -21,6 +21,9 @@ var required_mark = '<span class="required-field-mark glyphicon glyphicon-asteri
 /*********************** Global Variables End ***********************/
 
 jQuery(document).ready(function(){
+
+	createNewFormLink();
+
 	jQuery("button#import_sub_csv").click(function(){
 		jQuery("input[name='export_csv']").val("true");
 		console.log(jQuery("input[name='export_csv']").val());
@@ -62,6 +65,18 @@ jQuery(document).ready(function(){
 		}
 	});
 });
+
+function createNewFormLink(){
+
+	jQuery("td#no_forms_to_display a").click(function(){
+		jQuery("a[aria-controls='edit']").parent().removeClass("active")
+		jQuery("div#forms").removeClass("active")
+
+		jQuery("a[aria-controls='Add']").parent().addClass("active")
+		jQuery("div#AddNewForm").addClass("active")
+	});
+
+}
 
 /*
 	The following function handles updating the value of the submit button text

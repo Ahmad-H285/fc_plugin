@@ -93,3 +93,7 @@ table#fcp_submission_table{
 div.checkbox-radio-alignment-temp {
     margin-left: 27px !important;
 }
+
+a.fcp-delete-selected-form {
+	color: rgb(222, 72, 72);
+}

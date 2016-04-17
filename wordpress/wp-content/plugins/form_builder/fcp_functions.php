@@ -100,7 +100,7 @@ function fcp_display_created_forms($form_type){
         }
     }
     else {
-        echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='".admin_url('admin.php?page=fcp-general')."'>Start creating now</a></tr>";
+        echo "<tr><td id='no_forms_to_display'>No forms to display. <a href='#AddNewForm'>Start creating now</a></tr>";
     }
 
 }
