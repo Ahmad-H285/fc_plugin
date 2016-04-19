@@ -161,6 +161,8 @@ function fcp_contact_page()
 														<div class="col-sm-6">
 															<textarea name="backend-body" rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"><?php if(isset($back_body)){ echo $back_body; } ?></textarea>
 														</div>
+														<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">To add custom fields from your created form to be sent in your email body, please write the field name between braces either in <u>upper or lower case</u>.</p>
+														<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">e.g.: {First Name}</p>
 													</div>
 												</div>
 												<!-- End Send to email checkbox -->
@@ -218,6 +220,8 @@ function fcp_contact_page()
 														<div class="col-sm-6">
 															<textarea rows="10" cols="50" name="user-body" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"><?php if(isset($user_body)){ echo $user_body; } ?></textarea>
 														</div>
+														<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">To add custom fields from your created form to be sent in your email body, please write the field name between braces either in <u>upper or lower case</u>.</p>
+														<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">e.g.: {First Name}</p>
 													</div>
 												</div>
 												<!-- End Send to email checkbox -->
@@ -429,6 +433,8 @@ function fcp_contact_page()
 													<div class="col-sm-6">
 														<textarea name="backend-body" rows="10" cols="50" class="form-control" style="resize: none" id="fcp_email_body" placeholder="Body"></textarea>
 													</div>
+													<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">To add custom fields from your created form to be sent in your email body, please write the field name between braces either in <u>upper or lower case</u>.</p>
+													<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">e.g.: {First Name}</p>
 												</div>
 											</div>
 											<!-- End Send to email checkbox -->
@@ -487,6 +493,8 @@ function fcp_contact_page()
 													<div class="col-sm-6">
 														<textarea rows="10" cols="50" name="user-body" class="form-control" style="resize: none" id="fcp_user_email_body" placeholder="Body"></textarea>
 													</div>
+													<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">To add custom fields from your created form to be sent in your email body, please write the field name between braces either in <u>upper or lower case</u>.</p>
+													<p class="col-sm-3" style="padding-left: 0 !important; text-align: left;">e.g.: {First Name}</p>
 												</div>
 											</div>
 											<!-- End Send to email checkbox -->
