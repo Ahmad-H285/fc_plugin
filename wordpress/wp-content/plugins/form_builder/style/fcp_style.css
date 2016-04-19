@@ -94,6 +94,6 @@ div.checkbox-radio-alignment-temp {
     margin-left: 27px !important;
 }
 
-a.fcp-delete-selected-form {
+a.fcp-delete-selected-form, a.fcp-delete-selected-submission {
 	color: rgb(222, 72, 72);
 }

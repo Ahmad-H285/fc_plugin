@@ -425,6 +425,82 @@ jQuery("div.fcp_time select").css("width","70px");
 /* ******* Adjustments END ******* */
 
 
+    /*
+      Time Picker verification 12 hours format
+    */
+jQuery.each(jQuery("input[max='12']"),function(index,item){    
+    jQuery(item).keyup(function(event){
+
+        var hr_string_value = jQuery(item).val();
+        var hr_numeric_value = Number(hr_string_value);
+
+        if(hr_numeric_value < 1 || hr_numeric_value > 12){
+            $(this).css("background-color","rgba(254, 87, 87, 0.44)");
+            $(this).addClass("invalid-input");
+            disableSubmissionButton("Please enter an hour between 1 and 12");
+        }
+        else{
+            $(this).css("background-color","");
+            $(this).removeClass("invalid-input");
+
+            if(jQuery("input.invalid-input").length == 0){
+            
+                enableSubmissionButton();
+            }
+        }
+    });
+});    
+
+jQuery.each(jQuery("input[max='59']"),function(index,item){
+    jQuery(item).keyup(function(event){
+        
+        var min_string_value = jQuery(item).val();
+        var min_numeric_value = Number(min_string_value);
+
+        if(min_numeric_value < 0 || min_numeric_value > 59){
+            $(this).css("background-color","rgba(254, 87, 87, 0.44)");
+            $(this).addClass("invalid-input");
+            disableSubmissionButton("Please enter a minute between 0 and 59");
+        }
+        else{
+            $(this).css("background-color","");
+            $(this).removeClass("invalid-input");
+
+            if(jQuery("input.invalid-input").length == 0){
+            
+                enableSubmissionButton();
+            }
+        }
+    });
+});   
+
+
+    /*
+      Time Picker verification 24 hours format
+    */
+
+jQuery.each(jQuery("input[max='23']"),function(index,item){    
+    jQuery(item).keyup(function(event){
+
+        var hr_string_value = jQuery(item).val();
+        var hr_numeric_value = Number(hr_string_value);
+
+        if(hr_numeric_value < 0 || hr_numeric_value > 23){
+            $(this).css("background-color","rgba(254, 87, 87, 0.44)");
+            disableSubmissionButton("Please enter an hour between 0 and 23");
+        }
+        else{
+            $(this).css("background-color","");
+            $(this).addClass("invalid-input");
+            $(this).removeClass("invalid-input");
+
+            if(jQuery("input.invalid-input").length == 0){
+            
+                enableSubmissionButton();
+            }
+        }
+    });
+});
 
     /*
      Email Format Verification
@@ -462,9 +538,19 @@ jQuery("div.fcp_time select").css("width","70px");
             enableSubmissionButton();
         }
     });
+
+    if(jQuery("div.g-recaptcha").length > 0){
+        
+        jQuery("head").append("<script src='https://www.google.com/recaptcha/api.js'></script>")
+        jQuery("button.fcp_submitButton").attr("disabled","disabled");
+        jQuery("div.g-recaptcha").attr("data-callback","recaptchaCallback");
+    }
+
 });
 
-
+function recaptchaCallback(){
+    jQuery(".fcp_submitButton").removeAttr("disabled");
+}
 
 function confirm_submission(message){
     var notification_container = "<div class='fcp_submission_confirmation col-sm-12'>" +
@@ -479,35 +565,96 @@ function confirm_submission(message){
     },3500);
 }
 
-function textfieldPlaceholderReplace()
+function textfieldPlaceholderAndNameReplace()
 {
     var textField = jQuery("div.fcp_text");
     jQuery.each(textField, function(index,textInput){
         
         var textLabel = jQuery(textInput).children("label").text();
+        var textLabelNoSpace = textLabel.replace(/ /g,"").toLowerCase()+'[]';
         jQuery(textInput).children("div.input-container").children("input").attr("placeholder",textLabel);
+        jQuery(textInput).children("div.input-container").children("input").attr("name",textLabelNoSpace);
     
     });
 }
 
-function emailfieldPlaceholderReplace()
+function emailfieldPlaceholderAndNameReplace()
 {
     var emailField = jQuery("div.fcp_email");
     jQuery.each(emailField, function(index,emailInput){
         
         var emailLabel = jQuery(emailInput).children("label").text();
+        var emailLabelNoSpace = emailLabel.replace(/ /g,"").toLowerCase()+'[]';
+        var email_attr = jQuery(emailInput).children("div.input-container").children("input").attr("name");
         jQuery(emailInput).children("div.input-container").children("input").attr("placeholder",emailLabel);
+        if(email_attr != "fcp_user_email") {
+            jQuery(emailInput).children("div.input-container").children("input").attr("name",emailLabelNoSpace);    
+        }
+        
     
     });
 }
 
-function textareaPlaceholderReplace()
+function numericfieldPlaceholderAndNameReplace()
+{
+    var numericField = jQuery("div.fcp_numeric");
+    jQuery.each(numericField, function(index,numericInput){
+        
+        var numericLabel = jQuery(numericInput).children("label").text();
+        var numericLabelNoSpace = numericLabel.replace(/ /g,"").toLowerCase()+'[]';
+        jQuery(numericInput).children("div.input-container").children("input").attr("placeholder",numericLabel);
+        jQuery(numericInput).children("div.input-container").children("input").attr("name",numericLabelNoSpace);
+    
+    });
+}
+
+function TimePickerFieldNameReplace()
+{
+    var timeField = jQuery("div.fcp_time");
+    jQuery.each(timeField, function(index,timeInput){
+        
+        var timeLabel = jQuery(timeInput).children("label").text();
+        var timeLabelNoSpace = timeLabel.replace(/ /g,"").toLowerCase()+'[]';
+        jQuery(timeInput).children("div.input-container").children("input[placeholder='hrs']").attr("name",timeLabelNoSpace);
+        jQuery(timeInput).children("div.input-container").children("input[placeholder='mins']").attr("name",timeLabelNoSpace);
+        jQuery(timeInput).children("div.input-container").children("select").attr("name",timeLabelNoSpace);
+    
+    });
+}
+
+function textareaPlaceholderAndNameReplace()
 {
     var textareaField = jQuery("div.fcp_textarea");
     jQuery.each(textareaField, function(index,textareaInput){
         
         var textareaLabel = jQuery(textareaInput).children("label").text();
+        var textareaLabelNoSpace = textareaLabel.replace(/ /g,"").toLowerCase()+'[]';
         jQuery(textareaInput).children("div.input-container").children("textarea").attr("placeholder",textareaLabel);
+        jQuery(textareaInput).children("div.input-container").children("textarea").attr("name",textareaLabelNoSpace);
+    
+    });
+}
+
+function DateNameReplace()
+{
+    var dateField = jQuery("div.fcp_date");
+    jQuery.each(dateField, function(index,dateInput){
+        
+        var dateLabel = jQuery(dateInput).children("label").text();
+        var dateLabelNoSpace = dateLabel.replace(/ /g,"").toLowerCase()+'[]';
+        jQuery(dateInput).children("div.input-container").children("input").attr("name",dateLabelNoSpace);
+    
+    });
+}
+
+function SelectNameReplace()
+{
+    var selectField = jQuery("div.fcp_select");
+    jQuery.each(selectField, function(index,selectInput){
+        
+        var selectLabel = jQuery(selectInput).children("label").text();
+        var selectLabelNoSpace = selectLabel.replace(/ /g,"").toLowerCase()+'[]';
+        jQuery(selectInput).children("div.input-container").children("select").attr("name",selectLabelNoSpace);
     
     });
 }
@@ -517,9 +664,13 @@ function textareaPlaceholderReplace()
 
 jQuery(document).ready(function(){
 
-    textfieldPlaceholderReplace();
-    emailfieldPlaceholderReplace();
-    textareaPlaceholderReplace();
+    textfieldPlaceholderAndNameReplace();
+    emailfieldPlaceholderAndNameReplace();
+    numericfieldPlaceholderAndNameReplace();
+    TimePickerFieldNameReplace();
+    textareaPlaceholderAndNameReplace();
+    DateNameReplace();
+    SelectNameReplace();
     
     jQuery("div.check_field").addClass("col-sm-offset-3");
     jQuery("div.fcp_file .input-container").children("input").css("padding-top","8px");

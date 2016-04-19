@@ -649,6 +649,61 @@ function fcp_event_user_email_check( $form_id ){
     return false;
 }
 
+function fcp_custom_fields($body_content){
+
+    $custom_field_count = substr_count($body_content,'{');
+
+    for ($i = 0 ; $i < $custom_field_count ; $i++) { 
+                                
+        $tag_start = strpos($body_content,'{');
+        $tag_end = strpos($body_content,'}');
+        $string_length =  $tag_end - ($tag_start+1);
+        $field_name_extract = substr($body_content,$tag_start+1,$string_length);
+        $field_name_extract_no_space = strtolower(str_replace(' ','',$field_name_extract));
+                                
+        if( isset($_POST[$field_name_extract_no_space][2]) ) {
+                                       
+            $field_replace = str_replace("{".$field_name_extract."}",
+            $_POST[$field_name_extract_no_space][0]." : ".$_POST[$field_name_extract_no_space][1]." ".$_POST[$field_name_extract_no_space][2],
+            $body_content);
+            $body_content = $field_replace;
+
+        }
+
+        else if( isset($_POST[$field_name_extract_no_space][1]) ) {
+                                       
+            $field_replace = str_replace("{".$field_name_extract."}",
+            $_POST[$field_name_extract_no_space][0]." : ".$_POST[$field_name_extract_no_space][1],
+            $body_content);
+            $body_content = $field_replace;
+
+        }
+
+        else if(isset($_POST[$field_name_extract_no_space])) {
+
+            $field_replace = str_replace("{".$field_name_extract."}",$_POST[$field_name_extract_no_space][0],$body_content);
+            $body_content = $field_replace;
+
+        }
+
+        else if (strpos($field_name_extract_no_space, 'mail') != false) {
+                                    
+            if( isset($_POST['fcp_user_email']) ) {
+                                        
+                $field_replace = str_replace("{".$field_name_extract."}",$_POST['fcp_user_email'],$body_content);
+                $body_content = $field_replace;
+                                    
+            }
+        }
+
+                                
+
+    }
+
+    return $body_content;
+
+}
+
 /**
  * The function builds an associative array with keys representing the field names, and the values represent an array
  * of the values. This is because there is an odd case when storing checkboxes there might be more than one value.
@@ -953,12 +1008,15 @@ function fcp_save_submission($form_id){
 
                         if($flag_email == 1)
                         {
-                            //wp_mail($backend_to,$backend_subject,$backend_body."\r\n"."\r\n".$Sub_body,"From: ".$backend_from." <fcpForm>"."\r\n",$fcp_file_email);
+                            $field_replace = fcp_custom_fields($backend_body);
+
                             wp_mail($backend_to,$backend_subject,$backend_body."<br><br>".$Sub_body, $header, $fcp_file_email);
                         }
                         
                         else
                         {
+                            $backend_body = fcp_custom_fields($backend_body);
+
                             wp_mail($backend_to,$backend_subject,$backend_body."<br>".$Sub_body, $header);
                         }
                         
@@ -989,6 +1047,8 @@ function fcp_save_submission($form_id){
                             $header = 'From: '.$user_from.' <no-reply@info.com>' . "\r\n";   
                         }
 
+                        $field_replace = fcp_custom_fields($user_body);
+                        
                         wp_mail($user_to,$user_subject,$user_body."<br>".$Sub_body, $header);
                     }
 
