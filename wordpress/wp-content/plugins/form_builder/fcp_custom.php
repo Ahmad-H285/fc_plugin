@@ -132,13 +132,14 @@ function fcp_custom_page()
 													<div class="form-group">
 														<label for="backend_users_list" class="col-sm-3 control-label">Backend Users</label>
 														<div class="col-sm-6">
-															<?php wp_dropdown_users( array("name" => "backend_users_list")); ?>												</div>
+															<?php wp_dropdown_users( array("name" => "backend_users_list")); ?>												
+														</div>
 													</div>
 
 													<div style="display: none;" class="form-group" id="send_to_non_wordpress_user">
 														<label for="fcp_custon_from_email" class="col-sm-3 control-label">To</label>
 														<div class="col-sm-6">
-															<input name="other_backend_email" class="form-control" id="fcp_custon_from_email" placeholder="From" type="email">
+															<input name="other_backend_email" class="form-control" id="fcp_custon_from_email" placeholder="To" type="email">
 														</div>
 													</div>
 
@@ -372,7 +373,7 @@ function fcp_custom_page()
 												<div class="form-group" id="send_to_non_wordpress_user">
 													<label for="fcp_custon_from_email" class="col-sm-3 control-label">To</label>
 													<div class="col-sm-6">
-														<input name="other_backend_email" type="email" class="form-control" id="fcp_custon_from_email" placeholder="From">
+														<input name="other_backend_email" type="email" class="form-control" id="fcp_custon_from_email" placeholder="To">
 													</div>
 												</div>
 
