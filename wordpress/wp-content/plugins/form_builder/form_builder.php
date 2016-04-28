@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Cape East Form Builder
+Plugin Name: FCP Form Builder
 Plugin URI: http://cape-east.co/fcp-plugin-user-guide/
-Description: This plugin builds forms
-Author: H/N
+Description: This plugin builds multi-featured forms that provides lots of backend forms control and managment and absolute easiness in useage.
+Author: Cape East Technologies
 Version: 1.0
-Author URI: http://www.youtube.com
+Author URI: http://cape-east.co/
 */
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
