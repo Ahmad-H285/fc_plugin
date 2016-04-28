@@ -424,6 +424,37 @@ jQuery("div.fcp_time select").css("width","70px");
 
 /* ******* Adjustments END ******* */
 
+    /*
+      Numeric field verification
+    */
+
+var numeric_input = jQuery("div.fcp_numeric .input-container").children("input");
+
+jQuery.each(numeric_input,function(index,item){
+    
+    var numeric_max_value = Number( jQuery(item).attr("max") );
+
+    jQuery(item).keyup(function(event){
+        var hr_string_value = jQuery(item).val();
+        var hr_numeric_value = Number(hr_string_value);
+
+        if(hr_numeric_value < 0 || hr_numeric_value > numeric_max_value){
+            $(this).css("background-color","rgba(254, 87, 87, 0.44)");
+            $(this).addClass("invalid-input");
+            disableSubmissionButton("Please enter an hour between 1 and 12");
+        }
+        else{
+            $(this).css("background-color","");
+            $(this).removeClass("invalid-input");
+
+            if(jQuery("input.invalid-input").length == 0 && jQuery("button.notverified").length == 0){
+            
+                enableSubmissionButton();
+            }
+        }
+    });
+    
+});
 
     /*
       Time Picker verification 12 hours format
@@ -443,7 +474,7 @@ jQuery.each(jQuery("input[max='12']"),function(index,item){
             $(this).css("background-color","");
             $(this).removeClass("invalid-input");
 
-            if(jQuery("input.invalid-input").length == 0){
+            if(jQuery("input.invalid-input").length == 0 && jQuery("button.notverified").length == 0){
             
                 enableSubmissionButton();
             }
@@ -466,7 +497,7 @@ jQuery.each(jQuery("input[max='59']"),function(index,item){
             $(this).css("background-color","");
             $(this).removeClass("invalid-input");
 
-            if(jQuery("input.invalid-input").length == 0){
+            if(jQuery("input.invalid-input").length == 0 && jQuery("button.notverified").length == 0){
             
                 enableSubmissionButton();
             }
@@ -494,7 +525,7 @@ jQuery.each(jQuery("input[max='23']"),function(index,item){
             $(this).addClass("invalid-input");
             $(this).removeClass("invalid-input");
 
-            if(jQuery("input.invalid-input").length == 0){
+            if(jQuery("input.invalid-input").length == 0 && jQuery("button.notverified").length == 0){
             
                 enableSubmissionButton();
             }
@@ -511,11 +542,17 @@ jQuery.each(jQuery("input[max='23']"),function(index,item){
 
         if ($(this).val() != "" && !re_email.test($(this).val())){
             $(this).css("background-color","rgba(254, 87, 87, 0.44)");
+            $(this).addClass("invalid-input");
             disableSubmissionButton("Email format is not correct");
         }
         else {
             $(this).css("background-color","");
-            enableSubmissionButton();
+            $(this).removeClass("invalid-input");
+            
+            if(jQuery("input.invalid-input").length == 0 && jQuery("button.notverified").length == 0){
+            
+                enableSubmissionButton();
+            }
         }
     });
 
@@ -542,14 +579,20 @@ jQuery.each(jQuery("input[max='23']"),function(index,item){
     if(jQuery("div.g-recaptcha").length > 0){
         
         jQuery("head").append("<script src='https://www.google.com/recaptcha/api.js'></script>")
-        jQuery("button.fcp_submitButton").attr("disabled","disabled");
+        jQuery("button.fcp_submitButton").attr("disabled","disabled").addClass("notverified");
         jQuery("div.g-recaptcha").attr("data-callback","recaptchaCallback");
     }
 
 });
 
 function recaptchaCallback(){
-    jQuery(".fcp_submitButton").removeAttr("disabled");
+
+    jQuery(".fcp_submitButton").removeClass("notverified");
+
+    if (jQuery("input.invalid-input").length == 0) {
+        jQuery(".fcp_submitButton").removeAttr("disabled")
+    }
+
 }
 
 function confirm_submission(message){
