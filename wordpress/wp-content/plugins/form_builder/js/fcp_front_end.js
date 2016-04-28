@@ -518,11 +518,11 @@ jQuery.each(jQuery("input[max='23']"),function(index,item){
 
         if(hr_numeric_value < 0 || hr_numeric_value > 23){
             $(this).css("background-color","rgba(254, 87, 87, 0.44)");
+            $(this).addClass("invalid-input");
             disableSubmissionButton("Please enter an hour between 0 and 23");
         }
         else{
             $(this).css("background-color","");
-            $(this).addClass("invalid-input");
             $(this).removeClass("invalid-input");
 
             if(jQuery("input.invalid-input").length == 0 && jQuery("button.notverified").length == 0){
@@ -548,7 +548,7 @@ jQuery.each(jQuery("input[max='23']"),function(index,item){
         else {
             $(this).css("background-color","");
             $(this).removeClass("invalid-input");
-            
+
             if(jQuery("input.invalid-input").length == 0 && jQuery("button.notverified").length == 0){
             
                 enableSubmissionButton();
