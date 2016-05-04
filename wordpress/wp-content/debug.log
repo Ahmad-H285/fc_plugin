@@ -1,0 +1,24 @@
+[04-May-2016 11:59:26 UTC] PHP Warning:  An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-includes/update.php on line 295
+[04-May-2016 11:59:47 UTC] WordPress database error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wp_fcp_formbuilder' at line 1 for query SHOW TABLES LIKE wp_fcp_formbuilder made by activate_plugin, do_action('activate_form_builder/form_builder.php'), call_user_func_array, fcp_plugin_activation
+[04-May-2016 11:59:47 UTC] WordPress database error Table 'wp_fcp_formbuilder' already exists for query CREATE TABLE wp_fcp_formbuilder(form_id INTEGER(10) UNSIGNED AUTO_INCREMENT,
+	 		form_body TEXT NOT NULL,
+	 		form_type VARCHAR(30) NOT NULL,
+	 		form_settings TEXT,
+	 		PRIMARY KEY (form_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci made by activate_plugin, do_action('activate_form_builder/form_builder.php'), call_user_func_array, fcp_plugin_activation, dbDelta
+[04-May-2016 11:59:47 UTC] WordPress database error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wp_fcp_submissions' at line 1 for query SHOW TABLES LIKE wp_fcp_submissions made by activate_plugin, do_action('activate_form_builder/form_builder.php'), call_user_func_array, fcp_plugin_activation
+[04-May-2016 11:59:47 UTC] WordPress database error Table 'wp_fcp_submissions' already exists for query CREATE TABLE wp_fcp_submissions(submission_id INTEGER(10) UNSIGNED AUTO_INCREMENT,
+		 	submission TEXT NOT NULL,
+		 	sub_date DATE NOT NULL,
+		 	form_id INTEGER(10) UNSIGNED,
+		 	form_type VARCHAR(30) NOT NULL,
+            attachment_path TEXT,
+            password VARCHAR(64),
+		 	FOREIGN KEY (form_id) REFERENCES wp_fcp_formbuilder(form_id) ON DELETE CASCADE ON UPDATE NO ACTION,
+		 	PRIMARY KEY (submission_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci made by activate_plugin, do_action('activate_form_builder/form_builder.php'), call_user_func_array, fcp_plugin_activation, dbDelta
+[04-May-2016 12:01:51 UTC] PHP Notice:  Undefined variable: back_to in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/fcp_event.php on line 333
+[04-May-2016 12:01:54 UTC] PHP Notice:  Undefined variable: back_to in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/fcp_event.php on line 333
+[04-May-2016 13:52:20 UTC] PHP Warning:  require_once(/Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/fcp_manageforms.php): failed to open stream: No such file or directory in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/form_builder.php on line 249
+[04-May-2016 13:52:21 UTC] PHP Fatal error:  require_once(): Failed opening required '/Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/fcp_manageforms.php' (include_path='.:/Applications/MAMP/bin/php/php5.6.2/lib/php') in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/form_builder.php on line 249
+[04-May-2016 13:57:04 UTC] PHP Notice:  Undefined variable: back_to in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/fcp_application.php on line 248
+[04-May-2016 13:57:54 UTC] PHP Notice:  Undefined variable: back_to in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/fcp_custom.php on line 245
+[04-May-2016 13:58:14 UTC] PHP Notice:  Undefined variable: back_to in /Applications/MAMP/htdocs/fc_plugin/wordpress/wp-content/plugins/form_builder/fcp_custom.php on line 245

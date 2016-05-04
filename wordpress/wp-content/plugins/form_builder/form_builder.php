@@ -9,7 +9,7 @@ Author URI: http://cape-east.co/
 */
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
-function fcp_styles_reg_admin()
+function fcpStylesRegAdmin()
 {
 	global $pagenow;
 
@@ -20,7 +20,7 @@ function fcp_styles_reg_admin()
 	}
 }
 
-function fcp_styles_reg_shortcodes()
+function fcpStylesRegShortcodes()
 {
 	wp_enqueue_style('fcp_bootstrap_styles','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
 	wp_enqueue_style('fcp_style.css',plugin_dir_url(__FILE__).'style/fcp_style.css');
@@ -28,7 +28,7 @@ function fcp_styles_reg_shortcodes()
 
 
 
-function fcp_scripts_reg_admin()
+function fcpScriptsRegAdmin()
 {
 	global $pagenow;
 
@@ -39,17 +39,17 @@ function fcp_scripts_reg_admin()
 	}
 }
 
-function fcp_scripts_reg_shortcodes()
+function fcpScriptsRegShortcodes()
 {
 	wp_enqueue_script('jquery');
  	wp_enqueue_script('fcp_bootstrap_scripts','https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js',array('jquery'));
 }
 
-add_action('admin_enqueue_scripts','fcp_styles_reg_admin');
-add_action('admin_enqueue_scripts','fcp_scripts_reg_admin');
+add_action('admin_enqueue_scripts','fcpStylesRegAdmin');
+add_action('admin_enqueue_scripts','fcpScriptsRegAdmin');
 
-add_action('wp_enqueue_scripts','fcp_styles_reg_shortcodes');
-add_action('wp_enqueue_scripts','fcp_scripts_reg_shortcodes');
+add_action('wp_enqueue_scripts','fcpStylesRegShortcodes');
+add_action('wp_enqueue_scripts','fcpScriptsRegShortcodes');
 
 
 /*
@@ -68,7 +68,7 @@ define("EVENT_ALREADY_SUBMITTED_FCP","You can only submit once for this event");
 define("EVENT_CAPACITY_REACHED_FCP","Event capacity reached");
 define("EVENT_DEADLINE_REACHED_FCP","Event deadline reached");
 
-function fcp_plugin_activation()
+function fcpPluginActivation()
 {
     Global $wpdb;
     /** @var wpdb $wpdb */
@@ -109,13 +109,13 @@ function fcp_plugin_activation()
 	}
 }
 
-register_activation_hook(__FILE__,'fcp_plugin_activation');
+register_activation_hook(__FILE__,'fcpPluginActivation');
 
 /**
  * @param $atts
  * @return string represents the form itself when found or NULL if save form was terminated
  */
-function form_builder_shortcode($atts){
+function formBuilderShortcode($atts){
 
     /** @var wpdb $wpdb */
     Global $wpdb;
@@ -190,7 +190,7 @@ function form_builder_shortcode($atts){
             if (wp_verify_nonce($nonce,$form_name.$form_id)){
 
                 if ( isset( $_POST['fcp_submission_state'] ) && $_POST['fcp_submission_state'] == "True" ){
-                    $condition = fcp_save_submission($form_id);
+                    $condition = fcpSaveSubmission($form_id);
 					if ($condition === true){
 						return "Form is currently unavailable";
 					}
@@ -241,10 +241,10 @@ function form_builder_shortcode($atts){
 
 }
 
-	add_shortcode('form-builder', 'form_builder_shortcode');
+	add_shortcode('form-builder', 'formBuilderShortcode');
 
 
-function fcp_admin_menu()
+function fcpAdminMenu()
 {
 	require_once(plugin_dir_path(__FILE__).'fcp_manage_forms.php');
   	require_once(plugin_dir_path(__FILE__).'fcp_application.php');
@@ -256,31 +256,31 @@ function fcp_admin_menu()
   	require_once(plugin_dir_path(__FILE__).'fcp_survey.php');
   	require_once(plugin_dir_path(__FILE__).'fcp_custom.php');
 
-	add_menu_page('Form Builder','Form Builder','manage_options','fcp-general','fcp_general_page');
-	add_submenu_page('fcp-general','Add New Form','Add New Form','manage_options','fcp-general','fcp_general_page');
-	add_submenu_page('fcp-general','Manage Forms','Manage Forms','manage_options','fcp-manage-forms','fcp_manage_forms');
-	add_submenu_page('fcp-general','Contact Form','Contact Form','manage_options','fcp-contact-form','fcp_contact_page');
-	add_submenu_page('fcp-general','Application Form','Application Form','manage_options','fcp-application-form','fcp_application_page');
-	add_submenu_page('fcp-general','Booking Form','Booking Form','manage_options','fcp-booking-form','fcp_booking_page');
-	add_submenu_page('fcp-general','Newsletter Form','Newsletter Form','manage_options','fcp-newsletter-form','fcp_newsletter_page');
-	add_submenu_page('fcp-general','Event Form','Event Form','manage_options','fcp-event-form','fcp_event_page');
-	add_submenu_page('fcp-general','Custom Form','Custom Form','manage_options','fcp-custom-form','fcp_custom_page');
+	add_menu_page('Form Builder','Form Builder','manage_options','fcp-general','fcpGeneralPage');
+	add_submenu_page('fcp-general','Add New Form','Add New Form','manage_options','fcp-general','fcpGeneralPage');
+	add_submenu_page('fcp-general','Manage Forms','Manage Forms','manage_options','fcp-manage-forms','fcpManageForms');
+	add_submenu_page('fcp-general','Contact Form','Contact Form','manage_options','fcp-contact-form','fcpContactPage');
+	add_submenu_page('fcp-general','Application Form','Application Form','manage_options','fcp-application-form','fcpApplicationPage');
+	add_submenu_page('fcp-general','Booking Form','Booking Form','manage_options','fcp-booking-form','fcpBookingPage');
+	add_submenu_page('fcp-general','Newsletter Form','Newsletter Form','manage_options','fcp-newsletter-form','fcpNewsletterPage');
+	add_submenu_page('fcp-general','Event Form','Event Form','manage_options','fcp-event-form','fcpEventPage');
+	add_submenu_page('fcp-general','Custom Form','Custom Form','manage_options','fcp-custom-form','fcpCustomPage');
 
 
 }
 
-add_action('admin_menu','fcp_admin_menu');
+add_action('admin_menu','fcpAdminMenu');
 
-function fcp_edit_redirect()
+function fcpEditRedirect()
 {
 	require_once(plugin_dir_path(__FILE__).'forms_UI.php');
-	add_submenu_page('Form Builder',"Edit Application Fomr","Edit Application Form","manage_options","fcp-edit","fcp_contact_page");
+	add_submenu_page('Form Builder',"Edit Application Fomr","Edit Application Form","manage_options","fcp-edit","fcpContactPage");
 }
-//add_action('admin_menu','fcp_edit_redirect');
+//add_action('admin_menu','fcpEditRedirect');
 
-function fcp_general_page()
+function fcpGeneralPage()
 {
-	fcp_get_bootstrap();
+	fcpGetBootstrap();
 
 	Global $wpdb;
     $forms_table = $wpdb->prefix."fcp_formbuilder";

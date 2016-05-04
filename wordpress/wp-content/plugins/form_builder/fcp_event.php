@@ -1,12 +1,12 @@
 <?php
 
-function fcp_event_page()
+function fcpEventPage()
 {
 	Global $wpdb;
 	$form_table = $wpdb->prefix."fcp_formbuilder";
 	$form_settings = $wpdb -> get_results("SELECT `form_settings`, `form_id` FROM `{$form_table}` WHERE `form_type`= '".EVENT_FORM_FCP."'",ARRAY_A);
 
-	fcp_get_bootstrap();
+	fcpGetBootstrap();
 	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js',
 		array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog','jquery-ui-draggable','jquery-ui-sortable'));
 	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
@@ -20,17 +20,17 @@ function fcp_event_page()
 
         // check if there are forms to delete
         if (isset($_POST['selected_forms_ids'])){
-            fcp_delete_forms($_POST['selected_forms_ids']);
+            fcpDeleteForms($_POST['selected_forms_ids']);
         }
         else if (isset($_POST['selected_submissions_ids'])){
-            fcp_delete_submissions($_POST['selected_submissions_ids']);
+            fcpDeleteSubmissions($_POST['selected_submissions_ids']);
         }
 
 
         if (isset($_POST['fcp'])){
         	
 
-           fcp_save_form(EVENT_FORM_FCP);
+           fcpSaveForm(EVENT_FORM_FCP);
 
         }
     }
@@ -39,7 +39,7 @@ function fcp_event_page()
 
 	if(isset($_GET['id']))
 	{
-		fcp_update_form(EVENT_FORM_FCP);
+		fcpUpdateForm(EVENT_FORM_FCP);
 		
 		Global $wpdb;
 		$table_name = $wpdb->prefix."fcp_formbuilder";
@@ -97,8 +97,8 @@ function fcp_event_page()
 				<?php
 			}
 		}
-		fcp_fields_panel();
-		fcp_fields_options();
+		fcpFieldsPanel();
+		fcpFieldsOptions();
 
 
 	//$nonce_edit = wp_create_nonce('form-builder-sub');
@@ -321,8 +321,8 @@ function fcp_event_page()
 	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-success">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
 							<input type="hidden" name="fcp_edit" value="">
 			<!-- $return_form_body = html_entity_decode($edit_form[0]['form_body']);
-			fcp_fields_panel();
-			fcp_fields_options();
+			fcpFieldsPanel();
+			fcpFieldsOptions();
 			echo $form_body_wrap.$return_form_body.'</div>'.$form_settings_wrap.'<div class="row" style="padding: 20px"><button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button></div></div>';
 			//var_dump((string)unserialize($edit_form['form_settings'])['form-name']);
 			?> -->
@@ -372,7 +372,7 @@ function fcp_event_page()
      * Now display the contents of the submission
      */
     else if (isset($_GET['submission_content_id'])){
-        fcp_display_submission_content($_GET['submission_content_id']);
+        fcpDisplaySubmissionContent($_GET['submission_content_id']);
     }
 
 
@@ -400,8 +400,8 @@ function fcp_event_page()
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane" id="AddNewForm">
 	<?php
-	fcp_fields_panel();
-	fcp_fields_options();
+	fcpFieldsPanel();
+	fcpFieldsOptions();
 
 
 	?>
@@ -694,7 +694,7 @@ function fcp_event_page()
                     </thead>
                     <tbody>
                     <?php
-                        fcp_display_created_forms(EVENT_FORM_FCP);
+                        fcpDisplayCreatedForms(EVENT_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -729,7 +729,7 @@ function fcp_event_page()
 						<tbody>
 						<?php
 					
-						fcp_display_submissions(EVENT_FORM_FCP);
+						fcpDisplaySubmissions(EVENT_FORM_FCP);
 
 						?>
 						</tbody>
@@ -758,17 +758,17 @@ function fcp_event_page()
 					</select>
 				</div>
 				<input type="hidden" name="selected_submissions_ids" id="selected_submissions_ids">
-				<input type="hidden" name="export_csv" id="selected_submissions_ids">
+				<input type="hidden" name="exportCsv" id="selected_submissions_ids">
 			</form>
 		</div>
 	</div>
 </div>
 			<?php
 }
-		export_csv(EVENT_FORM_FCP);
+		exportCsv(EVENT_FORM_FCP);
 		if(isset($_GET['id']))
 		{
-			fcp_update_form(EVENT_FORM_FCP);
+			fcpUpdateForm(EVENT_FORM_FCP);
 		}
 
 }

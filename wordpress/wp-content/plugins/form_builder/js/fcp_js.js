@@ -25,8 +25,8 @@ jQuery(document).ready(function(){
 	createNewFormLink();
 
 	jQuery("button#import_sub_csv").click(function(){
-		jQuery("input[name='export_csv']").val("true");
-		console.log(jQuery("input[name='export_csv']").val());
+		jQuery("input[name='exportCsv']").val("true");
+		console.log(jQuery("input[name='exportCsv']").val());
 	});
 	
 	jQuery("div#wpcontent").css("background-color","white");

@@ -3,8 +3,8 @@
 require_once(plugin_dir_path(__FILE__).'fcp_functions.php');
 
 
-function fcp_manage_forms() {
-	fcp_get_bootstrap();
+function fcpManageForms() {
+	fcpGetBootstrap();
 
 	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js',
 		array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog','jquery-ui-draggable','jquery-ui-sortable'));
@@ -20,7 +20,7 @@ function fcp_manage_forms() {
 
         // check if there are forms to delete
         if (isset($_POST['selected_forms_ids'])){
-            fcp_delete_forms($_POST['selected_forms_ids']);
+            fcpDeleteForms($_POST['selected_forms_ids']);
         }
     }
 
@@ -56,7 +56,7 @@ function fcp_manage_forms() {
                     </thead>
                     <tbody>
                     <?php
-                        fcp_manage_created_forms(CONTACT_FORM_FCP);
+                        fcpManageCreatedForms(CONTACT_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -86,7 +86,7 @@ function fcp_manage_forms() {
                     </thead>
                     <tbody>
                     <?php
-                        fcp_manage_created_forms(APPLICATION_FORM_FCP);
+                        fcpManageCreatedForms(APPLICATION_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -117,7 +117,7 @@ function fcp_manage_forms() {
                     </thead>
                     <tbody>
                     <?php
-                        fcp_manage_created_forms(BOOKING_FORM_FCP);
+                        fcpManageCreatedForms(BOOKING_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -148,7 +148,7 @@ function fcp_manage_forms() {
                     </thead>
                     <tbody>
                     <?php
-                        fcp_manage_created_forms(NEWSLETTER_FORM_FCP);
+                        fcpManageCreatedForms(NEWSLETTER_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -179,7 +179,7 @@ function fcp_manage_forms() {
                     </thead>
                     <tbody>
                     <?php
-                        fcp_manage_created_forms(EVENT_FORM_FCP);
+                        fcpManageCreatedForms(EVENT_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -210,7 +210,7 @@ function fcp_manage_forms() {
                     </thead>
                     <tbody>
                     <?php
-                        fcp_manage_created_forms(CUSTOM_FORM_FCP);
+                        fcpManageCreatedForms(CUSTOM_FORM_FCP);
                     ?>
                     </tbody>
                 </table>

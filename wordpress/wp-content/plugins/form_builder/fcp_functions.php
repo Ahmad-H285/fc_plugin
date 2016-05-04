@@ -1,20 +1,20 @@
 <?php
 
-function fcp_stylesheets()
+function fcpStylesheets()
 {
     ?>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <?php
 }
 
-function fcp_scripts()
+function fcpScripts()
 {
     ?>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <?php
 }
 
-function fcp_fields_panel($pass_button = NULL)
+function fcpFieldsPanel($pass_button = NULL)
 {
     if($pass_button != NULL)
     	{?>
@@ -60,7 +60,7 @@ function fcp_fields_panel($pass_button = NULL)
     }
 }
 
-function fcp_fields_options()
+function fcpFieldsOptions()
 {
     ?>
     <div class="col-md-4 text-center col-md-push-7 hidden" id="edit_field_title">
@@ -76,7 +76,7 @@ function fcp_fields_options()
  * form type should be passed in all lower case and separated with underscores between each word
  */
 
-function fcp_display_created_forms($form_type){
+function fcpDisplayCreatedForms($form_type){
 
     Global $wpdb;
 
@@ -105,7 +105,7 @@ function fcp_display_created_forms($form_type){
 
 }
 
-function fcp_manage_created_forms($form_type){
+function fcpManageCreatedForms($form_type){
 
     Global $wpdb;
 
@@ -252,7 +252,7 @@ function fcp_manage_created_forms($form_type){
 
 }
 
-function fcp_update_form($form_type_update)
+function fcpUpdateForm($form_type_update)
 {
     //if (wp_verify_nonce($nonce_edit,'form-builder-sub')) {
 
@@ -329,7 +329,7 @@ function fcp_update_form($form_type_update)
  * array elements which hold the '-' dashes and keeps the form ids themselves
  * After that the function then deletes each form using its id
  */
-function fcp_delete_forms($form_ids){
+function fcpDeleteForms($form_ids){
 
     Global $wpdb;
     $form_ids = str_split($form_ids);
@@ -362,11 +362,11 @@ function fcp_delete_forms($form_ids){
 }
 
 /**
- * fcp_save_form saves the html of the form to the database
+ * fcpSaveForm saves the html of the form to the database
  * @param $form_type
  *  $form_type the string of the form type
  */
-function fcp_save_form($form_type){
+function fcpSaveForm($form_type){
 
     Global $wpdb;
 
@@ -433,7 +433,7 @@ function fcp_save_form($form_type){
 
 
 
-function file_upload($file_name,$att_num)
+function fileUpload($file_name,$att_num)
 
 {
     // var_dump("Hi There");
@@ -549,7 +549,7 @@ function file_upload($file_name,$att_num)
  * @return bool : true when conditions of event form occure and false otherwise
  */
 
-function fcp_event_form_capcity_deadline_check($form_id){
+function fcpEventFormCapcityDeadlineCheck($form_id){
 
     Global $wpdb;
     $forms_table = $wpdb->prefix."fcp_formbuilder";
@@ -611,7 +611,7 @@ function fcp_event_form_capcity_deadline_check($form_id){
  *
  */
 
-function fcp_event_user_email_check( $form_id ){
+function fcpEventUserEmailCheck( $form_id ){
     Global $wpdb;
 
     if(isset($_POST['fcp_user_email']))
@@ -649,7 +649,7 @@ function fcp_event_user_email_check( $form_id ){
     return false;
 }
 
-function fcp_custom_fields($body_content){
+function fcpCustomFields($body_content){
 
     $custom_field_count = substr_count($body_content,'{');
 
@@ -712,7 +712,7 @@ function fcp_custom_fields($body_content){
  * @return string : the text representing a form was already submitted
  *
  */
-function fcp_save_submission($form_id){
+function fcpSaveSubmission($form_id){
 
     Global $wpdb;
 
@@ -722,12 +722,12 @@ function fcp_save_submission($form_id){
     $count_att_send = -1;
 
     //assistive check to determine if the max number of submissions reach or not for event form
-    $event_capacity_deadline_occured = fcp_event_form_capcity_deadline_check( $form_id );
+    $event_capacity_deadline_occured = fcpEventFormCapcityDeadlineCheck( $form_id );
     if ( $event_capacity_deadline_occured == true ){
         return true;
     }
 
-    $event_user_already_submitted = fcp_event_user_email_check( $form_id );
+    $event_user_already_submitted = fcpEventUserEmailCheck( $form_id );
     if ( $event_user_already_submitted == true ) {
 
         return EVENT_ALREADY_SUBMITTED_FCP;
@@ -751,7 +751,7 @@ function fcp_save_submission($form_id){
     
         if($_FILES['fcp-att']['name'])
         {
-            $flag = file_upload("fcp-att",$count_att);
+            $flag = fileUpload("fcp-att",$count_att);
         }
     }
     else
@@ -778,7 +778,7 @@ function fcp_save_submission($form_id){
     
         if($_FILES['send-email']['name'])
         {
-            $flag_email = file_upload("send-email",$count_att_send);
+            $flag_email = fileUpload("send-email",$count_att_send);
         }
     }
     else
@@ -963,7 +963,7 @@ function fcp_save_submission($form_id){
                           'attachment_path'=>$fcp_file_found,
                           'password'=> $hashed_password));
 
-                $Sub_body = fcp_submission_content_loop(unserialize($submission_array));
+                $Sub_body = fcpSubmissionContentLoop(unserialize($submission_array));
                 //echo $Sub_body;
                 
 
@@ -1008,14 +1008,14 @@ function fcp_save_submission($form_id){
 
                         if($flag_email == 1)
                         {
-                            $field_replace = fcp_custom_fields($backend_body);
+                            $field_replace = fcpCustomFields($backend_body);
 
                             wp_mail($backend_to,$backend_subject,$backend_body."<br><br>".$Sub_body, $header, $fcp_file_email);
                         }
                         
                         else
                         {
-                            $backend_body = fcp_custom_fields($backend_body);
+                            $backend_body = fcpCustomFields($backend_body);
 
                             wp_mail($backend_to,$backend_subject,$backend_body."<br>".$Sub_body, $header);
                         }
@@ -1047,7 +1047,7 @@ function fcp_save_submission($form_id){
                             $header = 'From: '.$user_from.' <no-reply@info.com>' . "\r\n";   
                         }
 
-                        $field_replace = fcp_custom_fields($user_body);
+                        $field_replace = fcpCustomFields($user_body);
                         
                         wp_mail($user_to,$user_subject,$user_body."<br>".$Sub_body, $header);
                     }
@@ -1068,7 +1068,7 @@ function fcp_save_submission($form_id){
 
 
 
-function fcp_submission_content_loop($form_fields)
+function fcpSubmissionContentLoop($form_fields)
 {
     // $submissions_table = $wpdb->prefix."fcp_submissions";
     // $submission_query = "SELECT * FROM `".$submissions_table."` WHERE `submission_id`=".$submission_id;
@@ -1130,7 +1130,7 @@ function fcp_submission_content_loop($form_fields)
  *
  */
 
-function fcp_display_submissions($form_type){
+function fcpDisplaySubmissions($form_type){
     Global $wpdb;
     $sub_table = $wpdb->prefix."fcp_submissions";
     $form_table = $wpdb->prefix."fcp_formbuilder";
@@ -1168,7 +1168,7 @@ function fcp_display_submissions($form_type){
  * The function take the ids separated by '-', it extracts the ids individually then deletes them
  * @param $submissions_ids
  */
-function fcp_delete_submissions($submissions_ids){
+function fcpDeleteSubmissions($submissions_ids){
 
     Global $wpdb;
     $submissions_ids = str_split($submissions_ids);
@@ -1214,7 +1214,7 @@ function fcp_delete_submissions($submissions_ids){
  * The function display all of the field values except for the password fields.
  * @param $submission_id
  */
-function fcp_display_submission_content($submission_id){
+function fcpDisplaySubmissionContent($submission_id){
     Global $wpdb;
     $submissions_table = $wpdb->prefix."fcp_submissions";
     $forms_table = $wpdb->prefix."fcp_formbuilder";
@@ -1316,12 +1316,12 @@ function fcp_display_submission_content($submission_id){
 
 }
 
-function export_csv($form_type)
+function exportCsv($form_type)
 {
-    if(isset($_POST['export_csv']))
+    if(isset($_POST['exportCsv']))
     {
 
-    	if($_POST['export_csv'] == "true")
+    	if($_POST['exportCsv'] == "true")
     	{
     		//echo 'success';
 
@@ -1415,7 +1415,7 @@ function export_csv($form_type)
 /**
  * this function enqueues bootstrap styles and js
  */
-function fcp_get_bootstrap(){
+function fcpGetBootstrap(){
     wp_enqueue_style('fcp_bootstrap_styles');
     wp_enqueue_script('fcp_bootstrap_scripts');
 }

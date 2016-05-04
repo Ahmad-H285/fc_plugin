@@ -1,8 +1,8 @@
 <?php
 
-function fcp_custom_page()
+function fcpCustomPage()
 {
-	fcp_get_bootstrap();
+	fcpGetBootstrap();
 	wp_enqueue_script('fcp_js',plugin_dir_url(__FILE__).'js/fcp_js.js',
 		array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-dialog','jquery-ui-draggable','jquery-ui-sortable'));
 	wp_enqueue_style('jquery-ui-css','http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
@@ -16,17 +16,17 @@ function fcp_custom_page()
 
         // check if there are forms to delete
         if (isset($_POST['selected_forms_ids'])){
-            fcp_delete_forms($_POST['selected_forms_ids']);
+            fcpDeleteForms($_POST['selected_forms_ids']);
         }
         else if (isset($_POST['selected_submissions_ids'])){
-            fcp_delete_submissions($_POST['selected_submissions_ids']);
+            fcpDeleteSubmissions($_POST['selected_submissions_ids']);
         }
 
 
         if (isset($_POST['fcp'])){
         	
 
-           fcp_save_form(CUSTOM_FORM_FCP);
+           fcpSaveForm(CUSTOM_FORM_FCP);
 
         }
     }
@@ -35,7 +35,7 @@ function fcp_custom_page()
 
 	if(isset($_GET['id']))
 	{
-		fcp_update_form(CUSTOM_FORM_FCP);
+		fcpUpdateForm(CUSTOM_FORM_FCP);
 		
 		Global $wpdb;
 		$table_name = $wpdb->prefix."fcp_formbuilder";
@@ -78,8 +78,8 @@ function fcp_custom_page()
 			$user_body = $fcp_settings_user['Body'];
 		}
 
-		fcp_fields_panel();
-		fcp_fields_options();
+		fcpFieldsPanel();
+		fcpFieldsOptions();
 
 
 	//$nonce_edit = wp_create_nonce('form-builder-sub');
@@ -236,8 +236,8 @@ function fcp_custom_page()
 	      					<div class="row" style="padding: 20px"><button id="save_fcp_form_edit" type="submit" class="btn btn-success">Save Form</button></div></div><?php $nonce_edit = wp_create_nonce('form-builder-sub'); ?>
 							<input type="hidden" name="fcp_edit" value="">
 			<!-- $return_form_body = html_entity_decode($edit_form[0]['form_body']);
-			fcp_fields_panel();
-			fcp_fields_options();
+			fcpFieldsPanel();
+			fcpFieldsOptions();
 			echo $form_body_wrap.$return_form_body.'</div>'.$form_settings_wrap.'<div class="row" style="padding: 20px"><button id="save_fcp_form" type="submit" class="btn btn-danger">Save Form</button></div></div>';
 			//var_dump((string)unserialize($edit_form['form_settings'])['form-name']);
 			?> -->
@@ -275,7 +275,7 @@ function fcp_custom_page()
      * Now display the contents of the submission
      */
     else if (isset($_GET['submission_content_id'])){
-        fcp_display_submission_content($_GET['submission_content_id']);
+        fcpDisplaySubmissionContent($_GET['submission_content_id']);
     }
 
 
@@ -303,8 +303,8 @@ function fcp_custom_page()
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane" id="AddNewForm">
 	<?php
-	fcp_fields_panel();
-	fcp_fields_options();
+	fcpFieldsPanel();
+	fcpFieldsOptions();
 
 
 	?>
@@ -496,7 +496,7 @@ function fcp_custom_page()
                     </thead>
                     <tbody>
                     <?php
-                        fcp_display_created_forms(CUSTOM_FORM_FCP);
+                        fcpDisplayCreatedForms(CUSTOM_FORM_FCP);
                     ?>
                     </tbody>
                 </table>
@@ -531,7 +531,7 @@ function fcp_custom_page()
 						<tbody>
 						<?php
 					
-						fcp_display_submissions(CUSTOM_FORM_FCP);
+						fcpDisplaySubmissions(CUSTOM_FORM_FCP);
 
 						?>
 						</tbody>
@@ -553,7 +553,7 @@ function fcp_custom_page()
 }
 		if(isset($_GET['id']))
 		{
-			fcp_update_form(CUSTOM_FORM_FCP);
+			fcpUpdateForm(CUSTOM_FORM_FCP);
 		}
 
 
