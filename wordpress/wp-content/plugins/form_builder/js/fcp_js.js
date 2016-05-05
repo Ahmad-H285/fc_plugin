@@ -64,6 +64,10 @@ jQuery(document).ready(function(){
 
 		}
 	});
+
+	if(jQuery("div#guide-content").length > 0){
+		jQuery("div#guide-content").parent().parent().parent().css("background-color","#fff");
+	}
 });
 
 function createNewFormLink(){

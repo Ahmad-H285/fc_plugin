@@ -97,3 +97,7 @@ div.checkbox-radio-alignment-temp {
 a.fcp-delete-selected-form, a.fcp-delete-selected-submission {
 	color: rgb(222, 72, 72);
 }
+
+div#guide-content > #wpbody-content{
+	background-color: blue;
+}

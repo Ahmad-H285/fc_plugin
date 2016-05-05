@@ -255,6 +255,7 @@ function fcpAdminMenu()
   	require_once(plugin_dir_path(__FILE__).'fcp_event.php');
   	require_once(plugin_dir_path(__FILE__).'fcp_survey.php');
   	require_once(plugin_dir_path(__FILE__).'fcp_custom.php');
+  	require_once(plugin_dir_path(__FILE__).'fcp_guide.php');
 
 	add_menu_page('Form Builder','Form Builder','manage_options','fcp-general','fcpGeneralPage');
 	add_submenu_page('fcp-general','Add New Form','Add New Form','manage_options','fcp-general','fcpGeneralPage');
@@ -265,6 +266,7 @@ function fcpAdminMenu()
 	add_submenu_page('fcp-general','Newsletter Form','Newsletter Form','manage_options','fcp-newsletter-form','fcpNewsletterPage');
 	add_submenu_page('fcp-general','Event Form','Event Form','manage_options','fcp-event-form','fcpEventPage');
 	add_submenu_page('fcp-general','Custom Form','Custom Form','manage_options','fcp-custom-form','fcpCustomPage');
+	add_submenu_page('fcp-general','Quick Guide','Quick Guide','manage_options','fcp-quick-guide','fcpGuidePage');
 
 
 }
@@ -311,7 +313,7 @@ function fcpGeneralPage()
     </div>
     <div id="collapseTwo" class="<?php if($new_user == false){ echo "panel-collapse collapse";} ?>" role="tabpanel" aria-labelledby="headingTwo">
       <div class="panel-body">
-        FCP plugin is a form builder plugin that can be used to build multiple form types with unique settings. To learn how to use it, please visit our <a href="http://cape-east.co/fcp-plugin-user-guide/">User Guide</a> page.
+        FCP plugin is a form builder plugin that can be used to build multiple form types with unique settings. To learn how to use it, please visit our <a href=<?php echo admin_url('admin.php?page=fcp-quick-guide');?>>User Guide</a> page.
       </div>
     </div>
   </div>
