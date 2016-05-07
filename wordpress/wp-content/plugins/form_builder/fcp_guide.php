@@ -54,7 +54,7 @@ function fcpGuidePage(){
 			</h5>
 			
 			<p style="text-align: center;">
-				<a style="color: rgb(45, 174, 192); border-color: rgb(45, 174, 192); visibility: visible; animation-name: fadeInDown;" href="http://cape-east.co/wp-content/uploads/2015/10/Form-Builder-User-Guide-1.pdf" target="_blank" class="button round  wow animated fadeInDown animated">
+				<a style="color: rgb(45, 174, 192); border-color: rgb(45, 174, 192); visibility: visible; animation-name: fadeInDown;" href="http://cape-east.co/wp-content/uploads/2015/10/FCP-documentation.zip" target="_blank" class="button round  wow animated fadeInDown animated">
 					<span class="button-icon">
 						<i class="icons icon-download-5"></i>
 					</span>
